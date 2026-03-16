@@ -8,19 +8,20 @@ Inteligentny planer zadań, który optymalizuje Twój harmonogram na podstawie p
 - ✅ Kategorie i priorytety zadań
 - ✅ Definiowanie bloków dostępności
 - ✅ Automatyczne generowanie harmonogramu
-- ✅ Model freemium z limitami
-- ✅ Autoryzacja (email + Google + GitHub)
+- ✅ AI priorytetyzacja z fallbackiem regułowym
+- ✅ Wspólna wersja aplikacji dla wszystkich użytkowników (tymczasowo)
+- ✅ Autoryzacja (email + hasło)
 - ✅ Responsywny design
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 14+ (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Styling:** TailwindCSS + Headless UI
 - **Database:** PostgreSQL (Neon/Supabase)
 - **ORM:** Prisma
 - **Auth:** NextAuth.js v5
-- **Payments:** Stripe
+- **Payments:** Stripe (integracja w trakcie)
 - **Email:** Resend
 
 ## 📦 Instalacja
@@ -47,7 +48,29 @@ cp .env.example .env
 Uzupełnij wartości w pliku `.env`:
 - `DATABASE_URL` - połączenie z PostgreSQL
 - `NEXTAUTH_SECRET` - wygeneruj: `openssl rand -base64 32`
-- Opcjonalnie: klucze OAuth (Google, GitHub)
+
+Rozdzielenie środowisk (ważne):
+- Lokalnie (`.env`): `NEXTAUTH_URL=http://localhost:3000`, `NEXT_PUBLIC_APP_URL=http://localhost:3000`
+- Produkcja (Vercel): `NEXTAUTH_URL=https://timewizard.vercel.app`, `NEXT_PUBLIC_APP_URL=https://timewizard.vercel.app`
+- Nie używaj URL produkcyjnego w lokalnym `.env`, bo callback logowania będzie kierował na złą domenę.
+
+Opcjonalnie (AI priorytetyzacja):
+- `AI_PRIORITY_API_URL`, `AI_PRIORITY_API_KEY`, `AI_PRIORITY_MODEL`
+
+Opcjonalnie (monitoring błędów):
+- `MONITORING_WEBHOOK_URL`
+- `MONITORING_WEBHOOK_HEADERS` (JSON string)
+
+Jeśli zmienne AI nie są ustawione, aplikacja działa dalej na fallbacku regułowym.
+
+### AI na Vercel
+
+Priorytetyzacja działa w modelu hybrydowym:
+1. próba wywołania AI (OpenAI-compatible endpoint),
+2. timeout/retry,
+3. fallback na deterministiczny scoring (zawsze dostępny).
+
+Dzięki temu aplikacja działa stabilnie także po przekroczeniu limitu darmowego API.
 
 ### 4. Zainicjuj bazę danych
 
@@ -100,7 +123,17 @@ npm run build      # Zbuduj produkcję
 npm run start      # Uruchom produkcję
 npm run lint       # Sprawdź ESLint
 npm run typecheck  # Sprawdź typy TypeScript
+npm run db:check   # Szybki test połączenia z bazą
+npm run test       # Testy flow logiki (Vitest)
+npm run test:coverage # Raport pokrycia testów
+npm run test:smoke # Smoke-check po deployu (wymaga SMOKE_BASE_URL)
 npm run format     # Formatuj kod (Prettier)
+```
+
+Przykład smoke-check po deployu:
+
+```bash
+SMOKE_BASE_URL=https://twoja-domena.vercel.app npm run test:smoke
 ```
 
 ## 📊 Model bazy danych
@@ -136,12 +169,17 @@ Główne tabele:
 - `GET /api/availability` - pobierz bloki
 - `PUT /api/availability` - ustaw bloki
 
+### Monitoring
+- `POST /api/monitoring/error` - raportowanie błędów klienta/serwera
+
 ## 💳 Plany cenowe
+
+Tymczasowo wszyscy użytkownicy mają ten sam zestaw funkcji i brak limitów (do czasu wdrożenia płatności Stripe).
 
 | Funkcja | Free | Pro (39 zł/mies) | Business (79 zł/mies) |
 |---------|------|------------------|----------------------|
-| Zadania | 50 | ∞ | ∞ |
-| Kategorie | 3 | ∞ | ∞ |
+| Zadania | ∞ | ∞ | ∞ |
+| Kategorie | ∞ | ∞ | ∞ |
 | Google Calendar | ❌ | ✅ | ✅ |
 | AI Scheduling | ❌ | ✅ | ✅ |
 | Team Workspaces | ❌ | ❌ | ✅ |
@@ -165,7 +203,7 @@ docker run -p 3000:3000 timewizard
 
 - [x] MVP: CRUD zadań + harmonogram + auth
 - [ ] v1.1: Drag & drop + email reminders
-- [ ] v1.2: Stripe + Google Calendar
+- [ ] v1.2: Stripe + Google Calendar (w trakcie)
 - [ ] v2.0: AI scheduling + Team workspaces
 
 ## 📄 Licencja

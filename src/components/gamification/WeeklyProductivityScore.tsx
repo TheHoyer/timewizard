@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
-import { CheckCircleIcon, XCircleIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/outline'
 
 interface WeeklyProductivityScoreProps {
   completed: number

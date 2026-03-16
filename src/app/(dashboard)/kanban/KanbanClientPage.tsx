@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { motion, AnimatePresence, Reorder } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Task, Category } from '@prisma/client'
 import { cn } from '@/lib/utils/cn'
-import { updateTaskStatus, getTasks, deleteTask } from '@/lib/actions/tasks'
+import { updateTaskStatus, getTasks } from '@/lib/actions/tasks'
 import { EditTaskModal } from '@/components/tasks/EditTaskModal'
 import { AddTaskModal } from '@/components/tasks/AddTaskModal'
 import { useToast } from '@/components/ui/Toast'
@@ -52,7 +52,7 @@ const COLUMNS = [
 export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClientPageProps) {
   const { success: showSuccess, error: showError } = useToast()
   const [tasks, setTasks] = useState<TaskWithCategory[]>(initialTasks)
-  const [categories, setCategories] = useState<Category[]>(initialCategories)
+  const categories = initialCategories
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<TaskWithCategory | null>(null)
   const [draggedTask, setDraggedTask] = useState<string | null>(null)
@@ -113,16 +113,6 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
     }
 
     handleDragEnd()
-  }
-
-  const handleDelete = async (taskId: string) => {
-    const result = await deleteTask(taskId)
-    if (result.success) {
-      setTasks(prev => prev.filter(t => t.id !== taskId))
-      showSuccess('Usunięto', 'Zadanie zostało usunięte')
-    } else {
-      showError('Błąd', result.error || 'Nie udało się usunąć zadania')
-    }
   }
 
   const getTasksByStatus = (status: string) => {
@@ -207,7 +197,6 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
                       onDragStart={() => handleDragStart(task.id)}
                       onDragEnd={handleDragEnd}
                       onEdit={() => setEditingTask(task)}
-                      onDelete={() => handleDelete(task.id)}
                       isDragging={draggedTask === task.id}
                     />
                   ))}
@@ -256,11 +245,10 @@ interface KanbanCardProps {
   onDragStart: () => void
   onDragEnd: () => void
   onEdit: () => void
-  onDelete: () => void
   isDragging: boolean
 }
 
-function KanbanCard({ task, onDragStart, onDragEnd, onEdit, onDelete, isDragging }: KanbanCardProps) {
+function KanbanCard({ task, onDragStart, onDragEnd, onEdit, isDragging }: KanbanCardProps) {
   const priorityColors = PRIORITY_COLORS[task.priority as keyof typeof PRIORITY_COLORS]
 
   return (

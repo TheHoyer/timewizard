@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { createTaskSchema } from '@/lib/validations/task'
 import { PLAN_LIMITS } from '@/lib/utils/constants'
+import { prioritizeTask } from '@/lib/ai/prioritizeTask'
+import { reportError } from '@/lib/monitoring/reportError'
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,7 +46,13 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ tasks, total, limit, offset })
   } catch (error) {
-    console.error('GET /api/tasks error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-tasks-get',
+      message: error instanceof Error ? error.message : 'Unknown tasks fetch error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -94,12 +102,38 @@ export async function POST(request: NextRequest) {
     }
 
     const data = validation.data
+    let categoryName: string | null = null
+
+    if (data.categoryId) {
+      const category = await prisma.category.findFirst({
+        where: { id: data.categoryId, userId: session.user.id },
+        select: { name: true },
+      })
+
+      if (!category) {
+        return NextResponse.json({ error: 'Category not found' }, { status: 404 })
+      }
+
+      categoryName = category.name
+    }
+
+    const aiPriority = await prioritizeTask({
+      title: data.title,
+      description: data.description,
+      estimatedMinutes: data.estimatedMinutes,
+      dueDate: data.dueDate ? new Date(data.dueDate) : null,
+      isRecurring: data.isRecurring,
+      recurringType: data.recurringType,
+      categoryName,
+      suggestedPriority: data.priority,
+    })
+
     const task = await prisma.task.create({
       data: {
         userId: session.user.id,
         title: data.title,
         description: data.description,
-        priority: data.priority,
+        priority: aiPriority.priority,
         estimatedMinutes: data.estimatedMinutes,
         dueDate: data.dueDate ? new Date(data.dueDate) : null,
         categoryId: data.categoryId,
@@ -113,7 +147,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(task, { status: 201 })
   } catch (error) {
-    console.error('POST /api/tasks error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-tasks-post',
+      message: error instanceof Error ? error.message : 'Unknown tasks create error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

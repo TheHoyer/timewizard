@@ -165,11 +165,3 @@ export async function loginAction(
 
   redirect('/dashboard')
 }
-
-export async function loginWithGoogle() {
-  await signIn('google', { redirectTo: '/dashboard' })
-}
-
-export async function loginWithGitHub() {
-  await signIn('github', { redirectTo: '/dashboard' })
-}

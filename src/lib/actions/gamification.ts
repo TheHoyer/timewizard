@@ -252,6 +252,8 @@ export async function awardXp(amount: number, reason: string) {
     return { success: false }
   }
 
+  void reason
+
   try {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },

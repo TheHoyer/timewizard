@@ -1,15 +1,18 @@
 // Plan limits
 export const PLAN_LIMITS = {
   FREE: {
-    maxTasks: 50,
-    maxCategories: 3,
-    historyDays: 7,
+    maxTasks: Infinity,
+    maxCategories: Infinity,
+    historyDays: Infinity,
     features: {
-      googleCalendar: false,
-      aiScheduling: false,
-      export: false,
-      pushNotifications: false,
-      smsNotifications: false,
+      googleCalendar: true,
+      aiScheduling: true,
+      export: true,
+      pushNotifications: true,
+      smsNotifications: true,
+      teamWorkspaces: true,
+      slackIntegration: true,
+      api: true,
     },
   },
   PRO: {

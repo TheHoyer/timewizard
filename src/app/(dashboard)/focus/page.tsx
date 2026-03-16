@@ -1,7 +1,6 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { getTasks } from '@/lib/actions/tasks'
-import { getCategories } from '@/lib/actions/categories'
 import { FocusClientPage } from './FocusClientPage'
 import { Metadata } from 'next'
 
@@ -18,20 +17,15 @@ export default async function FocusPage() {
   }
 
   // Fetch tasks that are not completed
-  const [tasksResult, categoriesResult] = await Promise.all([
-    getTasks({ status: 'PENDING' }),
-    getCategories(),
-  ])
+  const tasksResult = await getTasks({ status: 'PENDING' })
 
   const inProgressResult = await getTasks({ status: 'IN_PROGRESS' })
   
   const pendingTasks = tasksResult.success ? tasksResult.data || [] : []
   const inProgressTasks = inProgressResult.success ? inProgressResult.data || [] : []
-  const categories = categoriesResult.success ? categoriesResult.data || [] : []
-
   // Combine and sort by priority
   const allTasks = [...inProgressTasks, ...pendingTasks]
     .sort((a, b) => b.priority - a.priority)
 
-  return <FocusClientPage initialTasks={allTasks} categories={categories} />
+  return <FocusClientPage initialTasks={allTasks} />
 }

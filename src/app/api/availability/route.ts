@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { updateAvailabilitySchema } from '@/lib/validations/availability'
+import { reportError } from '@/lib/monitoring/reportError'
 
 export async function GET() {
   try {
@@ -18,7 +19,13 @@ export async function GET() {
 
     return NextResponse.json(blocks)
   } catch (error) {
-    console.error('GET /api/availability error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-availability-get',
+      message: error instanceof Error ? error.message : 'Unknown availability fetch error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -66,7 +73,13 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json(updatedBlocks)
   } catch (error) {
-    console.error('PUT /api/availability error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-availability-put',
+      message: error instanceof Error ? error.message : 'Unknown availability update error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

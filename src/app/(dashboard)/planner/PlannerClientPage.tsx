@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Task, Category } from '@prisma/client'
 import { cn } from '@/lib/utils/cn'
-import { format, addDays, startOfDay, setHours, setMinutes, isSameDay, isToday } from 'date-fns'
+import { format, addDays, startOfDay, isToday } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import {
   ChevronLeftIcon,
@@ -12,7 +12,6 @@ import {
   CalendarIcon,
   ClockIcon,
   CheckCircleIcon,
-  PlusIcon,
 } from '@heroicons/react/24/outline'
 import { PRIORITY_COLORS } from '@/lib/utils/constants'
 
@@ -20,7 +19,6 @@ type TaskWithCategory = Task & { category?: Category | null }
 
 interface PlannerClientPageProps {
   initialTasks: TaskWithCategory[]
-  categories: Category[]
 }
 
 // Time slots from 6:00 to 22:00
@@ -36,7 +34,7 @@ interface TimeBlock {
   color: string
 }
 
-export function PlannerClientPage({ initialTasks, categories }: PlannerClientPageProps) {
+export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
   const [currentDate, setCurrentDate] = useState(startOfDay(new Date()))
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([])
   const [draggedTask, setDraggedTask] = useState<TaskWithCategory | null>(null)
@@ -56,8 +54,8 @@ export function PlannerClientPage({ initialTasks, categories }: PlannerClientPag
 
   // Get blocks for current date
   const todayBlocks = useMemo(() => {
-    return timeBlocks.filter(b => true) // In a real app, filter by date
-  }, [timeBlocks, currentDate])
+    return timeBlocks.filter(() => true) // In a real app, filter by date
+  }, [timeBlocks])
 
   const handlePreviousDay = () => {
     setCurrentDate(prev => addDays(prev, -1))
@@ -78,7 +76,7 @@ export function PlannerClientPage({ initialTasks, categories }: PlannerClientPag
     const durationHours = Math.min(4, Math.max(1, Math.ceil(draggedTask.estimatedMinutes / 60)))
 
     const newBlock: TimeBlock = {
-      id: `${draggedTask.id}-${Date.now()}`,
+      id: `${draggedTask.id}-${currentDate.toISOString()}-${hour}`,
       taskId: draggedTask.id,
       task: draggedTask,
       startHour: hour,
@@ -190,7 +188,6 @@ export function PlannerClientPage({ initialTasks, categories }: PlannerClientPag
             <div className="relative">
               {TIME_SLOTS.map(hour => {
                 const blocks = getBlocksAtHour(hour)
-                const isFirstHourOfBlock = blocks.some(b => b.startHour === hour)
                 
                 return (
                   <div

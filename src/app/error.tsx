@@ -13,8 +13,21 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error('Application error:', error)
+    void fetch('/api/monitoring/error', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source: 'client',
+        context: 'global-error-boundary',
+        message: error.message,
+        stack: error.stack,
+        digest: error.digest,
+        path: window.location.pathname,
+        severity: 'critical',
+      }),
+    }).catch((reportingError) => {
+      console.error('Monitoring report failed:', reportingError)
+    })
   }, [error])
 
   return (

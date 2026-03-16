@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { createCategorySchema } from '@/lib/validations/category'
+import { reportError } from '@/lib/monitoring/reportError'
 import { PLAN_LIMITS } from '@/lib/utils/constants'
 
 export async function GET() {
@@ -19,7 +20,13 @@ export async function GET() {
 
     return NextResponse.json(categories)
   } catch (error) {
-    console.error('GET /api/categories error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-categories-get',
+      message: error instanceof Error ? error.message : 'Unknown categories fetch error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -76,7 +83,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(category, { status: 201 })
   } catch (error) {
-    console.error('POST /api/categories error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-categories-post',
+      message: error instanceof Error ? error.message : 'Unknown categories create error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

@@ -6,14 +6,9 @@ import { motion } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false)
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme()
   const [showMenu, setShowMenu] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -31,13 +26,6 @@ export function ThemeToggle() {
     { value: 'dark' as const, label: 'Ciemny', icon: MoonIcon },
     { value: 'system' as const, label: 'Systemowy', icon: ComputerDesktopIcon },
   ]
-
-  // Render placeholder during SSR to avoid hydration mismatch
-  if (!mounted) {
-    return (
-      <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 w-9 h-9" />
-    )
-  }
 
   return (
     <div className="relative" ref={menuRef}>

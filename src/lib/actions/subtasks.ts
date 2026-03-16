@@ -12,13 +12,6 @@ const subtaskSchema = z.object({
   taskId: z.string().min(1, 'ID zadania jest wymagane'),
 })
 
-const updateSubtaskSchema = z.object({
-  id: z.string().min(1),
-  title: z.string().min(1).max(200).optional(),
-  completed: z.boolean().optional(),
-  order: z.number().int().optional(),
-})
-
 // ==================== ACTIONS ====================
 
 export async function getSubtasks(taskId: string) {

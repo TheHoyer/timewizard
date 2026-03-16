@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, useSyncExternalStore, ReactNode } from 'react'
 
 type Theme = 'light' | 'dark' | 'system'
 
@@ -43,15 +43,13 @@ function getStoredTheme(): Theme {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('system')
+  const [theme, setThemeState] = useState<Theme>(() => getStoredTheme())
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
-  const [mounted, setMounted] = useState(false)
-
-  // Initialize theme from localStorage on mount
-  useEffect(() => {
-    setThemeState(getStoredTheme())
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
 
 
   // Update resolved theme and apply to document

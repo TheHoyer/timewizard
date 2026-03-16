@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState, useEffect, useCallback, useMemo } from 'react'
+import { Fragment, useState, useCallback, useMemo } from 'react'
 import { Dialog, Transition, Combobox } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
 import { 
@@ -186,13 +186,6 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
     }
   }, [onClose])
 
-  // Reset query when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setQuery('')
-    }
-  }, [isOpen])
-
   const sectionLabels: Record<string, string> = {
     navigation: 'Nawigacja',
     actions: 'Akcje',
@@ -200,7 +193,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
   }
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment} afterLeave={() => setQuery('')}>
       <Dialog as="div" className="relative z-[100]" onClose={onClose}>
         <Transition.Child
           as={Fragment}

@@ -5,7 +5,7 @@ import { WelcomeScreen } from './WelcomeScreen'
 import { GuidedTour } from './GuidedTour'
 import { InteractiveTutorial } from './InteractiveTutorial'
 import { OnboardingTooltipProvider, ONBOARDING_TOOLTIPS } from './OnboardingTooltip'
-import { getOnboardingStatus, skipOnboarding } from '@/lib/actions/onboarding'
+import { getOnboardingStatus } from '@/lib/actions/onboarding'
 
 interface OnboardingState {
   onboardingCompleted: boolean
@@ -64,7 +64,11 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
   }
 
   useEffect(() => {
-    fetchState()
+    const timer = setTimeout(() => {
+      void fetchState()
+    }, 0)
+
+    return () => clearTimeout(timer)
   }, [])
 
   const handleWelcomeComplete = () => {
@@ -80,12 +84,6 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
   }
 
   const handleInteractiveTutorialComplete = () => {
-    setCurrentView('done')
-    fetchState()
-  }
-
-  const handleSkip = async () => {
-    await skipOnboarding()
     setCurrentView('done')
     fetchState()
   }

@@ -1,7 +1,6 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { getTasks } from '@/lib/actions/tasks'
-import { getCategories } from '@/lib/actions/categories'
 import { PlannerClientPage } from './PlannerClientPage'
 import { Metadata } from 'next'
 
@@ -18,13 +17,8 @@ export default async function PlannerPage() {
   }
 
   // Fetch tasks
-  const [tasksResult, categoriesResult] = await Promise.all([
-    getTasks({}),
-    getCategories(),
-  ])
+  const tasksResult = await getTasks({})
 
   const tasks = tasksResult.success ? tasksResult.data || [] : []
-  const categories = categoriesResult.success ? categoriesResult.data || [] : []
-
-  return <PlannerClientPage initialTasks={tasks} categories={categories} />
+  return <PlannerClientPage initialTasks={tasks} />
 }

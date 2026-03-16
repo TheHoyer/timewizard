@@ -6,7 +6,6 @@ import {
   PlayIcon, 
   PauseIcon, 
   StopIcon,
-  ArrowPathIcon,
   Cog6ToothIcon,
   CheckIcon
 } from '@heroicons/react/24/outline'
@@ -41,6 +40,43 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  const handleComplete = useCallback(async () => {
+    // Play sound
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {})
+    }
+
+    if (sessionId && type === 'WORK') {
+      await completePomodoro(sessionId)
+      setCompletedPomodoros((prev) => prev + 1)
+      
+      // Celebrate with confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      })
+
+      onComplete?.()
+    }
+
+    // Auto-switch to break or work
+    if (type === 'WORK') {
+      const nextType = completedPomodoros > 0 && (completedPomodoros + 1) % 4 === 0
+        ? 'LONG_BREAK'
+        : 'SHORT_BREAK'
+      setType(nextType)
+      setTimeLeft(TIMER_PRESETS[nextType].duration * 60)
+    } else {
+      setType('WORK')
+      setTimeLeft(customDuration * 60)
+    }
+
+    setIsRunning(false)
+    setIsPaused(false)
+    setSessionId(null)
+  }, [completedPomodoros, customDuration, onComplete, sessionId, type])
+
   // Initialize audio
   useEffect(() => {
     audioRef.current = new Audio('/sounds/bell.mp3')
@@ -74,8 +110,8 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         }
       }
     }
-    checkActiveSession()
-  }, [])
+    void checkActiveSession()
+  }, [handleComplete])
 
   // Timer logic
   useEffect(() => {
@@ -83,7 +119,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
       intervalRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            handleComplete()
+            void handleComplete()
             return 0
           }
           return prev - 1
@@ -96,7 +132,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         clearInterval(intervalRef.current)
       }
     }
-  }, [isRunning, isPaused, timeLeft])
+  }, [handleComplete, isRunning, isPaused, timeLeft])
 
   const handleStart = async () => {
     const duration = type === 'WORK' ? customDuration : TIMER_PRESETS[type].duration
@@ -124,43 +160,6 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
       await cancelPomodoro(sessionId)
     }
     resetTimer()
-  }
-
-  const handleComplete = async () => {
-    // Play sound
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {})
-    }
-
-    if (sessionId && type === 'WORK') {
-      await completePomodoro(sessionId)
-      setCompletedPomodoros((prev) => prev + 1)
-      
-      // Celebrate with confetti
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      })
-
-      onComplete?.()
-    }
-
-    // Auto-switch to break or work
-    if (type === 'WORK') {
-      const nextType = completedPomodoros > 0 && (completedPomodoros + 1) % 4 === 0 
-        ? 'LONG_BREAK' 
-        : 'SHORT_BREAK'
-      setType(nextType)
-      setTimeLeft(TIMER_PRESETS[nextType].duration * 60)
-    } else {
-      setType('WORK')
-      setTimeLeft(customDuration * 60)
-    }
-
-    setIsRunning(false)
-    setIsPaused(false)
-    setSessionId(null)
   }
 
   const resetTimer = useCallback(() => {

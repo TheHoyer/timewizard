@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { updateTaskSchema } from '@/lib/validations/task'
+import { reportError } from '@/lib/monitoring/reportError'
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -32,7 +33,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(task)
   } catch (error) {
-    console.error('GET /api/tasks/[id] error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-task-by-id-get',
+      message: error instanceof Error ? error.message : 'Unknown task fetch error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -107,7 +114,13 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(task)
   } catch (error) {
-    console.error('PUT /api/tasks/[id] error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-task-by-id-put',
+      message: error instanceof Error ? error.message : 'Unknown task update error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -143,7 +156,13 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('DELETE /api/tasks/[id] error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-task-by-id-delete',
+      message: error instanceof Error ? error.message : 'Unknown task delete error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

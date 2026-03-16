@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+import { prioritizeTask } from '@/lib/ai/prioritizeTask'
 
 // ==================== SCHEMAS ====================
 
@@ -181,22 +182,37 @@ export async function createTask(
   const data = validatedFields.data
 
   try {
+    let categoryName: string | null = null
+
     // Verify category ownership if provided
     if (data.categoryId) {
       const category = await prisma.category.findFirst({
         where: { id: data.categoryId, userId: session.user.id },
+        select: { name: true },
       })
       if (!category) {
         return { error: 'Kategoria nie istnieje' }
       }
+      categoryName = category.name
     }
+
+    const aiPriority = await prioritizeTask({
+      title: data.title,
+      description: data.description,
+      estimatedMinutes: data.estimatedMinutes,
+      dueDate: data.dueDate,
+      isRecurring: data.isRecurring,
+      recurringType: data.recurringType,
+      categoryName,
+      suggestedPriority: data.priority,
+    })
 
     const task = await prisma.task.create({
       data: {
         userId: session.user.id,
         title: data.title,
         description: data.description,
-        priority: data.priority,
+        priority: aiPriority.priority,
         estimatedMinutes: data.estimatedMinutes,
         dueDate: data.dueDate,
         categoryId: data.categoryId,
@@ -253,6 +269,8 @@ export async function updateTask(
   const { id, ...data } = validatedFields.data
 
   try {
+    let categoryName: string | null = null
+
     // Verify ownership
     const existing = await prisma.task.findFirst({
       where: { id, userId: session.user.id, deletedAt: null },
@@ -266,18 +284,31 @@ export async function updateTask(
     if (data.categoryId) {
       const category = await prisma.category.findFirst({
         where: { id: data.categoryId, userId: session.user.id },
+        select: { name: true },
       })
       if (!category) {
         return { error: 'Kategoria nie istnieje' }
       }
+      categoryName = category.name
     }
+
+    const aiPriority = await prioritizeTask({
+      title: data.title,
+      description: data.description,
+      estimatedMinutes: data.estimatedMinutes,
+      dueDate: data.dueDate,
+      isRecurring: data.isRecurring,
+      recurringType: data.recurringType,
+      categoryName,
+      suggestedPriority: data.priority,
+    })
 
     const task = await prisma.task.update({
       where: { id },
       data: {
         title: data.title,
         description: data.description,
-        priority: data.priority,
+        priority: aiPriority.priority,
         estimatedMinutes: data.estimatedMinutes,
         dueDate: data.dueDate,
         categoryId: data.categoryId,

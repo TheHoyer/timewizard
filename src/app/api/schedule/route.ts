@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { generateSchedule } from '@/lib/scheduling/algorithm'
+import { reportError } from '@/lib/monitoring/reportError'
 
 export async function GET(request: NextRequest) {
   try {
@@ -38,7 +39,13 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(scheduledTasks)
   } catch (error) {
-    console.error('GET /api/schedule error:', error)
+    await reportError({
+      source: 'server',
+      context: 'api-schedule-get',
+      message: error instanceof Error ? error.message : 'Unknown schedule fetch error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -130,7 +137,13 @@ export async function POST(request: NextRequest) {
       tasks: scheduledTasks,
     })
   } catch (error) {
-    console.error('POST /api/schedule error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    await reportError({
+      source: 'server',
+      context: 'api-schedule-post',
+      message: error instanceof Error ? error.message : 'Unknown schedule generation error',
+      stack: error instanceof Error ? error.stack : undefined,
+      severity: 'error',
+    })
+    return NextResponse.json({ error: 'Wystąpił błąd podczas generowania harmonogramu' }, { status: 500 })
   }
 }

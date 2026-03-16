@@ -38,17 +38,16 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
   const [isDeleting, setIsDeleting] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
-  // Load task data when modal opens
-  useEffect(() => {
-    if (isOpen && task) {
-      setTitle(task.title)
-      setDescription(task.description || '')
-      setCategoryId(task.categoryId)
-      setPriority(task.priority)
-      setEstimatedMinutes(task.estimatedMinutes.toString())
-      setDueDate(task.dueDate ? format(new Date(task.dueDate), "yyyy-MM-dd'T'HH:mm") : '')
-    }
-  }, [isOpen, task])
+  const initializeForm = () => {
+    if (!task) return
+
+    setTitle(task.title)
+    setDescription(task.description || '')
+    setCategoryId(task.categoryId)
+    setPriority(task.priority)
+    setEstimatedMinutes(task.estimatedMinutes.toString())
+    setDueDate(task.dueDate ? format(new Date(task.dueDate), "yyyy-MM-dd'T'HH:mm") : '')
+  }
 
   // Handle success/error
   useEffect(() => {
@@ -94,7 +93,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
 
   return (
     <>
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment} beforeEnter={initializeForm}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
         <Transition.Child
           as={Fragment}

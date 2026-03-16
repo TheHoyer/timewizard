@@ -2,11 +2,11 @@
 
 import { useState, useMemo } from 'react'
 import { Task, Category } from '@prisma/client'
-import { format, isToday, isTomorrow, isPast, startOfDay, addDays } from 'date-fns'
+import { format, isToday, isTomorrow, startOfDay, addDays } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
-import { PRIORITY_COLORS, STATUS_COLORS } from '@/lib/utils/constants'
+import { PRIORITY_COLORS } from '@/lib/utils/constants'
 import {
   CalendarIcon,
   ClockIcon,

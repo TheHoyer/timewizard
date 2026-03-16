@@ -7,10 +7,7 @@ import {
   SparklesIcon,
   RocketLaunchIcon,
   BuildingOffice2Icon,
-  BoltIcon,
   StarIcon,
-  CreditCardIcon,
-  ArrowRightIcon,
   InformationCircleIcon,
 } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils/cn'
@@ -113,10 +110,9 @@ export function SubscriptionClient({
   currentPlan,
   usage,
   limits,
-  subscription,
 }: SubscriptionClientProps) {
-  const { success: showSuccess, error: showError } = useToast()
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
+  const { success: showSuccess } = useToast()
+  const [billingCycle] = useState<'monthly' | 'yearly'>('monthly')
   const [isLoading, setIsLoading] = useState<string | null>(null)
 
   const handleUpgrade = async (planId: string) => {
@@ -128,19 +124,6 @@ export function SubscriptionClient({
     showSuccess(
       'Wkrótce dostępne!',
       'Płatności zostaną uruchomione w kolejnej aktualizacji. Dziękujemy za zainteresowanie!'
-    )
-    
-    setIsLoading(null)
-  }
-
-  const handleManageSubscription = async () => {
-    setIsLoading('manage')
-    
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    showSuccess(
-      'Portal płatności',
-      'Portal Stripe zostanie uruchomiony w kolejnej aktualizacji.'
     )
     
     setIsLoading(null)
@@ -164,20 +147,13 @@ export function SubscriptionClient({
             <div>
               <p className="text-white/70 text-sm font-medium mb-1">Twój aktualny plan</p>
               <h2 className="text-3xl font-bold flex items-center gap-3">
-                {currentPlan === 'FREE' && '🆓'}
-                {currentPlan === 'PRO' && '⭐'}
-                {currentPlan === 'BUSINESS' && '🏢'}
-                {currentPlan}
+                ⭐
+                UNIFIED
               </h2>
+              <p className="text-white/70 mt-2 text-sm">
+                Tymczasowo wszyscy użytkownicy korzystają z tego samego zestawu funkcji.
+              </p>
             </div>
-            {subscription.currentPeriodEnd && (
-              <div className="text-right">
-                <p className="text-white/70 text-sm">Następna płatność</p>
-                <p className="font-semibold">
-                  {new Date(subscription.currentPeriodEnd).toLocaleDateString('pl-PL')}
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Usage Stats */}
@@ -222,53 +198,12 @@ export function SubscriptionClient({
               </div>
             </div>
           </div>
-
-          {subscription.subscriptionId && (
-            <button
-              onClick={handleManageSubscription}
-              disabled={isLoading === 'manage'}
-              className="mt-4 flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors"
-            >
-              <CreditCardIcon className="w-4 h-4" />
-              Zarządzaj płatnościami
-              {isLoading === 'manage' && (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              )}
-            </button>
-          )}
         </div>
       </div>
 
       {/* Billing Cycle Toggle */}
-      <div className="flex items-center justify-center gap-4">
-        <span className={cn(
-          'text-sm font-medium transition-colors',
-          billingCycle === 'monthly' ? 'text-slate-900 dark:text-white' : 'text-slate-400'
-        )}>
-          Miesięcznie
-        </span>
-        <button
-          onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-          className={cn(
-            'relative w-14 h-8 rounded-full transition-colors',
-            billingCycle === 'yearly' ? 'bg-violet-600' : 'bg-slate-200 dark:bg-slate-700'
-          )}
-        >
-          <motion.div
-            className="absolute top-1 w-6 h-6 bg-white rounded-full shadow"
-            animate={{ left: billingCycle === 'yearly' ? '28px' : '4px' }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          />
-        </button>
-        <span className={cn(
-          'text-sm font-medium transition-colors flex items-center gap-2',
-          billingCycle === 'yearly' ? 'text-slate-900 dark:text-white' : 'text-slate-400'
-        )}>
-          Rocznie
-          <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs font-semibold rounded-full">
-            -17%
-          </span>
-        </span>
+      <div className="flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
+        Cennik i rozliczenia są obecnie wyłączone. Stripe zostanie podpięty w kolejnej iteracji.
       </div>
 
       {/* Plans Grid */}
@@ -368,7 +303,7 @@ export function SubscriptionClient({
               </ul>
 
               {/* CTA Button */}
-              {isCurrentPlan ? (
+              {isCurrentPlan || currentPlan === 'UNIFIED' ? (
                 <button
                   disabled
                   className="w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-medium cursor-not-allowed"
@@ -393,12 +328,9 @@ export function SubscriptionClient({
                       Przetwarzanie...
                     </>
                   ) : plan.id === 'FREE' ? (
-                    'Downgrade'
+                    'Wyłączone'
                   ) : (
-                    <>
-                      Wybierz {plan.name}
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </>
+                    'Wyłączone'
                   )}
                 </Button>
               )}
@@ -415,30 +347,16 @@ export function SubscriptionClient({
           </div>
           <div>
             <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-              Informacje o płatnościach
+              Informacje o planach
             </h3>
             <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-              <li>• Możesz zmienić lub anulować plan w dowolnym momencie</li>
-              <li>• Płatności są obsługiwane bezpiecznie przez Stripe</li>
-              <li>• Otrzymasz fakturę VAT na podany adres email</li>
-              <li>• 14-dniowa gwarancja zwrotu pieniędzy</li>
+              <li>• Aktualnie wszyscy użytkownicy mają ten sam zakres funkcji</li>
+              <li>• Limity planów i płatności są tymczasowo nieaktywne</li>
+              <li>• Integracja Stripe zostanie udostępniona w osobnym wdrożeniu</li>
+              <li>• Nie musisz podejmować żadnych działań po swojej stronie</li>
             </ul>
           </div>
         </div>
-      </div>
-
-      {/* Enterprise Contact */}
-      <div className="text-center py-8 border-t border-slate-200 dark:border-slate-700">
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-          Potrzebujesz więcej?
-        </h3>
-        <p className="text-slate-500 dark:text-slate-400 mb-4">
-          Skontaktuj się z nami w sprawie rozwiązań enterprise i niestandardowych integracji.
-        </p>
-        <Button variant="outline" className="gap-2">
-          <BoltIcon className="w-4 h-4" />
-          Skontaktuj się z nami
-        </Button>
       </div>
     </div>
   )

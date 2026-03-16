@@ -13,11 +13,6 @@ const startTimeEntrySchema = z.object({
   note: z.string().optional().nullable(),
 })
 
-const updateTimeEntrySchema = z.object({
-  id: z.string().min(1),
-  note: z.string().optional().nullable(),
-})
-
 // ==================== TYPES ====================
 
 export type TimeEntry = {

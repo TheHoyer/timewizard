@@ -116,15 +116,6 @@ export function Sidebar() {
               </div>
             </>
           )}
-          {planInfo?.plan === 'FREE' && (
-            <Link
-              href="/settings/subscription"
-              onClick={closeMobile}
-              className="mt-3 block text-center text-sm font-medium text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
-            >
-              Ulepsz do Pro →
-            </Link>
-          )}
         </div>
       </div>
     </>

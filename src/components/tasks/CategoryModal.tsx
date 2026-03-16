@@ -55,21 +55,18 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
   const [icon, setIcon] = useState<string>('')
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
-  // Load category data when modal opens in edit mode
-  useEffect(() => {
-    if (isOpen) {
-      if (category) {
-        setName(category.name)
-        setColor(category.color)
-        setIcon(category.icon || '')
-      } else {
-        setName('')
-        setColor(PRESET_COLORS[Math.floor(Math.random() * PRESET_COLORS.length)])
-        setIcon('')
-      }
-      setShowEmojiPicker(false)
+  const initializeForm = () => {
+    if (category) {
+      setName(category.name)
+      setColor(category.color)
+      setIcon(category.icon || '')
+    } else {
+      setName('')
+      setColor(PRESET_COLORS[Math.floor(Math.random() * PRESET_COLORS.length)])
+      setIcon('')
     }
-  }, [isOpen, category])
+    setShowEmojiPicker(false)
+  }
 
   // Handle success/error
   useEffect(() => {
@@ -97,7 +94,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
   }
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment} beforeEnter={initializeForm}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
         <Transition.Child
           as={Fragment}

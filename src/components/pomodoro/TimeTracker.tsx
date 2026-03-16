@@ -45,10 +45,6 @@ export function TimeTracker({ taskId, taskTitle, onUpdate, compact = false }: Ti
         setElapsedTime(elapsed)
       }, 1000)
 
-      // Calculate initial elapsed time
-      const initialElapsed = Math.floor((Date.now() - new Date(activeEntry.startedAt).getTime()) / 1000)
-      setElapsedTime(initialElapsed)
-
       return () => clearInterval(interval)
     }
   }, [activeEntry])

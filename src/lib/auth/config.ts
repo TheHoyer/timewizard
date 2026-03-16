@@ -1,11 +1,9 @@
 import type { NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import Google from 'next-auth/providers/google'
-import GitHub from 'next-auth/providers/github'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/db'
 
-const providers = [
+const providers: NextAuthConfig['providers'] = [
   Credentials({
     name: 'credentials',
     credentials: {
@@ -45,26 +43,6 @@ const providers = [
     },
   }),
 ]
-
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.unshift(
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    })
-  )
-}
-
-if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
-  providers.unshift(
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    })
-  )
-}
 
 export const authConfig: NextAuthConfig = {
   providers,
@@ -153,30 +131,21 @@ export const authConfig: NextAuthConfig = {
       if (session.user) {
         session.user.id = token.id
         session.user.name = (token.name as string) || null
-        // @ts-expect-error - email type should allow null
-        session.user.email = token.email ?? null
+        session.user.email = typeof token.email === 'string' ? token.email : ''
         session.user.plan = token.plan
         session.user.timezone = token.timezone
       }
       return session
     },
     async signIn({ user, account }) {
-      // Allow OAuth without email verification
-      if (account?.provider === 'google' || account?.provider === 'github') {
-        return true
-      }
-
-      // For credentials, check if user exists and email is set
-      if (account?.provider === 'credentials') {
-        return !!user
-      }
-
-      return true
+      // Credentials-only auth path
+      if (account?.provider !== 'credentials') return false
+      return !!user
     },
   },
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.AUTH_DEBUG === 'true',
 }

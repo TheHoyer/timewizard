@@ -23,10 +23,9 @@ type TaskWithCategory = Task & { category?: Category | null }
 
 interface FocusClientPageProps {
   initialTasks: TaskWithCategory[]
-  categories: Category[]
 }
 
-export function FocusClientPage({ initialTasks, categories }: FocusClientPageProps) {
+export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
   const { success: showSuccess } = useToast()
   const [tasks, setTasks] = useState<TaskWithCategory[]>(initialTasks)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -53,7 +52,7 @@ export function FocusClientPage({ initialTasks, categories }: FocusClientPagePro
     }
   }, [currentIndex])
 
-  const handleComplete = async () => {
+  const handleComplete = useCallback(async () => {
     if (!currentTask || isCompleting) return
     
     setIsCompleting(true)
@@ -75,19 +74,19 @@ export function FocusClientPage({ initialTasks, categories }: FocusClientPagePro
     }
     
     setIsCompleting(false)
-  }
+  }, [currentIndex, currentTask, isCompleting, showSuccess, tasks.length])
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1)
     }
-  }
+  }, [currentIndex])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < tasks.length - 1) {
       setCurrentIndex(prev => prev + 1)
     }
-  }
+  }, [currentIndex, tasks.length])
 
   const selectTask = (index: number) => {
     setCurrentIndex(index)
@@ -105,7 +104,7 @@ export function FocusClientPage({ initialTasks, categories }: FocusClientPagePro
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [currentIndex, tasks.length])
+  }, [handleComplete, handleNext, handlePrevious])
 
   if (tasks.length === 0) {
     return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Subtask } from '@prisma/client'
 import { 
   PlusIcon, 
@@ -31,18 +31,22 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
   const [loadingId, setLoadingId] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    if (initialSubtasks.length === 0) {
-      loadSubtasks()
-    }
-  }, [taskId])
-
-  const loadSubtasks = async () => {
+  const loadSubtasks = useCallback(async () => {
     const result = await getSubtasks(taskId)
     if (result.success && result.data) {
       setSubtasks(result.data)
     }
-  }
+  }, [taskId])
+
+  useEffect(() => {
+    if (initialSubtasks.length === 0) {
+      const timer = setTimeout(() => {
+        void loadSubtasks()
+      }, 0)
+
+      return () => clearTimeout(timer)
+    }
+  }, [initialSubtasks.length, loadSubtasks])
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault()

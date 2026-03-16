@@ -3,6 +3,31 @@
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 
+const COMMON_PLAN = {
+  name: 'STANDARD',
+  maxTasks: -1,
+  maxCategories: -1,
+  historyDays: -1,
+  features: [
+    'basic_tasks',
+    'categories',
+    'pomodoro',
+    'basic_stats',
+    'advanced_stats',
+    'export_csv',
+    'recurring_tasks',
+    'ai_scheduling',
+    'google_calendar',
+    'unlimited_history',
+    'priority_support',
+    'team_workspaces',
+    'api_access',
+    'audit_log',
+    'sso',
+    'slack_integration',
+  ],
+} as const
+
 export type PlanInfo = {
   plan: string
   limits: {
@@ -24,22 +49,6 @@ export async function getPlanInfo(): Promise<{ success: true; data: PlanInfo } |
   }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { plan: true },
-    })
-
-    const plan = user?.plan || 'FREE'
-
-    // Get plan limits
-    const planLimit = await prisma.planLimit.findUnique({
-      where: { plan },
-    })
-
-    if (!planLimit) {
-      return { success: false, error: 'Nie znaleziono limitu planu' }
-    }
-
     // Get current usage
     const [tasksCount, categoriesCount] = await Promise.all([
       prisma.task.count({
@@ -50,22 +59,15 @@ export async function getPlanInfo(): Promise<{ success: true; data: PlanInfo } |
       }),
     ])
 
-    let features: string[] = []
-    try {
-      features = JSON.parse(planLimit.features)
-    } catch {
-      features = []
-    }
-
     return {
       success: true,
       data: {
-        plan,
+        plan: COMMON_PLAN.name,
         limits: {
-          maxTasks: planLimit.maxTasks,
-          maxCategories: planLimit.maxCategories,
-          historyDays: planLimit.historyDays,
-          features,
+          maxTasks: COMMON_PLAN.maxTasks,
+          maxCategories: COMMON_PLAN.maxCategories,
+          historyDays: COMMON_PLAN.historyDays,
+          features: [...COMMON_PLAN.features],
         },
         usage: {
           tasksCount,
