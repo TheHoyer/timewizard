@@ -49,6 +49,7 @@ export async function proxy(request: NextRequest) {
   const isPublicAsset =
     pathname === '/favicon.ico' ||
     pathname === '/site.webmanifest' ||
+    pathname === '/manifest.webmanifest' ||
     pathname === '/apple-touch-icon.png' ||
     pathname.startsWith('/sounds/') ||
     /\.(svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$/.test(pathname)
@@ -130,6 +131,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!_next/static|_next/image|favicon.ico|site.webmanifest|apple-touch-icon.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|site.webmanifest|manifest.webmanifest|apple-touch-icon.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 }
