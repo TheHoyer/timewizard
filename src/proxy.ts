@@ -46,6 +46,17 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const ip = getClientIP(request)
 
+  const isPublicAsset =
+    pathname === '/favicon.ico' ||
+    pathname === '/site.webmanifest' ||
+    pathname === '/apple-touch-icon.png' ||
+    pathname.startsWith('/sounds/') ||
+    /\.(svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$/.test(pathname)
+
+  if (isPublicAsset) {
+    return NextResponse.next()
+  }
+
   // Rate limiting for auth endpoints
   if (pathname.startsWith('/api/auth/callback') || pathname === '/api/auth/signin') {
     const key = `auth:${ip}`
@@ -103,7 +114,7 @@ export async function proxy(request: NextRequest) {
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(
       'Content-Security-Policy',
-      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
     )
   }
 
@@ -119,6 +130,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|site.webmanifest|apple-touch-icon.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 }
