@@ -3,8 +3,7 @@ import { cn } from '@/lib/utils/cn'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  /** Pojedynczy błąd lub tablica błędów */
-  error?: string | string[]
+    error?: string | string[]
   helperText?: string
 }
 
@@ -13,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const generatedId = React.useId()
     const inputId = id || generatedId
 
-    // Normalizuj błędy do tablicy
+    
     const errors = error 
       ? Array.isArray(error) 
         ? error 

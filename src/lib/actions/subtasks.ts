@@ -5,14 +5,14 @@ import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-// ==================== SCHEMAS ====================
+
 
 const subtaskSchema = z.object({
   title: z.string().min(1, 'Tytuł jest wymagany').max(200, 'Tytuł może mieć max 200 znaków'),
   taskId: z.string().min(1, 'ID zadania jest wymagane'),
 })
 
-// ==================== ACTIONS ====================
+
 
 export async function getSubtasks(taskId: string) {
   const session = await auth()
@@ -21,7 +21,7 @@ export async function getSubtasks(taskId: string) {
   }
 
   try {
-    // Verify task belongs to user
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id },
     })
@@ -54,7 +54,7 @@ export async function createSubtask(taskId: string, title: string) {
   }
 
   try {
-    // Verify task belongs to user
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id },
     })
@@ -63,7 +63,7 @@ export async function createSubtask(taskId: string, title: string) {
       return { success: false as const, error: 'Zadanie nie istnieje' }
     }
 
-    // Get max order
+    
     const maxOrder = await prisma.subtask.aggregate({
       where: { taskId },
       _max: { order: true },
@@ -95,7 +95,7 @@ export async function updateSubtask(
   }
 
   try {
-    // Verify subtask belongs to user's task
+    
     const subtask = await prisma.subtask.findUnique({
       where: { id },
       include: { task: true },
@@ -125,7 +125,7 @@ export async function deleteSubtask(id: string) {
   }
 
   try {
-    // Verify subtask belongs to user's task
+    
     const subtask = await prisma.subtask.findUnique({
       where: { id },
       include: { task: true },
@@ -181,7 +181,7 @@ export async function reorderSubtasks(taskId: string, orderedIds: string[]) {
   }
 
   try {
-    // Verify task belongs to user
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id },
     })
@@ -190,7 +190,7 @@ export async function reorderSubtasks(taskId: string, orderedIds: string[]) {
       return { success: false as const, error: 'Zadanie nie istnieje' }
     }
 
-    // Update all orders in a transaction
+    
     await prisma.$transaction(
       orderedIds.map((id, index) =>
         prisma.subtask.update({

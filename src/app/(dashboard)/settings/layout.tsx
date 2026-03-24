@@ -55,7 +55,7 @@ export default function SettingsLayout({
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* Header */}
+      
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
           <Cog6ToothIcon className="w-8 h-8 text-violet-600" />
@@ -67,7 +67,7 @@ export default function SettingsLayout({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Sidebar Navigation */}
+        
         <nav className="lg:col-span-1">
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-2 sticky top-6">
             <ul className="space-y-1">
@@ -117,7 +117,7 @@ export default function SettingsLayout({
           </div>
         </nav>
 
-        {/* Main Content */}
+        
         <main className="lg:col-span-3">
           {children}
         </main>

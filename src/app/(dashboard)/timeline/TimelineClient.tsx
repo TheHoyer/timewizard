@@ -32,12 +32,12 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
   const [viewDays, setViewDays] = useState(7)
   const [startDate, setStartDate] = useState(startOfDay(new Date()))
 
-  // Generate days for the timeline
+  
   const days = useMemo(() => {
     return Array.from({ length: viewDays }, (_, i) => addDays(startDate, i))
   }, [startDate, viewDays])
 
-  // Group tasks by day
+  
   const tasksByDay = useMemo(() => {
     const grouped: Record<string, TaskWithCategory[]> = {}
     
@@ -78,7 +78,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Timeline</h1>
@@ -88,7 +88,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* View options */}
+          
           <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
             {[7, 14, 30].map((days) => (
               <button
@@ -106,7 +106,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
             ))}
           </div>
 
-          {/* Navigation */}
+          
           <div className="flex items-center gap-1">
             <button
               onClick={() => navigateWeek('prev')}
@@ -130,7 +130,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
         </div>
       </div>
 
-      {/* Overdue tasks alert */}
+      
       {overdueTasks.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -166,7 +166,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
         </motion.div>
       )}
 
-      {/* Timeline Grid */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
         <AnimatePresence mode="popLayout">
           {days.map((day, index) => {
@@ -188,7 +188,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
                     : 'border-slate-200 dark:border-slate-700'
                 )}
               >
-                {/* Day header */}
+                
                 <div
                   className={cn(
                     'px-4 py-3 border-b',
@@ -208,7 +208,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
                   </div>
                 </div>
 
-                {/* Tasks */}
+                
                 <div className="p-3 space-y-2 min-h-[120px]">
                   {dayTasks.length > 0 ? (
                     dayTasks.map((task) => (
@@ -229,7 +229,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
                         style={{ borderLeftColor: task.category?.color || '#94a3b8' }}
                       >
                         <div className="flex items-start gap-2">
-                          {/* Complete button */}
+                          
                           <button
                             onClick={(e) => {
                               e.stopPropagation()
@@ -290,7 +290,7 @@ export function TimelineClient({ tasks, overdueTasks }: TimelineClientProps) {
         </AnimatePresence>
       </div>
 
-      {/* Summary */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div>

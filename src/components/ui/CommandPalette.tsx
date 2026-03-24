@@ -107,7 +107,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
       keywords: ['konto', 'użytkownik'],
     },
     
-    // Actions
+    
     {
       id: 'new-task',
       name: 'Nowe zadanie',
@@ -134,7 +134,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
       keywords: ['pobierz', 'csv', 'json', 'backup'],
     },
     
-    // Settings
+    
     {
       id: 'toggle-theme',
       name: theme === 'dark' ? 'Włącz jasny motyw' : 'Włącz ciemny motyw',
@@ -219,7 +219,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
           >
             <Dialog.Panel className="mx-auto max-w-xl transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-2xl ring-1 ring-black/5 transition-all">
               <Combobox onChange={handleSelect}>
-                {/* Search Input */}
+                
                 <div className="relative">
                   <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
                   <Combobox.Input
@@ -233,7 +233,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
                   </div>
                 </div>
 
-                {/* Results */}
+                
                 {filteredCommands.length > 0 && (
                   <Combobox.Options
                     static
@@ -287,7 +287,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
                   </Combobox.Options>
                 )}
 
-                {/* Empty state */}
+                
                 {query && filteredCommands.length === 0 && (
                   <div className="px-6 py-14 text-center sm:px-14">
                     <MagnifyingGlassIcon className="mx-auto h-6 w-6 text-slate-400" />
@@ -300,7 +300,7 @@ export function CommandPalette({ isOpen, onClose, onNewTask, onNewCategory }: Co
                   </div>
                 )}
 
-                {/* Footer hint */}
+                
                 <div className="flex flex-wrap items-center bg-slate-50 dark:bg-slate-900/50 px-4 py-2.5 text-xs text-slate-500">
                   <span className="mr-4">
                     <kbd className="rounded bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 font-medium">↑↓</kbd>

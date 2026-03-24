@@ -82,7 +82,7 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Kategorie</h1>
@@ -96,7 +96,7 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
         </Button>
       </div>
 
-      {/* Categories Grid */}
+      
       {categories.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence mode="popLayout">
@@ -113,7 +113,7 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
                   'p-4 transition-all duration-200 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
                 )}
               >
-                {/* Color indicator */}
+                
                 <div
                   className="absolute left-0 top-0 bottom-0 w-1.5 rounded-l-xl"
                   style={{ backgroundColor: category.color }}
@@ -137,7 +137,7 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
                     </div>
                   </div>
 
-                  {/* Actions */}
+                  
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleEdit(category)}
@@ -183,14 +183,14 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
         </div>
       )}
 
-      {/* Category Modal */}
+      
       <CategoryModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
         category={selectedCategory}
       />
 
-      {/* Delete Confirmation Dialog */}
+      
       <Transition appear show={deleteConfirmOpen} as={Fragment}>
         <Dialog
           as="div"

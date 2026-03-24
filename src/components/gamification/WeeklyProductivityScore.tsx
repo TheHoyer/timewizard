@@ -44,7 +44,7 @@ export function WeeklyProductivityScore({
 
   const classes = sizeClasses[size]
 
-  // Get color based on percentage
+  
   const getColor = () => {
     if (percentage >= 80) return { stroke: '#22c55e', bg: 'bg-green-50 dark:bg-green-900/20' }
     if (percentage >= 60) return { stroke: '#3b82f6', bg: 'bg-blue-50 dark:bg-blue-900/20' }
@@ -54,7 +54,7 @@ export function WeeklyProductivityScore({
 
   const color = getColor()
 
-  // Get motivational message
+  
   const getMessage = () => {
     if (percentage >= 90) return '🏆 Perfekcyjnie!'
     if (percentage >= 80) return '🔥 Świetna robota!'
@@ -64,17 +64,17 @@ export function WeeklyProductivityScore({
     return '✨ Zacznij tydzień!'
   }
 
-  // SVG circle properties
+  
   const radius = 45
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (percentage / 100) * circumference
 
   return (
     <div className={cn('flex flex-col items-center', showDetails && 'gap-4')}>
-      {/* Circular progress */}
+      
       <div className={cn('relative', classes.container)}>
         <svg className="w-full h-full transform -rotate-90">
-          {/* Background circle */}
+          
           <circle
             cx="50%"
             cy="50%"
@@ -84,7 +84,7 @@ export function WeeklyProductivityScore({
             strokeWidth={classes.strokeWidth}
             className="text-slate-200 dark:text-slate-700"
           />
-          {/* Progress circle */}
+          
           <motion.circle
             cx="50%"
             cy="50%"
@@ -100,7 +100,7 @@ export function WeeklyProductivityScore({
           />
         </svg>
 
-        {/* Center content */}
+        
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
             initial={animate ? { scale: 0 } : { scale: 1 }}
@@ -116,7 +116,7 @@ export function WeeklyProductivityScore({
         </div>
       </div>
 
-      {/* Details */}
+      
       {showDetails && (
         <motion.div
           initial={animate ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
@@ -144,7 +144,7 @@ export function WeeklyProductivityScore({
   )
 }
 
-// Mini version for dashboard cards
+
 interface MiniProductivityScoreProps {
   percentage: number
 }

@@ -47,7 +47,7 @@ export default function AppearancePage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl p-6 text-white">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -60,7 +60,7 @@ export default function AppearancePage() {
         </div>
       </div>
 
-      {/* Theme Selection */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Motyw</h3>
         <div className="grid grid-cols-3 gap-4">
@@ -110,7 +110,7 @@ export default function AppearancePage() {
         </p>
       </div>
 
-      {/* Accent Color */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
           <SwatchIcon className="w-5 h-5 text-violet-600" />
@@ -137,9 +137,9 @@ export default function AppearancePage() {
         </div>
       </div>
 
-      {/* Other Options */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700">
-        {/* Compact Mode */}
+        
         <div className="p-5 flex items-center justify-between">
           <div>
             <h3 className="font-medium text-slate-900 dark:text-white">Tryb kompaktowy</h3>
@@ -162,7 +162,7 @@ export default function AppearancePage() {
           </button>
         </div>
 
-        {/* Animations */}
+        
         <div className="p-5 flex items-center justify-between">
           <div>
             <h3 className="font-medium text-slate-900 dark:text-white">Animacje</h3>
@@ -186,7 +186,7 @@ export default function AppearancePage() {
         </div>
       </div>
 
-      {/* Language */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
           <LanguageIcon className="w-5 h-5 text-violet-600" />
@@ -205,7 +205,7 @@ export default function AppearancePage() {
         </select>
       </div>
 
-      {/* Save Button */}
+      
       <div className="flex justify-end">
         <Button onClick={handleSave} isLoading={isLoading}>
           Zapisz ustawienia

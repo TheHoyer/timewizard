@@ -74,7 +74,7 @@ export function AchievementBadge({
           <LockClosedIcon className="w-6 h-6 text-slate-400 dark:text-slate-500" />
         )}
 
-        {/* Shine effect for unlocked badges */}
+        
         {isUnlocked && (
           <div className="absolute inset-0 rounded-full overflow-hidden">
             <motion.div
@@ -91,7 +91,7 @@ export function AchievementBadge({
         )}
       </motion.button>
 
-      {/* Tooltip */}
+      
       {showTooltip && (
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50">
           <div className="bg-slate-900 dark:bg-slate-700 text-white px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
@@ -112,7 +112,7 @@ export function AchievementBadge({
   )
 }
 
-// Grid of achievement badges
+
 interface AchievementGridProps {
   achievements: Array<{
     id: string
@@ -158,7 +158,7 @@ export function AchievementGrid({ achievements, size = 'md', maxVisible }: Achie
   )
 }
 
-// Notification badge for newly unlocked achievement
+
 interface AchievementNotificationProps {
   icon: string
   name: string

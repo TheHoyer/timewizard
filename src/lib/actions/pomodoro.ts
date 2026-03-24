@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-// ==================== SCHEMAS ====================
+
 
 const startPomodoroSchema = z.object({
   taskId: z.string().optional().nullable(),
@@ -13,7 +13,7 @@ const startPomodoroSchema = z.object({
   type: z.enum(['WORK', 'SHORT_BREAK', 'LONG_BREAK']).default('WORK'),
 })
 
-// ==================== TYPES ====================
+
 
 export type PomodoroSession = {
   id: string
@@ -38,11 +38,8 @@ export type PomodoroStats = {
   totalMinutes: number
 }
 
-// ==================== ACTIONS ====================
 
-/**
- * Start a new Pomodoro session
- */
+
 export async function startPomodoro(data: z.infer<typeof startPomodoroSchema>) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -55,7 +52,7 @@ export async function startPomodoro(data: z.infer<typeof startPomodoroSchema>) {
   }
 
   try {
-    // End any active sessions
+    
     await prisma.pomodoroSession.updateMany({
       where: {
         userId: session.user.id,
@@ -89,9 +86,6 @@ export async function startPomodoro(data: z.infer<typeof startPomodoroSchema>) {
   }
 }
 
-/**
- * Complete a Pomodoro session
- */
 export async function completePomodoro(sessionId: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -118,12 +112,12 @@ export async function completePomodoro(sessionId: string) {
       },
     })
 
-    // Award XP for completed work sessions
+    
     if (pomodoroSession.type === 'WORK') {
-      const xpGained = Math.floor(pomodoroSession.duration * 2) // 2 XP per minute
+      const xpGained = Math.floor(pomodoroSession.duration * 2) 
       await addXpToUser(session.user.id, xpGained)
       
-      // Check for pomodoro achievements
+      
       await checkPomodoroAchievements(session.user.id)
     }
 
@@ -135,9 +129,6 @@ export async function completePomodoro(sessionId: string) {
   }
 }
 
-/**
- * Cancel a Pomodoro session
- */
 export async function cancelPomodoro(sessionId: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -163,9 +154,6 @@ export async function cancelPomodoro(sessionId: string) {
   }
 }
 
-/**
- * Get active Pomodoro session
- */
 export async function getActivePomodoro(): Promise<PomodoroSession | null> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -193,9 +181,6 @@ export async function getActivePomodoro(): Promise<PomodoroSession | null> {
   }
 }
 
-/**
- * Get Pomodoro statistics
- */
 export async function getPomodoroStats(): Promise<PomodoroStats> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -265,9 +250,6 @@ export async function getPomodoroStats(): Promise<PomodoroStats> {
   }
 }
 
-/**
- * Get recent Pomodoro sessions
- */
 export async function getRecentPomodoros(limit = 10): Promise<PomodoroSession[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -296,7 +278,7 @@ export async function getRecentPomodoros(limit = 10): Promise<PomodoroSession[]>
   }
 }
 
-// ==================== HELPER FUNCTIONS ====================
+
 
 async function addXpToUser(userId: string, xp: number) {
   const user = await prisma.user.findUnique({
@@ -307,13 +289,13 @@ async function addXpToUser(userId: string, xp: number) {
   if (!user) return
 
   const newXp = user.xp + xp
-  // Level up formula: 100 XP per level, with slight increase
+  
   const xpForNextLevel = (level: number) => level * 100 + Math.floor(level / 5) * 50
   
   let newLevel = user.level
   let remainingXp = newXp
   
-  // Check for level ups
+  
   while (remainingXp >= xpForNextLevel(newLevel)) {
     remainingXp -= xpForNextLevel(newLevel)
     newLevel++
@@ -327,7 +309,7 @@ async function addXpToUser(userId: string, xp: number) {
     },
   })
 
-  // Check level achievements
+  
   await checkLevelAchievements(userId, newLevel)
 }
 
@@ -370,7 +352,7 @@ export async function unlockAchievement(userId: string, achievementCode: string)
 
     if (!achievement) return null
 
-    // Check if already unlocked
+    
     const existing = await prisma.userAchievement.findFirst({
       where: {
         userId,
@@ -380,7 +362,7 @@ export async function unlockAchievement(userId: string, achievementCode: string)
 
     if (existing) return null
 
-    // Unlock the achievement
+    
     const unlocked = await prisma.userAchievement.create({
       data: {
         userId,

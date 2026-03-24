@@ -19,7 +19,7 @@ import {
 import { format, subDays, startOfWeek, addDays, eachDayOfInterval, isWithinInterval } from 'date-fns'
 import { pl } from 'date-fns/locale'
 
-// Types
+
 interface TaskData {
   id: string
   status: string
@@ -43,7 +43,7 @@ interface CategoryData {
   color: string
 }
 
-// Weekly Activity Chart
+
 interface WeeklyActivityChartProps {
   tasks: TaskData[]
   height?: number
@@ -52,7 +52,7 @@ interface WeeklyActivityChartProps {
 export function WeeklyActivityChart({ tasks, height = 300 }: WeeklyActivityChartProps) {
   const data = useMemo(() => {
     const today = new Date()
-    const weekStart = startOfWeek(today, { weekStartsOn: 1 }) // Monday
+    const weekStart = startOfWeek(today, { weekStartsOn: 1 }) 
     const days = eachDayOfInterval({ start: weekStart, end: addDays(weekStart, 6) })
 
     return days.map(day => {
@@ -118,7 +118,7 @@ export function WeeklyActivityChart({ tasks, height = 300 }: WeeklyActivityChart
   )
 }
 
-// Monthly Trend Chart
+
 interface MonthlyTrendChartProps {
   tasks: TaskData[]
   days?: number
@@ -196,7 +196,7 @@ export function MonthlyTrendChart({ tasks, days = 30, height = 300 }: MonthlyTre
   )
 }
 
-// Category Distribution Chart
+
 interface CategoryDistributionChartProps {
   tasks: TaskData[]
   categories: Array<{ id: string; name: string; color: string }>
@@ -207,15 +207,15 @@ export function CategoryDistributionChart({ tasks, categories, height = 300 }: C
   const data = useMemo(() => {
     const categoryMap = new Map<string, { name: string; value: number; color: string }>()
 
-    // Initialize with all categories
+    
     categories.forEach(cat => {
       categoryMap.set(cat.id, { name: cat.name, value: 0, color: cat.color })
     })
 
-    // Add uncategorized
+    
     categoryMap.set('uncategorized', { name: 'Bez kategorii', value: 0, color: '#94a3b8' })
 
-    // Count tasks per category
+    
     tasks.forEach(task => {
       const key = task.categoryId || 'uncategorized'
       const current = categoryMap.get(key)
@@ -282,7 +282,7 @@ export function CategoryDistributionChart({ tasks, categories, height = 300 }: C
   )
 }
 
-// Priority Distribution Chart
+
 interface PriorityDistributionChartProps {
   tasks: TaskData[]
   height?: number
@@ -350,7 +350,7 @@ export function PriorityDistributionChart({ tasks, height = 200 }: PriorityDistr
   )
 }
 
-// Time Estimation Accuracy Chart
+
 interface TimeAccuracyChartProps {
   tasks: Array<TaskData & { actualMinutes?: number }>
   height?: number

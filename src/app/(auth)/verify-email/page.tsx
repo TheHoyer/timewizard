@@ -12,7 +12,7 @@ function VerifyEmailContent() {
   const token = searchParams.get('token')
   
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(() => {
-    // Initialize based on token presence
+    
     return 'loading'
   })
   const [message, setMessage] = useState('')
@@ -128,7 +128,7 @@ export default function VerifyEmailPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        {/* Logo */}
+        
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
             <span className="text-3xl">⏰</span>

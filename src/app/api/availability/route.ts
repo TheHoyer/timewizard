@@ -50,7 +50,7 @@ export async function PUT(request: NextRequest) {
 
     const { blocks } = validation.data
 
-    // Delete existing blocks and create new ones (transaction)
+    
     await prisma.$transaction([
       prisma.availabilityBlock.deleteMany({
         where: { userId: session.user.id },

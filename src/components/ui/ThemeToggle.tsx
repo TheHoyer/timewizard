@@ -29,7 +29,7 @@ export function ThemeToggle() {
 
   return (
     <div className="relative" ref={menuRef}>
-      {/* Simple toggle button */}
+      
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -54,7 +54,7 @@ export function ThemeToggle() {
         </motion.div>
       </motion.button>
 
-      {/* Dropdown menu */}
+      
       {showMenu && (
         <motion.div
           initial={{ opacity: 0, y: -10, scale: 0.95 }}

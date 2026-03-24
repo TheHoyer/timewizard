@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       )
     }
 
-    // Verify task belongs to user
+    
     const existingTask = await prisma.task.findFirst({
       where: {
         id,
@@ -78,7 +78,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const data = validation.data
     
-    // Build update data object properly
+    
     const updateData: Record<string, unknown> = {}
     if (data.title !== undefined) updateData.title = data.title
     if (data.description !== undefined) updateData.description = data.description
@@ -101,7 +101,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       include: { category: true },
     })
 
-    // Update user stats if task completed
+    
     if (data.status === 'COMPLETED' && existingTask.status !== 'COMPLETED') {
       await prisma.user.update({
         where: { id: session.user.id },
@@ -135,7 +135,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     const { id } = await params
 
-    // Verify task belongs to user
+    
     const existingTask = await prisma.task.findFirst({
       where: {
         id,
@@ -148,7 +148,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Task not found' }, { status: 404 })
     }
 
-    // Soft delete
+    
     await prisma.task.update({
       where: { id },
       data: { deletedAt: new Date() },

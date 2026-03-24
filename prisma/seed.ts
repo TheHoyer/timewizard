@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const achievements = [
-  // Task milestones
+  
   {
     code: 'first_task',
     name: 'Pierwszy krok',
@@ -35,7 +35,7 @@ const achievements = [
     icon: '🏆',
   },
   
-  // Streak achievements
+  
   {
     code: 'streak_3',
     name: 'Dobra passa',
@@ -61,7 +61,7 @@ const achievements = [
     icon: '👑',
   },
   
-  // Pomodoro achievements
+  
   {
     code: 'pomodoro_1',
     name: 'Pierwsze pomodoro',
@@ -81,7 +81,7 @@ const achievements = [
     icon: '⏰',
   },
   
-  // Time tracking achievements
+  
   {
     code: 'time_1h',
     name: 'Pierwsza godzina',
@@ -101,7 +101,7 @@ const achievements = [
     icon: '🕰️',
   },
   
-  // Level achievements
+  
   {
     code: 'level_5',
     name: 'Początkujący',
@@ -127,7 +127,7 @@ const achievements = [
     icon: '🏅',
   },
   
-  // Special achievements
+  
   {
     code: 'early_bird',
     name: 'Ranny ptaszek',
@@ -157,7 +157,7 @@ const achievements = [
 async function main() {
   console.log('🌱 Seeding database...')
   
-  // Seed achievements
+  
   console.log('\n📦 Seeding achievements...')
   for (const achievement of achievements) {
     await prisma.achievement.upsert({
@@ -169,7 +169,7 @@ async function main() {
   }
   console.log(`✅ Seeded ${achievements.length} achievements`)
 
-  // Seed plan limits
+  
   console.log('\n📦 Seeding plan limits...')
   const planLimits = [
     {

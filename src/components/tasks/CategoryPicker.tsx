@@ -78,7 +78,7 @@ export function CategoryPicker({
               'focus:outline-none'
             )}
           >
-            {/* No category option */}
+            
             <Listbox.Option
               value={null}
               className={({ active }) =>
@@ -104,7 +104,7 @@ export function CategoryPicker({
               )}
             </Listbox.Option>
 
-            {/* Category options */}
+            
             {categories.map((category) => (
               <Listbox.Option
                 key={category.id}
@@ -139,7 +139,7 @@ export function CategoryPicker({
               </Listbox.Option>
             ))}
 
-            {/* Create new category button */}
+            
             {onCreateNew && (
               <>
                 <div className="border-t border-slate-200 dark:border-slate-700 my-1" />

@@ -8,10 +8,6 @@ export interface FormFieldErrorProps {
   className?: string
 }
 
-/**
- * Komponent wyświetlający listę błędów walidacji dla pola formularza
- * z ładną animacją i ikonami
- */
 export function FormFieldError({ errors, className }: FormFieldErrorProps) {
   if (!errors || errors.length === 0) return null
 
@@ -42,9 +38,6 @@ export function FormFieldError({ errors, className }: FormFieldErrorProps) {
   )
 }
 
-/**
- * Komponent wyświetlający ogólny błąd formularza (np. błąd serwera)
- */
 export interface FormErrorProps {
   message?: string
   className?: string
@@ -85,9 +78,6 @@ export function FormError({ message, className }: FormErrorProps) {
   )
 }
 
-/**
- * Komponent wyświetlający komunikat sukcesu
- */
 export interface FormSuccessProps {
   message?: string
   className?: string

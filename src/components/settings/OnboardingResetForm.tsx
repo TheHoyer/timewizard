@@ -20,7 +20,7 @@ export function OnboardingResetForm() {
     
     if (result.success) {
       showSuccess('Onboarding zresetowany', 'Odśwież stronę, aby zobaczyć wprowadzenie ponownie')
-      // Reload page after short delay
+      
       setTimeout(() => {
         window.location.reload()
       }, 1500)
@@ -31,9 +31,9 @@ export function OnboardingResetForm() {
   }
 
   const handleStartTutorial = () => {
-    // Najpierw przenieś na dashboard
+    
     router.push('/dashboard')
-    // Po chwili uruchom tutorial
+    
     setTimeout(() => {
       startTutorial()
     }, 300)

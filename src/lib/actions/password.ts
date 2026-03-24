@@ -6,12 +6,12 @@ import { hash } from 'bcryptjs'
 import crypto from 'crypto'
 import { sendPasswordResetEmail, sendVerificationEmail } from '@/lib/email'
 
-// Schema dla żądania resetu hasła
+
 const forgotPasswordSchema = z.object({
   email: z.string().email('Nieprawidłowy adres email'),
 })
 
-// Schema dla resetu hasła
+
 const resetPasswordSchema = z.object({
   token: z.string().min(1, 'Token jest wymagany'),
   password: z
@@ -26,7 +26,7 @@ const resetPasswordSchema = z.object({
   path: ['confirmPassword'],
 })
 
-// Żądanie resetu hasła
+
 export async function requestPasswordReset(formData: FormData) {
   const validatedFields = forgotPasswordSchema.safeParse({
     email: formData.get('email'),
@@ -42,24 +42,24 @@ export async function requestPasswordReset(formData: FormData) {
   const { email } = validatedFields.data
 
   try {
-    // Sprawdź czy użytkownik istnieje
+    
     const user = await prisma.user.findUnique({
       where: { email },
     })
 
-    // Zawsze zwracaj sukces (nie ujawniaj czy email istnieje)
+    
     if (!user) {
       return { success: true }
     }
 
-    // Usuń stare tokeny
+    
     await prisma.passwordResetToken.deleteMany({
       where: { email },
     })
 
-    // Wygeneruj nowy token
+    
     const token = crypto.randomBytes(32).toString('hex')
-    const expires = new Date(Date.now() + 3600 * 1000) // 1 godzina
+    const expires = new Date(Date.now() + 3600 * 1000) 
 
     await prisma.passwordResetToken.create({
       data: {
@@ -69,7 +69,7 @@ export async function requestPasswordReset(formData: FormData) {
       },
     })
 
-    // Wyślij email
+    
     await sendPasswordResetEmail(email, token)
 
     return { success: true }
@@ -81,7 +81,7 @@ export async function requestPasswordReset(formData: FormData) {
   }
 }
 
-// Reset hasła z tokenem
+
 export async function resetPassword(formData: FormData) {
   const validatedFields = resetPasswordSchema.safeParse({
     token: formData.get('token'),
@@ -99,7 +99,7 @@ export async function resetPassword(formData: FormData) {
   const { token, password } = validatedFields.data
 
   try {
-    // Znajdź token
+    
     const resetToken = await prisma.passwordResetToken.findUnique({
       where: { token },
     })
@@ -110,7 +110,7 @@ export async function resetPassword(formData: FormData) {
       }
     }
 
-    // Sprawdź czy nie wygasł
+    
     if (resetToken.expires < new Date()) {
       await prisma.passwordResetToken.delete({
         where: { id: resetToken.id },
@@ -120,7 +120,7 @@ export async function resetPassword(formData: FormData) {
       }
     }
 
-    // Zaktualizuj hasło
+    
     const hashedPassword = await hash(password, 12)
     
     await prisma.user.update({
@@ -128,7 +128,7 @@ export async function resetPassword(formData: FormData) {
       data: { password: hashedPassword },
     })
 
-    // Usuń użyty token
+    
     await prisma.passwordResetToken.delete({
       where: { id: resetToken.id },
     })
@@ -142,7 +142,7 @@ export async function resetPassword(formData: FormData) {
   }
 }
 
-// Weryfikacja emaila
+
 export async function verifyEmail(token: string) {
   try {
     const verificationToken = await prisma.emailVerificationToken.findUnique({
@@ -166,13 +166,13 @@ export async function verifyEmail(token: string) {
       }
     }
 
-    // Zaktualizuj użytkownika
+    
     await prisma.user.update({
       where: { email: verificationToken.email },
       data: { emailVerified: new Date() },
     })
 
-    // Usuń token
+    
     await prisma.emailVerificationToken.delete({
       where: { id: verificationToken.id },
     })
@@ -187,7 +187,7 @@ export async function verifyEmail(token: string) {
   }
 }
 
-// Wyślij email weryfikacyjny
+
 export async function sendEmailVerification(email: string) {
   try {
     const user = await prisma.user.findUnique({
@@ -202,14 +202,14 @@ export async function sendEmailVerification(email: string) {
       return { success: false, message: 'Email jest już zweryfikowany' }
     }
 
-    // Usuń stare tokeny
+    
     await prisma.emailVerificationToken.deleteMany({
       where: { email },
     })
 
-    // Wygeneruj nowy token
+    
     const token = crypto.randomBytes(32).toString('hex')
-    const expires = new Date(Date.now() + 24 * 3600 * 1000) // 24 godziny
+    const expires = new Date(Date.now() + 24 * 3600 * 1000) 
 
     await prisma.emailVerificationToken.create({
       data: {

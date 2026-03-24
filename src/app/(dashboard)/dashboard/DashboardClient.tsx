@@ -120,14 +120,14 @@ export function DashboardClient({
 
   return (
     <div className="space-y-8">
-      {/* Welcome Section with Gradient Card */}
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 p-8 text-white shadow-2xl shadow-violet-500/25 dark:shadow-violet-500/10"
       >
-        {/* Decorative elements */}
+        
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-400/20 rounded-full blur-2xl translate-y-24 -translate-x-24" />
         
@@ -176,7 +176,7 @@ export function DashboardClient({
           </motion.div>
         </div>
 
-        {/* Quick stats in welcome card */}
+        
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -214,9 +214,9 @@ export function DashboardClient({
         </motion.div>
       </motion.div>
 
-      {/* Stats Cards */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        {/* XP & Level Card */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -274,9 +274,9 @@ export function DashboardClient({
         />
       </div>
 
-      {/* Gamification Section */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Streak Counter Widget */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -291,7 +291,7 @@ export function DashboardClient({
           </div>
         </motion.div>
 
-        {/* Weekly Productivity Widget */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -308,7 +308,7 @@ export function DashboardClient({
           />
         </motion.div>
 
-        {/* Recent Achievements Widget */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -351,9 +351,9 @@ export function DashboardClient({
         </motion.div>
       </div>
 
-      {/* Main Content Grid */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Today's Tasks - Takes 2 columns */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -423,14 +423,14 @@ export function DashboardClient({
           </div>
         </motion.div>
 
-        {/* Side Panel */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           className="space-y-6"
         >
-          {/* Progress Card */}
+          
           <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
@@ -468,7 +468,7 @@ export function DashboardClient({
             </div>
           </div>
 
-          {/* Today's Focus */}
+          
           <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
@@ -525,7 +525,7 @@ export function DashboardClient({
             )}
           </div>
 
-          {/* Quick Actions */}
+          
           <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-2xl p-6 text-white">
             <h3 className="font-semibold mb-4">Szybkie akcje</h3>
             <div className="space-y-2">
@@ -555,7 +555,7 @@ export function DashboardClient({
         </motion.div>
       </div>
 
-      {/* Modals */}
+      
       <AddTaskModal
         isOpen={isAddModalOpen}
         onClose={() => {
@@ -581,7 +581,7 @@ export function DashboardClient({
   )
 }
 
-// Stat Card Component
+
 function StatCard({
   icon: Icon,
   label,
@@ -627,7 +627,7 @@ function StatCard({
       transition={{ delay }}
       className="relative overflow-hidden bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-6 group hover:shadow-lg transition-all duration-300"
     >
-      {/* Gradient accent */}
+      
       <div className={cn(
         "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity",
         colors[color].gradient
@@ -651,7 +651,7 @@ function StatCard({
   )
 }
 
-// Empty State Component
+
 function EmptyState({
   icon: Icon,
   title,

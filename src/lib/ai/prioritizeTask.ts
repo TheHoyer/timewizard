@@ -117,7 +117,7 @@ function deterministicPriority(input: TaskPriorityInput): TaskPriorityResult {
   else priority = 1
 
   if (input.suggestedPriority && input.suggestedPriority >= 1 && input.suggestedPriority <= 5) {
-    // Blend user-selected value with rules to avoid surprising overrides.
+    
     priority = clampPriority((priority * 0.7) + (input.suggestedPriority * 0.3))
   }
 

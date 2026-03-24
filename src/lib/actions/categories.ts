@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-// ==================== SCHEMAS ====================
+
 
 const categorySchema = z.object({
   name: z.string().min(1, 'Nazwa jest wymagana').max(50, 'Nazwa może mieć max 50 znaków'),
@@ -17,7 +17,7 @@ const updateCategorySchema = categorySchema.extend({
   id: z.string().min(1, 'ID kategorii jest wymagane'),
 })
 
-// ==================== TYPES ====================
+
 
 export type CategoryFormState = {
   success?: boolean
@@ -35,7 +35,7 @@ export type CategoryFormState = {
   }
 }
 
-// ==================== ACTIONS ====================
+
 
 export async function getCategories() {
   const session = await auth()
@@ -86,7 +86,7 @@ export async function createCategory(
   const { name, color, icon } = validatedFields.data
 
   try {
-    // Check for duplicate name (case-insensitive for SQLite)
+    
     const existingCategories = await prisma.category.findMany({
       where: { userId: session.user.id },
       select: { name: true },
@@ -151,7 +151,7 @@ export async function updateCategory(
   const { id, name, color, icon } = validatedFields.data
 
   try {
-    // Verify ownership
+    
     const existing = await prisma.category.findFirst({
       where: { id, userId: session.user.id },
     })
@@ -160,7 +160,7 @@ export async function updateCategory(
       return { error: 'Kategoria nie istnieje' }
     }
 
-    // Check for duplicate name (excluding current, case-insensitive for SQLite)
+    
     const allCategories = await prisma.category.findMany({
       where: { userId: session.user.id, id: { not: id } },
       select: { name: true },
@@ -202,7 +202,7 @@ export async function deleteCategory(categoryId: string): Promise<{ success?: bo
   }
 
   try {
-    // Verify ownership
+    
     const category = await prisma.category.findFirst({
       where: { id: categoryId, userId: session.user.id },
     })
@@ -211,7 +211,7 @@ export async function deleteCategory(categoryId: string): Promise<{ success?: bo
       return { error: 'Kategoria nie istnieje' }
     }
 
-    // Delete category (tasks will have categoryId set to null due to onDelete: SetNull)
+    
     await prisma.category.delete({
       where: { id: categoryId },
     })

@@ -118,7 +118,7 @@ export function SubscriptionClient({
   const handleUpgrade = async (planId: string) => {
     setIsLoading(planId)
     
-    // Symulacja - w przyszłości połączenie ze Stripe
+    
     await new Promise(resolve => setTimeout(resolve, 1500))
     
     showSuccess(
@@ -136,9 +136,9 @@ export function SubscriptionClient({
 
   return (
     <div className="space-y-8">
-      {/* Current Plan Overview */}
+      
       <div className="bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 rounded-2xl p-6 text-white shadow-xl shadow-violet-500/20 relative overflow-hidden">
-        {/* Decorative elements */}
+        
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-300/20 rounded-full translate-y-24 -translate-x-24 blur-2xl" />
         
@@ -156,7 +156,7 @@ export function SubscriptionClient({
             </div>
           </div>
 
-          {/* Usage Stats */}
+          
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
@@ -201,12 +201,12 @@ export function SubscriptionClient({
         </div>
       </div>
 
-      {/* Billing Cycle Toggle */}
+      
       <div className="flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
         Cennik i rozliczenia są obecnie wyłączone. Stripe zostanie podpięty w kolejnej iteracji.
       </div>
 
-      {/* Plans Grid */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {PLANS.map((plan, index) => {
           const isCurrentPlan = plan.id === currentPlan
@@ -229,7 +229,7 @@ export function SubscriptionClient({
                 plan.popular && !isCurrentPlan && 'md:-translate-y-2'
               )}
             >
-              {/* Popular Badge */}
+              
               {plan.popular && !isCurrentPlan && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="px-4 py-1 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-xs font-semibold rounded-full shadow-lg flex items-center gap-1">
@@ -239,7 +239,7 @@ export function SubscriptionClient({
                 </div>
               )}
 
-              {/* Current Plan Badge */}
+              
               {isCurrentPlan && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="px-4 py-1 bg-violet-600 text-white text-xs font-semibold rounded-full shadow-lg flex items-center gap-1">
@@ -249,7 +249,7 @@ export function SubscriptionClient({
                 </div>
               )}
 
-              {/* Header */}
+              
               <div className="text-center mb-6">
                 <div className={cn(
                   'inline-flex p-3 rounded-xl bg-gradient-to-br mb-4',
@@ -265,7 +265,7 @@ export function SubscriptionClient({
                 </p>
               </div>
 
-              {/* Price */}
+              
               <div className="text-center mb-6">
                 <div className="flex items-end justify-center gap-1">
                   <span className="text-4xl font-bold text-slate-900 dark:text-white">
@@ -282,7 +282,7 @@ export function SubscriptionClient({
                 )}
               </div>
 
-              {/* Features */}
+              
               <ul className="space-y-3 mb-6">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -302,7 +302,7 @@ export function SubscriptionClient({
                 ))}
               </ul>
 
-              {/* CTA Button */}
+              
               {isCurrentPlan || currentPlan === 'UNIFIED' ? (
                 <button
                   disabled
@@ -339,7 +339,7 @@ export function SubscriptionClient({
         })}
       </div>
 
-      {/* FAQ / Info Section */}
+      
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6">
         <div className="flex items-start gap-4">
           <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">

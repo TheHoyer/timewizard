@@ -52,7 +52,7 @@ export const authConfig: NextAuthConfig = {
   },
   events: {
     async createUser({ user }) {
-      // Create default categories for new users (OAuth sign up)
+      
       if (user.id) {
         try {
           const existingCategories = await prisma.category.count({
@@ -74,7 +74,7 @@ export const authConfig: NextAuthConfig = {
       }
     },
     async signIn({ user, isNewUser }) {
-      // Update last active timestamp
+      
       if (user.id) {
         try {
           await prisma.user.update({
@@ -86,7 +86,7 @@ export const authConfig: NextAuthConfig = {
         }
       }
 
-      // Create default categories for new email/password users
+      
       if (isNewUser && user.id) {
         try {
           const existingCategories = await prisma.category.count({
@@ -118,7 +118,7 @@ export const authConfig: NextAuthConfig = {
         token.timezone = user.timezone || 'Europe/Warsaw'
       }
 
-      // Handle session update (e.g., after plan upgrade)
+      
       if (trigger === 'update' && session) {
         token.plan = session.plan || token.plan
         token.timezone = session.timezone || token.timezone
@@ -145,7 +145,7 @@ export const authConfig: NextAuthConfig = {
   },
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, 
   },
   debug: process.env.AUTH_DEBUG === 'true',
 }

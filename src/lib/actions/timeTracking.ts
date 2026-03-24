@@ -6,14 +6,14 @@ import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 import { unlockAchievement } from './pomodoro'
 
-// ==================== SCHEMAS ====================
+
 
 const startTimeEntrySchema = z.object({
   taskId: z.string().min(1, 'Task ID jest wymagane'),
   note: z.string().optional().nullable(),
 })
 
-// ==================== TYPES ====================
+
 
 export type TimeEntry = {
   id: string
@@ -42,11 +42,8 @@ export type TaskTimeReport = {
   entriesCount: number
 }
 
-// ==================== ACTIONS ====================
 
-/**
- * Start time tracking for a task
- */
+
 export async function startTimeEntry(data: z.infer<typeof startTimeEntrySchema>) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -59,7 +56,7 @@ export async function startTimeEntry(data: z.infer<typeof startTimeEntrySchema>)
   }
 
   try {
-    // Check if task exists and belongs to user
+    
     const task = await prisma.task.findFirst({
       where: {
         id: parsed.data.taskId,
@@ -71,10 +68,10 @@ export async function startTimeEntry(data: z.infer<typeof startTimeEntrySchema>)
       return { success: false, error: 'Zadanie nie znalezione' }
     }
 
-    // Stop any active time entries
+    
     await stopAllActiveEntries(session.user.id)
 
-    // Start new time entry
+    
     const entry = await prisma.timeEntry.create({
       data: {
         userId: session.user.id,
@@ -89,7 +86,7 @@ export async function startTimeEntry(data: z.infer<typeof startTimeEntrySchema>)
       },
     })
 
-    // Update task status to in progress
+    
     await prisma.task.update({
       where: { id: parsed.data.taskId },
       data: { status: 'IN_PROGRESS' },
@@ -103,9 +100,6 @@ export async function startTimeEntry(data: z.infer<typeof startTimeEntrySchema>)
   }
 }
 
-/**
- * Stop time tracking
- */
 export async function stopTimeEntry(entryId: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -141,13 +135,13 @@ export async function stopTimeEntry(entryId: string) {
       },
     })
 
-    // Award XP: 1 XP per minute tracked
+    
     const xpGained = Math.floor(duration / 60)
     if (xpGained > 0) {
       await addXpForTimeTracking(session.user.id, xpGained)
     }
 
-    // Check time tracking achievements
+    
     await checkTimeAchievements(session.user.id)
 
     revalidatePath('/dashboard')
@@ -158,9 +152,6 @@ export async function stopTimeEntry(entryId: string) {
   }
 }
 
-/**
- * Get active time entry
- */
 export async function getActiveTimeEntry(): Promise<TimeEntry | null> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -188,9 +179,6 @@ export async function getActiveTimeEntry(): Promise<TimeEntry | null> {
   }
 }
 
-/**
- * Get time entries for a task
- */
 export async function getTaskTimeEntries(taskId: string): Promise<TimeEntry[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -218,9 +206,6 @@ export async function getTaskTimeEntries(taskId: string): Promise<TimeEntry[]> {
   }
 }
 
-/**
- * Get time statistics
- */
 export async function getTimeStats(): Promise<TimeStats> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -290,9 +275,6 @@ export async function getTimeStats(): Promise<TimeStats> {
   }
 }
 
-/**
- * Get time report by task
- */
 export async function getTimeReportByTask(days = 7): Promise<TaskTimeReport[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -316,7 +298,7 @@ export async function getTimeReportByTask(days = 7): Promise<TaskTimeReport[]> {
       },
     })
 
-    // Group by task
+    
     const taskMap = new Map<string, TaskTimeReport>()
     
     for (const entry of entries) {
@@ -341,9 +323,6 @@ export async function getTimeReportByTask(days = 7): Promise<TaskTimeReport[]> {
   }
 }
 
-/**
- * Delete a time entry
- */
 export async function deleteTimeEntry(entryId: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -366,7 +345,7 @@ export async function deleteTimeEntry(entryId: string) {
   }
 }
 
-// ==================== HELPER FUNCTIONS ====================
+
 
 async function stopAllActiveEntries(userId: string) {
   const activeEntries = await prisma.timeEntry.findMany({

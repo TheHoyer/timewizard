@@ -26,7 +26,7 @@ export function useKeyboardShortcuts(
     (event: KeyboardEvent) => {
       if (!enabled) return
 
-      // Ignore if user is typing in input/textarea
+      
       const target = event.target as HTMLElement
       if (
         target.tagName === 'INPUT' ||
@@ -41,7 +41,7 @@ export function useKeyboardShortcuts(
         const altMatch = shortcut.alt ? event.altKey : !event.altKey
         const shiftMatch = shortcut.shift ? event.shiftKey : !event.shiftKey
 
-        // Special handling for Mac (meta) vs Windows (ctrl)
+        
         const modifierMatch = shortcut.ctrl || shortcut.meta
           ? (event.ctrlKey || event.metaKey)
           : (!event.ctrlKey && !event.metaKey)
@@ -64,7 +64,7 @@ export function useKeyboardShortcuts(
   }, [handleKeyDown, enabled])
 }
 
-// Pre-defined common shortcuts
+
 export const KEYBOARD_SHORTCUTS = {
   NEW_TASK: { key: 'n', ctrl: true, description: 'Nowe zadanie' },
   SEARCH: { key: 'k', ctrl: true, description: 'Szukaj' },
@@ -77,7 +77,7 @@ export const KEYBOARD_SHORTCUTS = {
   CATEGORIES: { key: '3', ctrl: true, description: 'Idź do Kategorii' },
 } as const
 
-// Keyboard shortcut display helper
+
 export function formatShortcut(shortcut: Omit<KeyboardShortcut, 'action' | 'description'>) {
   const isMac = typeof window !== 'undefined' && navigator.platform.includes('Mac')
   const parts: string[] = []
@@ -92,7 +92,7 @@ export function formatShortcut(shortcut: Omit<KeyboardShortcut, 'action' | 'desc
     parts.push(isMac ? '⇧' : 'Shift')
   }
 
-  // Format special keys
+  
   const keyDisplay = shortcut.key === 'Escape' ? 'Esc' : shortcut.key.toUpperCase()
   parts.push(keyDisplay)
 

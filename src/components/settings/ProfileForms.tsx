@@ -10,7 +10,7 @@ import {
   ProfileState,
 } from '@/lib/actions/profile'
 
-// Common timezones
+
 const TIMEZONES = [
   { value: 'Europe/Warsaw', label: 'Warszawa (CET/CEST)' },
   { value: 'Europe/London', label: 'Londyn (GMT/BST)' },
@@ -45,7 +45,7 @@ function DeleteButton() {
   )
 }
 
-// Profile Form Component
+
 export function ProfileForm({
   user,
 }: {
@@ -118,7 +118,7 @@ export function ProfileForm({
   )
 }
 
-// Password Form Component
+
 export function PasswordForm() {
   const initialState: ProfileState = {}
   const [state, formAction] = useActionState(changePasswordAction, initialState)
@@ -175,14 +175,14 @@ export function PasswordForm() {
   )
 }
 
-// Delete Account Form Component
+
 export function DeleteAccountForm() {
   const initialState: ProfileState = {}
   const [state, formAction] = useActionState(deleteAccountAction, initialState)
 
-  // Use useEffect for redirect after successful deletion
+  
   if (state.success && typeof window !== 'undefined') {
-    // Force redirect via form submission or server-side
+    
   }
 
   return (

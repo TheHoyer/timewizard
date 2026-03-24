@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check plan limits
+    
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { plan: true },

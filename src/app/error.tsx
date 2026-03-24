@@ -33,7 +33,7 @@ export default function Error({
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center px-6">
       <div className="text-center max-w-lg">
-        {/* Animated error icon */}
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -56,7 +56,7 @@ export default function Error({
           </motion.div>
         </motion.div>
 
-        {/* Text content */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export default function Error({
             Nasz zespół został powiadomiony.
           </p>
           
-          {/* Error details (only in development) */}
+          
           {process.env.NODE_ENV === 'development' && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -90,7 +90,7 @@ export default function Error({
           )}
         </motion.div>
 
-        {/* Action buttons */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,7 +113,7 @@ export default function Error({
           </Link>
         </motion.div>
 
-        {/* Help link */}
+        
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

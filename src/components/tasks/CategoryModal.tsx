@@ -12,22 +12,22 @@ import { useToast } from '@/components/ui/Toast'
 interface CategoryModalProps {
   isOpen: boolean
   onClose: () => void
-  category?: Category | null // If provided, edit mode
+  category?: Category | null 
 }
 
 const PRESET_COLORS = [
-  '#4F46E5', // Indigo
-  '#7C3AED', // Violet
-  '#EC4899', // Pink
-  '#EF4444', // Red
-  '#F97316', // Orange
-  '#EAB308', // Yellow
-  '#22C55E', // Green
-  '#14B8A6', // Teal
-  '#06B6D4', // Cyan
-  '#3B82F6', // Blue
-  '#6366F1', // Indigo
-  '#8B5CF6', // Purple
+  '#4F46E5', 
+  '#7C3AED', 
+  '#EC4899', 
+  '#EF4444', 
+  '#F97316', 
+  '#EAB308', 
+  '#22C55E', 
+  '#14B8A6', 
+  '#06B6D4', 
+  '#3B82F6', 
+  '#6366F1', 
+  '#8B5CF6', 
 ]
 
 const PRESET_EMOJIS = [
@@ -120,7 +120,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl transition-all">
-                {/* Header */}
+                
                 <div className="flex items-center justify-between mb-6">
                   <Dialog.Title className="text-lg font-semibold text-slate-900 dark:text-white">
                     {isEditMode ? 'Edytuj kategorię' : 'Nowa kategoria'}
@@ -134,9 +134,9 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                   </button>
                 </div>
 
-                {/* Form */}
+                
                 <form action={handleSubmit} className="space-y-5">
-                  {/* Preview */}
+                  
                   <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
                     <div
                       className="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
@@ -152,7 +152,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                     </div>
                   </div>
 
-                  {/* Name */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Nazwa
@@ -177,7 +177,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                     )}
                   </div>
 
-                  {/* Emoji Icon */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Ikona (emoji)
@@ -230,7 +230,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                     )}
                   </div>
 
-                  {/* Color */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Kolor
@@ -252,7 +252,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                       ))}
                     </div>
                     
-                    {/* Custom color */}
+                    
                     <div className="mt-3 flex items-center gap-2">
                       <label className="text-sm text-slate-500 dark:text-slate-400">
                         Własny kolor:
@@ -285,7 +285,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
                     )}
                   </div>
 
-                  {/* Actions */}
+                  
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="button"

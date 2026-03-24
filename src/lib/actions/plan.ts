@@ -49,7 +49,7 @@ export async function getPlanInfo(): Promise<{ success: true; data: PlanInfo } |
   }
 
   try {
-    // Get current usage
+    
     const [tasksCount, categoriesCount] = await Promise.all([
       prisma.task.count({
         where: { userId: session.user.id, deletedAt: null },

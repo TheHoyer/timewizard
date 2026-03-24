@@ -78,7 +78,7 @@ export default function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-6 text-white">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
         </div>
       </div>
 
-      {/* Notification Settings */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700">
         {settings.map((setting, index) => {
           const Icon = setting.icon
@@ -139,7 +139,7 @@ export default function NotificationsPage() {
         })}
       </div>
 
-      {/* Quiet Hours */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
           <ClockIcon className="w-5 h-5 text-violet-600" />
@@ -169,7 +169,7 @@ export default function NotificationsPage() {
         </div>
       </div>
 
-      {/* Save Button */}
+      
       <div className="flex justify-end">
         <Button onClick={handleSave} isLoading={isLoading}>
           Zapisz ustawienia

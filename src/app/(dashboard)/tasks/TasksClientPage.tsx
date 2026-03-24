@@ -49,41 +49,41 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
   const { success: showSuccess, error: showError } = useToast()
   const [isPending, startTransition] = useTransition()
 
-  // Data
+  
   const [tasks, setTasks] = useState<TaskWithCategory[]>(initialTasks)
   const [categories, setCategories] = useState<Category[]>(initialCategories)
 
-  // Filters
+  
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [priorityFilter, setPriorityFilter] = useState<string>('all')
   const [showFilters, setShowFilters] = useState(false)
 
-  // Sorting
+  
   const [sortBy, setSortBy] = useState<SortBy>('createdAt')
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
 
-  // View
+  
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
 
-  // Selection (for batch operations)
+  
   const [selectedTasks, setSelectedTasks] = useState<Set<string>>(new Set())
   const [isSelectionMode, setIsSelectionMode] = useState(false)
 
-  // Modals
+  
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<TaskWithCategory | null>(null)
 
-  // Delete confirmation
+  
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isBatchDeleteOpen, setIsBatchDeleteOpen] = useState(false)
 
-  // Keyboard shortcuts
+  
   useKeyboardShortcuts([
     {
       ...KEYBOARD_SHORTCUTS.NEW_TASK,
@@ -98,7 +98,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     },
   ])
 
-  // Fetch tasks with filters
+  
   const fetchTasks = useCallback(async () => {
     const filters: TaskFilters = {}
     
@@ -115,7 +115,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     })
   }, [statusFilter, categoryFilter, priorityFilter, search])
 
-  // Refetch when filters change
+  
   useEffect(() => {
     const debounce = setTimeout(() => {
       fetchTasks()
@@ -123,7 +123,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     return () => clearTimeout(debounce)
   }, [fetchTasks])
 
-  // Refetch categories
+  
   const fetchCategories = useCallback(async () => {
     const result = await getCategories()
     if (result.success && result.data) {
@@ -131,12 +131,12 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     }
   }, [])
 
-  // Handle task completion toggle
+  
   const handleComplete = async (taskId: string) => {
     const task = tasks.find(t => t.id === taskId)
     if (!task) return
 
-    // Toggle status
+    
     const newStatus = task.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED'
     const result = await updateTaskStatus(taskId, newStatus)
     
@@ -152,13 +152,13 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     }
   }
 
-  // Handle task deletion
+  
   const handleDelete = async (taskId: string) => {
     setTaskToDelete(taskId)
     setIsDeleteModalOpen(true)
   }
 
-  // Confirm delete
+  
   const confirmDelete = async () => {
     if (!taskToDelete) return
     
@@ -177,32 +177,32 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     setTaskToDelete(null)
   }
 
-  // Handle edit
+  
   const handleEdit = (task: Task) => {
     setSelectedTask(task as TaskWithCategory)
     setIsEditModalOpen(true)
   }
 
-  // Close edit modal
+  
   const handleEditModalClose = () => {
     setIsEditModalOpen(false)
     setSelectedTask(null)
     fetchTasks()
   }
 
-  // Close add modal
+  
   const handleAddModalClose = () => {
     setIsAddModalOpen(false)
     fetchTasks()
   }
 
-  // Close category modal
+  
   const handleCategoryModalClose = () => {
     setIsCategoryModalOpen(false)
     fetchCategories()
   }
 
-  // Clear all filters
+  
   const clearFilters = () => {
     setSearch('')
     setStatusFilter('all')
@@ -251,7 +251,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     }
   }
 
-  // Batch delete selected tasks
+  
   const handleBatchDelete = async () => {
     if (selectedTasks.size === 0) return
     const result = await batchDelete(Array.from(selectedTasks))
@@ -265,7 +265,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
     }
   }
 
-  // Sort tasks locally
+  
   const sortedTasks = [...tasks].sort((a, b) => {
     let comparison = 0
     switch (sortBy) {
@@ -301,7 +301,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Zadania</h1>
@@ -339,12 +339,12 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         </div>
       </div>
 
-      {/* Quick Add */}
+      
       <QuickAdd
         onTaskCreated={fetchTasks}
       />
 
-      {/* Batch actions bar */}
+      
       <AnimatePresence>
         {isSelectionMode && (
           <motion.div
@@ -389,9 +389,9 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         )}
       </AnimatePresence>
 
-      {/* Search & Filters Bar */}
+      
       <div className="flex flex-col sm:flex-row gap-3">
-        {/* Search */}
+        
         <div className="relative flex-1">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <input
@@ -416,7 +416,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
           )}
         </div>
 
-        {/* Sorting */}
+        
         <div className="flex items-center gap-2">
           <select
             value={sortBy}
@@ -448,7 +448,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
           </button>
         </div>
 
-        {/* Filter toggle */}
+        
         <div className="flex items-center gap-2">
           <Button
             variant={showFilters ? 'secondary' : 'outline'}
@@ -463,7 +463,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
             )}
           </Button>
 
-          {/* View mode toggle */}
+          
           <div className="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
@@ -489,7 +489,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
             </button>
           </div>
 
-          {/* Refresh */}
+          
           <button
             onClick={fetchTasks}
             disabled={isPending}
@@ -505,7 +505,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         </div>
       </div>
 
-      {/* Filters Panel */}
+      
       <AnimatePresence>
         {showFilters && (
           <motion.div
@@ -517,7 +517,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
           >
             <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Status */}
+                
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     Status
@@ -539,7 +539,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
                   </select>
                 </div>
 
-                {/* Category */}
+                
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     Kategoria
@@ -562,7 +562,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
                   </select>
                 </div>
 
-                {/* Priority */}
+                
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     Priorytet
@@ -600,7 +600,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         )}
       </AnimatePresence>
 
-      {/* Results count */}
+      
       <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
         <span>
           {sortedTasks.length} {sortedTasks.length === 1 ? 'zadanie' : sortedTasks.length > 1 && sortedTasks.length < 5 ? 'zadania' : 'zadań'}
@@ -614,7 +614,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         )}
       </div>
 
-      {/* Tasks Grid/List */}
+      
       {sortedTasks.length > 0 ? (
         <motion.div
           layout
@@ -680,7 +680,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         </div>
       )}
 
-      {/* Modals */}
+      
       <AddTaskModal
         isOpen={isAddModalOpen}
         onClose={handleAddModalClose}
@@ -701,7 +701,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         onClose={handleCategoryModalClose}
       />
 
-      {/* Delete Confirmation Modal */}
+      
       <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => {
@@ -717,7 +717,7 @@ export function TasksClientPage({ initialTasks, initialCategories }: TasksClient
         isLoading={isDeleting}
       />
 
-      {/* Batch Delete Confirmation Modal */}
+      
       <ConfirmModal
         isOpen={isBatchDeleteOpen}
         onClose={() => setIsBatchDeleteOpen(false)}

@@ -62,7 +62,7 @@ const GOALS = [
   },
 ]
 
-// Pre-generate particle positions to avoid Math.random() during render
+
 const generateParticleData = () => {
   return [...Array(20)].map((_, i) => ({
     id: i,
@@ -102,7 +102,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
       animate={{ opacity: 1 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-violet-900 to-slate-900 p-4 overflow-y-auto"
     >
-      {/* Animated background particles */}
+      
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {PARTICLE_DATA.map((particle) => (
           <motion.div
@@ -167,7 +167,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
             exit={{ opacity: 0, y: -20 }}
             className="w-full max-w-3xl"
           >
-            {/* Header */}
+            
             <div className="text-center mb-10">
               <motion.div
                 initial={{ scale: 0 }}
@@ -199,7 +199,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
               </motion.p>
             </div>
 
-            {/* Goal selection grid */}
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -227,7 +227,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
                         : 'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10'
                     )}
                   >
-                    {/* Selected glow effect */}
+                    
                     {isSelected && (
                       <motion.div
                         initial={{ opacity: 0 }}
@@ -256,7 +256,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
                       </div>
                     </div>
                     
-                    {/* Selected indicator - bottom right corner */}
+                    
                     {isSelected && (
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
@@ -271,7 +271,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
               })}
             </motion.div>
 
-            {/* Continue button */}
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,7 +293,7 @@ export function WelcomeScreen({ userName, onComplete }: WelcomeScreenProps) {
               </Button>
             </motion.div>
 
-            {/* Skip option */}
+            
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

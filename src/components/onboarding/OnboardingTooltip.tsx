@@ -10,12 +10,12 @@ export interface TooltipConfig {
   id: string
   title: string
   description: string
-  targetSelector: string // CSS selector
+  targetSelector: string 
   position?: 'top' | 'bottom' | 'left' | 'right'
-  showAfterDays?: number // Show only after X days
+  showAfterDays?: number 
 }
 
-// Predefiniowane tooltips dla różnych sekcji
+
 export const ONBOARDING_TOOLTIPS: TooltipConfig[] = [
   {
     id: 'quick-add',
@@ -76,13 +76,13 @@ export function OnboardingTooltipProvider({
   useEffect(() => {
     if (!showTooltips) return
 
-    // Find next tooltip to show
+    
     const nextTooltip = tooltips.find(
       (t) => !shownTooltips.includes(t.id)
     )
 
     if (nextTooltip) {
-      // Delay showing to let page render
+      
       const timer = setTimeout(() => {
         const target = document.querySelector(nextTooltip.targetSelector)
         if (target) {
@@ -118,7 +118,7 @@ export function OnboardingTooltipProvider({
               break
           }
 
-          // Keep within viewport
+          
           left = Math.max(16, Math.min(left, window.innerWidth - tooltipWidth - 16))
           top = Math.max(16, Math.min(top, window.innerHeight - tooltipHeight - 16))
 
@@ -126,7 +126,7 @@ export function OnboardingTooltipProvider({
           setArrowPosition(arrow)
           setCurrentTooltip(nextTooltip)
 
-          // Highlight target element
+          
           target.classList.add('ring-2', 'ring-violet-500', 'ring-offset-2', 'z-[100]')
         }
       }, 1000)
@@ -137,7 +137,7 @@ export function OnboardingTooltipProvider({
 
   const dismissTooltip = async () => {
     if (currentTooltip) {
-      // Remove highlight
+      
       const target = document.querySelector(currentTooltip.targetSelector)
       if (target) {
         target.classList.remove('ring-2', 'ring-violet-500', 'ring-offset-2', 'z-[100]')
@@ -165,7 +165,7 @@ export function OnboardingTooltipProvider({
         }}
         className="w-[280px]"
       >
-        {/* Arrow */}
+        
         <div
           className={cn(
             'absolute w-3 h-3 bg-violet-600 rotate-45',
@@ -176,9 +176,9 @@ export function OnboardingTooltipProvider({
           )}
         />
 
-        {/* Content */}
+        
         <div className="relative bg-violet-600 rounded-xl p-4 shadow-xl shadow-violet-500/25">
-          {/* Close button */}
+          
           <button
             onClick={dismissTooltip}
             className="absolute top-2 right-2 p-1 hover:bg-white/20 rounded-lg transition-colors"
@@ -186,18 +186,18 @@ export function OnboardingTooltipProvider({
             <XMarkIcon className="w-4 h-4 text-white/70" />
           </button>
 
-          {/* Icon & Title */}
+          
           <div className="flex items-center gap-2 mb-2">
             <LightBulbIcon className="w-5 h-5 text-yellow-300" />
             <h4 className="font-semibold text-white">{currentTooltip.title}</h4>
           </div>
 
-          {/* Description */}
+          
           <p className="text-sm text-violet-100 leading-relaxed">
             {currentTooltip.description}
           </p>
 
-          {/* Got it button */}
+          
           <button
             onClick={dismissTooltip}
             className="mt-3 w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium text-white transition-colors"

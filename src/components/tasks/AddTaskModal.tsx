@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
 import { Fragment, useState, useEffect, useActionState } from 'react'
@@ -50,9 +49,9 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
   const [recurringType, setRecurringType] = useState('')
   const [recurringDays, setRecurringDays] = useState<number[]>([1, 2, 3, 4, 5]) // Mon-Fri by default
   const [recurringEndDate, setRecurringEndDate] = useState('')
-  const [customInterval, setCustomInterval] = useState('2') // domyślnie co 2 dni
+  const [customInterval, setCustomInterval] = useState('2') 
 
-  // Reset form when modal opens
+  
   useEffect(() => {
     if (isOpen) {
       setCategoryId(null)
@@ -66,7 +65,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
     }
   }, [isOpen])
 
-  // Handle success/error
+  
   useEffect(() => {
     if (state.success) {
       showSuccess('Zadanie utworzone', `"${state.data?.title}" zostało dodane`)
@@ -83,7 +82,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
     if (dueDate) {
       formData.set('dueDate', dueDate)
     }
-    // Recurring task fields
+    
     formData.set('isRecurring', recurringType ? 'true' : 'false')
     if (recurringType) {
       formData.set('recurringType', recurringType)
@@ -127,7 +126,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl transition-all">
-                {/* Header */}
+                
                 <div className="flex items-center justify-between mb-6">
                   <Dialog.Title className="text-lg font-semibold text-slate-900 dark:text-white">
                     Nowe zadanie
@@ -141,9 +140,9 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                   </button>
                 </div>
 
-                {/* Form */}
+                
                 <form action={handleSubmit} className="space-y-5">
-                  {/* Title */}
+                  
                   <Input
                     label="Tytuł zadania"
                     name="title"
@@ -153,7 +152,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     autoFocus
                   />
 
-                  {/* Description */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Opis (opcjonalny)
@@ -172,7 +171,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     />
                   </div>
 
-                  {/* Category */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Kategoria
@@ -185,7 +184,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     />
                   </div>
 
-                  {/* Priority */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Priorytet
@@ -216,7 +215,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     </p>
                   </div>
 
-                  {/* Due date & Estimated time */}
+                  
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
@@ -252,7 +251,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     </div>
                   </div>
 
-                  {/* Recurring */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Powtarzalność
@@ -273,7 +272,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                       ))}
                     </select>
 
-                    {/* Weekly days selector */}
+                    
                     {recurringType === 'WEEKLY' && (
                       <div className="mt-3">
                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
@@ -305,7 +304,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                       </div>
                     )}
 
-                    {/* Custom interval selector */}
+                    
                     {recurringType === 'CUSTOM' && (
                       <div className="mt-3">
                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
@@ -334,7 +333,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                       </div>
                     )}
 
-                    {/* Recurring end date */}
+                    
                     {recurringType && (
                       <div className="mt-3">
                         <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">
@@ -354,7 +353,7 @@ export function AddTaskModal({ isOpen, onClose, categories, onCategoryCreate }: 
                     )}
                   </div>
 
-                  {/* Actions */}
+                  
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="button"

@@ -129,10 +129,10 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
   const isLastStep = currentStep === TUTORIAL_STEPS.length - 1
   const Icon = step.icon
 
-  // Funkcja przejścia do następnego kroku (musi być przed useEffect)
+  
   const goToNextStep = useCallback(() => {
     if (isLastStep) {
-      // Confetti na zakończenie!
+      
       confetti({
         particleCount: 150,
         spread: 100,
@@ -140,14 +140,14 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
         zIndex: 99999,
       })
       
-      // Usuń podświetlenia
+      
       document.querySelectorAll('.tutorial-target-highlight').forEach(el => {
         el.classList.remove('tutorial-target-highlight')
       })
       
       markTooltipShown('interactive-tutorial')
       
-      // Przenieś na dashboard
+      
       router.push('/dashboard')
       
       setTimeout(() => {
@@ -158,10 +158,10 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
     }
   }, [isLastStep, onComplete, router])
 
-  // Nawiguj do odpowiedniej strony na starcie i przy zmianie kroku
+  
   useEffect(() => {
     if (step.route && pathname !== step.route) {
-      // Używamy setTimeout aby uniknąć synchronicznego setState w useEffect
+      
       const timeout = setTimeout(() => {
         setIsNavigating(true)
         router.push(step.route!)
@@ -171,12 +171,12 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
     }
   }, [currentStep, step.route, pathname, router])
 
-  // Znajdź i podświetl element docelowy
+  
   useEffect(() => {
     if (isNavigating) return
 
     const findAndHighlightElement = () => {
-      // Usuń poprzednie podświetlenia
+      
       document.querySelectorAll('.tutorial-target-highlight').forEach(el => {
         el.classList.remove('tutorial-target-highlight')
       })
@@ -188,39 +188,39 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
           setTargetRect(rect)
           element.classList.add('tutorial-target-highlight')
           
-          // Scroll do elementu jeśli nie jest widoczny
+          
           if (rect.top < 0 || rect.bottom > window.innerHeight) {
             element.scrollIntoView({ behavior: 'smooth', block: 'center' })
           }
 
-          // Jeśli krok wymaga kliknięcia, ustaw nasłuchiwanie
+          
           if (step.requiresClick) {
             setIsWaitingForClick(true)
             
-            // Usuń poprzedni handler
+            
             if (clickHandlerRef.current) {
               document.removeEventListener('click', clickHandlerRef.current, true)
             }
 
-            // Nowy handler
+            
             const handleClick = (e: MouseEvent) => {
               const target = e.target as HTMLElement
               if (element.contains(target) || element === target) {
                 setIsWaitingForClick(false)
                 element.classList.remove('tutorial-target-highlight')
                 
-                // Po kliknięciu add-task zamknij modal który się otworzy
+                
                 if (step.id === 'add-task') {
                   setTimeout(() => {
-                    // Zamknij modal przez naciśnięcie Escape
+                    
                     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
-                    // Lub kliknij backdrop jeśli istnieje
+                    
                     const backdrop = document.querySelector('[data-dialog-backdrop]') as HTMLElement
                     if (backdrop) backdrop.click()
                   }, 300)
                 }
                 
-                // Daj czas na wykonanie akcji elementu i zamknięcie modala
+                
                 setTimeout(() => {
                   goToNextStep()
                 }, step.id === 'add-task' ? 800 : 400)
@@ -245,7 +245,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       }
     }
 
-    // Poczekaj na załadowanie strony i spróbuj kilka razy jeśli element nie jest od razu dostępny
+    
     let attempts = 0
     const maxAttempts = 5
     
@@ -253,13 +253,13 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       attempts++
       const element = step.targetSelector ? document.querySelector(step.targetSelector) : null
       
-      // Debug log
+      
       console.log(`[Tutorial] Step: ${step.id}, Selector: ${step.targetSelector}, Found: ${!!element}, Attempt: ${attempts}`)
       
       if (element || !step.targetSelector || attempts >= maxAttempts) {
         findAndHighlightElement()
       } else {
-        // Spróbuj ponownie za 300ms
+        
         setTimeout(tryFindElement, 300)
       }
     }
@@ -274,7 +274,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
     }
   }, [currentStep, step.targetSelector, step.requiresClick, step.id, pathname, isNavigating, goToNextStep])
 
-  // Aktualizuj pozycję przy resize/scroll
+  
   useEffect(() => {
     const updatePosition = () => {
       if (step.targetSelector) {
@@ -294,16 +294,16 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
     }
   }, [step.targetSelector])
 
-  // Oblicz pozycję tooltipa - z inteligentnym dostosowaniem do granic ekranu
+  
   const getTooltipStyle = (): React.CSSProperties => {
-    const tooltipWidth = 380 // Maksymalna szerokość tooltipa
-    const tooltipHeight = 250 // Przybliżona wysokość tooltipa (zwiększona dla marginesu)
-    const padding = 16 // Odstęp od elementu
-    const edgePadding = 16 // Minimalna odległość od krawędzi ekranu
+    const tooltipWidth = 380 
+    const tooltipHeight = 250 
+    const padding = 16 
+    const edgePadding = 16 
     const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200
     const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800
 
-    // Jeśli brak elementu docelowego lub pozycja centralna
+    
     if (!targetRect || step.position === 'center') {
       return {
         position: 'fixed',
@@ -319,16 +319,16 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       maxWidth: `${Math.min(tooltipWidth, viewportWidth - edgePadding * 2)}px`,
     }
 
-    // Oblicz najlepszą pozycję na podstawie dostępnej przestrzeni
+    
     const spaceAbove = targetRect.top
     const spaceBelow = viewportHeight - targetRect.bottom
     const spaceLeft = targetRect.left
     const spaceRight = viewportWidth - targetRect.right
 
-    // Określ preferowaną pozycję, ale sprawdź czy jest miejsce
+    
     let finalPosition = step.position
 
-    // Automatyczna zmiana pozycji jeśli brak miejsca
+    
     if (finalPosition === 'bottom' && spaceBelow < tooltipHeight + padding) {
       finalPosition = spaceAbove > spaceBelow ? 'top' : 'bottom'
     }
@@ -342,25 +342,25 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       finalPosition = spaceRight > spaceLeft ? 'right' : 'left'
     }
 
-    // Oblicz pozycję poziomą dla góra/dół
+    
     const calculateHorizontalPosition = () => {
       const centerX = targetRect.left + targetRect.width / 2
       const halfTooltip = tooltipWidth / 2
       
-      // Sprawdź czy tooltip zmieści się wycentrowany
+      
       if (centerX - halfTooltip < edgePadding) {
-        // Za blisko lewej krawędzi
+        
         return { left: `${edgePadding}px`, transform: 'none' }
       } else if (centerX + halfTooltip > viewportWidth - edgePadding) {
-        // Za blisko prawej krawędzi
+        
         return { right: `${edgePadding}px`, transform: 'none' }
       } else {
-        // Można wycentrować
+        
         return { left: `${centerX}px`, transform: 'translateX(-50%)' }
       }
     }
 
-    // Oblicz pozycję pionową dla lewo/prawo
+    
     const calculateVerticalPosition = () => {
       const centerY = targetRect.top + targetRect.height / 2
       const halfTooltip = tooltipHeight / 2
@@ -386,7 +386,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       case 'bottom': {
         const horizontal = calculateHorizontalPosition()
         const topPos = targetRect.bottom + padding
-        // Upewnij się że nie wychodzi poza dolną krawędź
+        
         style.top = `${Math.min(topPos, viewportHeight - tooltipHeight - edgePadding)}px`
         style.left = horizontal.left
         style.right = horizontal.right
@@ -404,9 +404,9 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
       }
       case 'right': {
         const vertical = calculateVerticalPosition()
-        // Dla elementów w menu bocznym, ustaw tooltip bardziej na prawo (min 280px od lewej)
+        
         const leftPos = Math.max(targetRect.right + padding + 20, 280)
-        // Upewnij się że nie wychodzi poza prawą krawędź
+        
         style.left = `${Math.min(leftPos, viewportWidth - tooltipWidth - edgePadding)}px`
         style.top = vertical.top
         style.bottom = vertical.bottom
@@ -439,7 +439,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
 
   return (
     <>
-      {/* Global styles */}
+      
       <style jsx global>{`
         .tutorial-target-highlight {
           position: relative;
@@ -474,16 +474,16 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
         }
       `}</style>
 
-      {/* Dark overlay z dziurą - pointer-events-none pozwala klikać przez overlay */}
+      
       <div className="fixed inset-0 z-[9998] pointer-events-none">
-        {/* Górna część */}
+        
         {targetRect && (
           <>
             <div 
               className="absolute bg-black/70 pointer-events-none"
               style={{ top: 0, left: 0, right: 0, height: Math.max(0, targetRect.top - 8) }}
             />
-            {/* Lewa część */}
+            
             <div 
               className="absolute bg-black/70 pointer-events-none"
               style={{ 
@@ -493,7 +493,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
                 height: targetRect.height + 16
               }}
             />
-            {/* Prawa część */}
+            
             <div 
               className="absolute bg-black/70 pointer-events-none"
               style={{ 
@@ -503,7 +503,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
                 height: targetRect.height + 16
               }}
             />
-            {/* Dolna część */}
+            
             <div 
               className="absolute bg-black/70 pointer-events-none"
               style={{ 
@@ -520,7 +520,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
         )}
       </div>
 
-      {/* Tooltip */}
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={currentStep}
@@ -532,7 +532,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
           style={getTooltipStyle()}
         >
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-            {/* Header z gradientem */}
+            
             <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 px-5 py-4">
               <div className="flex items-center gap-4">
                 <motion.div 
@@ -561,13 +561,13 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
               </div>
             </div>
 
-            {/* Content */}
+            
             <div className="p-6">
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-[16px]">
                 {step.description}
               </p>
 
-              {/* Instrukcja kliknięcia */}
+              
               {step.requiresClick && isWaitingForClick && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -589,7 +589,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
                 </motion.div>
               )}
 
-              {/* Przycisk Dalej (tylko gdy nie wymaga kliknięcia) */}
+              
               {!step.requiresClick && (
                 <div className="mt-6 flex justify-end">
                   <motion.button
@@ -613,7 +613,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
                 </div>
               )}
 
-              {/* Wskazówka dla kroków z kliknięciem */}
+              
               {step.requiresClick && (
                 <p className="mt-4 text-sm text-slate-400 dark:text-slate-500 text-center font-medium">
                   ⚡ Kliknij podświetlony element aby kontynuować
@@ -622,7 +622,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
             </div>
           </div>
 
-          {/* Strzałka wskazująca na element */}
+          
           {targetRect && step.position !== 'center' && (
             <div
               className="absolute w-4 h-4 bg-white dark:bg-slate-800 rotate-45"
@@ -661,7 +661,7 @@ export function InteractiveTutorial({ onComplete }: InteractiveTutorialProps) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Animowana ręka wskazująca */}
+      
       {targetRect && step.requiresClick && (
         <motion.div
           className="fixed z-[10003] pointer-events-none"

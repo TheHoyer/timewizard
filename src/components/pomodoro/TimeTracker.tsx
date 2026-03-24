@@ -26,7 +26,7 @@ export function TimeTracker({ taskId, taskTitle, onUpdate, compact = false }: Ti
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Check for active entry on mount
+  
   useEffect(() => {
     const checkActiveEntry = async () => {
       const entry = await getActiveTimeEntry()
@@ -37,7 +37,7 @@ export function TimeTracker({ taskId, taskTitle, onUpdate, compact = false }: Ti
     checkActiveEntry()
   }, [taskId])
 
-  // Update elapsed time
+  
   useEffect(() => {
     if (activeEntry && !activeEntry.endedAt) {
       const interval = setInterval(() => {

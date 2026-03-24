@@ -39,7 +39,7 @@ export function TemplatesClient({ initialTemplates, categories }: TemplatesClien
 
   const [formState, formAction, isPending] = useActionState(createTemplate, initialState)
 
-  // Handle form success
+  
   if (formState.success && !isPending) {
     setIsCreateModalOpen(false)
     router.refresh()
@@ -73,7 +73,7 @@ export function TemplatesClient({ initialTemplates, categories }: TemplatesClien
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Szablony</h1>
@@ -87,7 +87,7 @@ export function TemplatesClient({ initialTemplates, categories }: TemplatesClien
         </Button>
       </div>
 
-      {/* Templates Grid */}
+      
       {templates.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence mode="popLayout">
@@ -190,7 +190,7 @@ export function TemplatesClient({ initialTemplates, categories }: TemplatesClien
         </div>
       )}
 
-      {/* Create Modal */}
+      
       <CreateTemplateModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
@@ -200,7 +200,7 @@ export function TemplatesClient({ initialTemplates, categories }: TemplatesClien
         isPending={isPending}
       />
 
-      {/* Delete Confirmation */}
+      
       <ConfirmModal
         isOpen={!!deleteModalTemplate}
         onClose={() => setDeleteModalTemplate(null)}
@@ -286,7 +286,7 @@ function CreateTemplateModal({
                 </div>
 
                 <form action={handleSubmit} className="space-y-4">
-                  {/* Template name */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Nazwa szablonu
@@ -303,7 +303,7 @@ function CreateTemplateModal({
                     )}
                   </div>
 
-                  {/* Task title */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Tytuł zadania
@@ -317,7 +317,7 @@ function CreateTemplateModal({
                     />
                   </div>
 
-                  {/* Description */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Opis (opcjonalny)
@@ -330,7 +330,7 @@ function CreateTemplateModal({
                     />
                   </div>
 
-                  {/* Priority & Time */}
+                  
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
@@ -361,7 +361,7 @@ function CreateTemplateModal({
                     </div>
                   </div>
 
-                  {/* Category */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Kategoria
@@ -377,7 +377,7 @@ function CreateTemplateModal({
                     </select>
                   </div>
 
-                  {/* Subtasks */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Podzadania
@@ -411,7 +411,7 @@ function CreateTemplateModal({
                     <p className="text-red-500 text-sm">{formState.error}</p>
                   )}
 
-                  {/* Actions */}
+                  
                   <div className="flex gap-3 pt-4">
                     <Button type="button" variant="outline" onClick={onClose} className="flex-1">
                       Anuluj

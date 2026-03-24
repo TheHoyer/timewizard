@@ -119,7 +119,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl transition-all">
-                {/* Header */}
+                
                 <div className="flex items-center justify-between mb-6">
                   <Dialog.Title className="text-lg font-semibold text-slate-900 dark:text-white">
                     Edytuj zadanie
@@ -133,9 +133,9 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                   </button>
                 </div>
 
-                {/* Form */}
+                
                 <form action={handleSubmit} className="space-y-5">
-                  {/* Title */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Tytuł zadania
@@ -159,7 +159,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                     )}
                   </div>
 
-                  {/* Description */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Opis (opcjonalny)
@@ -180,7 +180,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                     />
                   </div>
 
-                  {/* Category */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Kategoria
@@ -193,7 +193,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                     />
                   </div>
 
-                  {/* Priority */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Priorytet
@@ -224,7 +224,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                     </p>
                   </div>
 
-                  {/* Due date & Estimated time */}
+                  
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
@@ -260,7 +260,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
                     </div>
                   </div>
 
-                  {/* Actions */}
+                  
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="button"
@@ -294,7 +294,7 @@ export function EditTaskModal({ isOpen, onClose, task, categories, onCategoryCre
       </Dialog>
     </Transition>
 
-    {/* Delete Confirmation Modal */}
+    
     <ConfirmModal
       isOpen={showDeleteConfirm}
       onClose={() => setShowDeleteConfirm(false)}

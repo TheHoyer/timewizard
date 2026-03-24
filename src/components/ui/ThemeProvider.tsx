@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function useTheme() {
   const context = useContext(ThemeContext)
-  // Don't throw error if context is undefined - return safe defaults for SSR
+  
   if (!context) {
     return {
       theme: 'system' as Theme,
@@ -52,18 +52,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   )
 
 
-  // Update resolved theme and apply to document
+  
   useEffect(() => {
     const updateResolvedTheme = () => {
       const resolved = theme === 'system' ? getSystemTheme() : theme
       setResolvedTheme(resolved)
       
-      // Apply to document
+      
       const root = document.documentElement
       root.classList.remove('light', 'dark')
       root.classList.add(resolved)
       
-      // Update meta theme-color
+      
       const metaThemeColor = document.querySelector('meta[name="theme-color"]')
       if (metaThemeColor) {
         metaThemeColor.setAttribute('content', resolved === 'dark' ? '#0f172a' : '#f8fafc')
@@ -72,7 +72,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     updateResolvedTheme()
 
-    // Listen for system theme changes
+    
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = () => {
       if (theme === 'system') {
@@ -94,7 +94,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(newTheme)
   }
 
-  // Prevent flash of wrong theme
+  
   if (!mounted) {
     return (
       <div style={{ visibility: 'hidden' }}>

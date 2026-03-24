@@ -41,7 +41,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleComplete = useCallback(async () => {
-    // Play sound
+    
     if (audioRef.current) {
       audioRef.current.play().catch(() => {})
     }
@@ -50,7 +50,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
       await completePomodoro(sessionId)
       setCompletedPomodoros((prev) => prev + 1)
       
-      // Celebrate with confetti
+      
       confetti({
         particleCount: 100,
         spread: 70,
@@ -60,7 +60,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
       onComplete?.()
     }
 
-    // Auto-switch to break or work
+    
     if (type === 'WORK') {
       const nextType = completedPomodoros > 0 && (completedPomodoros + 1) % 4 === 0
         ? 'LONG_BREAK'
@@ -77,7 +77,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
     setSessionId(null)
   }, [completedPomodoros, customDuration, onComplete, sessionId, type])
 
-  // Initialize audio
+  
   useEffect(() => {
     audioRef.current = new Audio('/sounds/bell.mp3')
     audioRef.current.volume = 0.5
@@ -90,7 +90,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
     }
   }, [])
 
-  // Check for active session on mount
+  
   useEffect(() => {
     const checkActiveSession = async () => {
       const active = await getActivePomodoro()
@@ -99,13 +99,13 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         setType(active.type as PomodoroType)
         setIsRunning(true)
         
-        // Calculate remaining time
+        
         const elapsed = Math.floor((Date.now() - new Date(active.startedAt).getTime()) / 1000)
         const remaining = active.duration * 60 - elapsed
         if (remaining > 0) {
           setTimeLeft(remaining)
         } else {
-          // Session should have ended
+          
           await handleComplete()
         }
       }
@@ -113,7 +113,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
     void checkActiveSession()
   }, [handleComplete])
 
-  // Timer logic
+  
   useEffect(() => {
     if (isRunning && !isPaused && timeLeft > 0) {
       intervalRef.current = setInterval(() => {
@@ -221,7 +221,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 max-w-md mx-auto">
-      {/* Type selector */}
+      
       <div className="flex gap-2 mb-6">
         {(Object.keys(TIMER_PRESETS) as PomodoroType[]).map((t) => (
           <button
@@ -244,7 +244,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         ))}
       </div>
 
-      {/* Task title */}
+      
       {taskTitle && (
         <div className="text-center mb-4">
           <span className="text-sm text-slate-500 dark:text-slate-400">Zadanie:</span>
@@ -252,7 +252,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         </div>
       )}
 
-      {/* Timer display */}
+      
       <div className="relative mb-6">
         <svg className="w-48 h-48 mx-auto transform -rotate-90">
           <circle
@@ -301,7 +301,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         </div>
       </div>
 
-      {/* Controls */}
+      
       <div className="flex justify-center gap-4">
         {!isRunning ? (
           <>
@@ -343,7 +343,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         )}
       </div>
 
-      {/* Settings */}
+      
       <AnimatePresence>
         {showSettings && !isRunning && (
           <motion.div
@@ -377,7 +377,7 @@ export function PomodoroTimer({ taskId, taskTitle, onComplete, compact = false }
         )}
       </AnimatePresence>
 
-      {/* Stats */}
+      
       <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
         <div className="flex justify-center gap-6 text-center">
           <div>

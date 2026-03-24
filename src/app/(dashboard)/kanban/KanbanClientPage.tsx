@@ -90,7 +90,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
       return
     }
 
-    // Optimistic update
+    
     setTasks(prev => prev.map(t => 
       t.id === draggedTask ? { ...t, status: newStatus } : t
     ))
@@ -102,7 +102,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
 
     if (result.error) {
       showError('Błąd', result.error)
-      // Revert on error
+      
       setTasks(prev => prev.map(t => 
         t.id === draggedTask ? { ...t, status: task.status } : t
       ))
@@ -121,7 +121,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
 
   return (
     <div className="h-full">
-      {/* Header */}
+      
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -149,7 +149,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
         </div>
       </div>
 
-      {/* Kanban Board */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[calc(100vh-200px)]">
         {COLUMNS.map(column => {
           const columnTasks = getTasksByStatus(column.id)
@@ -169,7 +169,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
                   : 'border-slate-200 dark:border-slate-700'
               )}
             >
-              {/* Column Header */}
+              
               <div className="p-4 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
                 </div>
               </div>
 
-              {/* Tasks */}
+              
               <div className="flex-1 overflow-y-auto p-3 space-y-3">
                 <AnimatePresence mode="popLayout">
                   {columnTasks.map(task => (
@@ -214,7 +214,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
         })}
       </div>
 
-      {/* Modals */}
+      
       <AddTaskModal
         isOpen={isAddModalOpen}
         onClose={() => {
@@ -239,7 +239,7 @@ export function KanbanClientPage({ initialTasks, initialCategories }: KanbanClie
   )
 }
 
-// Kanban Card Component
+
 interface KanbanCardProps {
   task: TaskWithCategory
   onDragStart: () => void
@@ -267,13 +267,13 @@ function KanbanCard({ task, onDragStart, onDragEnd, onEdit, isDragging }: Kanban
         isDragging && 'scale-105 shadow-lg rotate-2'
       )}
     >
-      {/* Priority indicator */}
+      
       <div className={cn(
         'w-full h-1 rounded-full mb-2',
         priorityColors.bg.replace('-100', '-500')
       )} />
 
-      {/* Title */}
+      
       <h3 className={cn(
         'font-medium text-slate-900 dark:text-white text-sm',
         task.status === 'COMPLETED' && 'line-through opacity-60'
@@ -281,7 +281,7 @@ function KanbanCard({ task, onDragStart, onDragEnd, onEdit, isDragging }: Kanban
         {task.title}
       </h3>
 
-      {/* Category */}
+      
       {task.category && (
         <span
           className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-2"
@@ -295,7 +295,7 @@ function KanbanCard({ task, onDragStart, onDragEnd, onEdit, isDragging }: Kanban
         </span>
       )}
 
-      {/* Recurring indicator */}
+      
       {task.isRecurring && (
         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-2 ml-1 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400">
           <ArrowPathIcon className="w-3 h-3 mr-1" />
@@ -304,7 +304,7 @@ function KanbanCard({ task, onDragStart, onDragEnd, onEdit, isDragging }: Kanban
         </span>
       )}
 
-      {/* Meta info */}
+      
       <div className="flex items-center gap-3 mt-3 text-xs text-slate-500 dark:text-slate-400">
         <span className="flex items-center gap-1">
           <ClockIcon className="w-3.5 h-3.5" />

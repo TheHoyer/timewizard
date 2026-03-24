@@ -21,7 +21,7 @@ interface PlannerClientPageProps {
   initialTasks: TaskWithCategory[]
 }
 
-// Time slots from 6:00 to 22:00
+
 const TIME_SLOTS = Array.from({ length: 17 }, (_, i) => i + 6)
 
 interface TimeBlock {
@@ -29,7 +29,7 @@ interface TimeBlock {
   taskId: string | null
   task?: TaskWithCategory
   startHour: number
-  duration: number // in hours
+  duration: number 
   title: string
   color: string
 }
@@ -39,7 +39,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([])
   const [draggedTask, setDraggedTask] = useState<TaskWithCategory | null>(null)
 
-  // Filter unscheduled tasks (not completed)
+  
   const unscheduledTasks = useMemo(() => {
     const scheduledTaskIds = new Set(timeBlocks.map(b => b.taskId))
     return initialTasks
@@ -52,9 +52,9 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
       .sort((a, b) => b.priority - a.priority)
   }, [initialTasks, timeBlocks])
 
-  // Get blocks for current date
+  
   const todayBlocks = useMemo(() => {
-    return timeBlocks.filter(() => true) // In a real app, filter by date
+    return timeBlocks.filter(() => true) 
   }, [timeBlocks])
 
   const handlePreviousDay = () => {
@@ -72,7 +72,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
   const handleDrop = (hour: number) => {
     if (!draggedTask) return
 
-    // Calculate duration based on estimated minutes (minimum 1 hour, max 4 hours)
+    
     const durationHours = Math.min(4, Math.max(1, Math.ceil(draggedTask.estimatedMinutes / 60)))
 
     const newBlock: TimeBlock = {
@@ -101,7 +101,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -112,7 +112,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
           </p>
         </div>
 
-        {/* Date navigation */}
+        
         <div className="flex items-center gap-3">
           <button
             onClick={handlePreviousDay}
@@ -146,7 +146,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
       </div>
 
       <div className="flex gap-6 flex-1 overflow-hidden">
-        {/* Unscheduled tasks sidebar */}
+        
         <div className="w-80 flex-shrink-0 bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden flex flex-col">
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
             <h2 className="font-semibold text-slate-900 dark:text-white">
@@ -176,7 +176,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
           </div>
         </div>
 
-        {/* Time grid */}
+        
         <div className="flex-1 bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden flex flex-col">
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
             <h2 className="font-semibold text-slate-900 dark:text-white">
@@ -199,12 +199,12 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
                       draggedTask && 'bg-violet-50/50 dark:bg-violet-900/10'
                     )}
                   >
-                    {/* Time label */}
+                    
                     <div className="w-20 flex-shrink-0 px-3 py-2 text-sm text-slate-500 dark:text-slate-400 border-r border-slate-100 dark:border-slate-700">
                       {hour}:00
                     </div>
 
-                    {/* Time slot content */}
+                    
                     <div className="flex-1 relative min-h-[60px]">
                       {blocks.map(block => {
                         if (block.startHour !== hour) return null
@@ -247,7 +247,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
                         )
                       })}
 
-                      {/* Drop hint */}
+                      
                       {draggedTask && blocks.length === 0 && (
                         <div className="absolute inset-2 border-2 border-dashed border-violet-300 dark:border-violet-600 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                           <span className="text-xs text-violet-500 dark:text-violet-400">
@@ -264,7 +264,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
         </div>
       </div>
 
-      {/* Summary footer */}
+      
       <div className="mt-4 bg-white dark:bg-slate-800 rounded-xl shadow-md p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">
@@ -291,7 +291,7 @@ export function PlannerClientPage({ initialTasks }: PlannerClientPageProps) {
   )
 }
 
-// Draggable task item
+
 interface TaskDragItemProps {
   task: TaskWithCategory
   onDragStart: () => void

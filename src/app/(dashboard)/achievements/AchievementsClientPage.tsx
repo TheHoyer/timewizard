@@ -22,12 +22,12 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
   const unlockedAchievements = achievements.filter(a => a.isUnlocked)
   const lockedAchievements = achievements.filter(a => !a.isUnlocked)
 
-  // Calculate XP progress
+  
   const xpProgress = stats?.xpProgress || 0
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Header */}
+      
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
           <TrophyIcon className="w-7 h-7 text-yellow-500" />
@@ -38,10 +38,10 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
         </p>
       </div>
 
-      {/* Stats cards */}
+      
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {/* Level & XP */}
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
               </div>
             </div>
             
-            {/* XP Progress bar */}
+            
             <div className="mb-2">
               <div className="flex justify-between text-sm text-violet-200 mb-1">
                 <span>{stats.xp} XP</span>
@@ -74,7 +74,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
             </div>
           </motion.div>
 
-          {/* Streak */}
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
             </p>
           </motion.div>
 
-          {/* Tasks completed */}
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -112,7 +112,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
         </div>
       )}
 
-      {/* Achievements progress */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
@@ -132,7 +132,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
         </div>
       </div>
 
-      {/* Unlocked achievements */}
+      
       {unlockedAchievements.length > 0 && (
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
@@ -172,7 +172,7 @@ export function AchievementsClientPage({ achievements, stats }: AchievementsClie
         </div>
       )}
 
-      {/* Locked achievements */}
+      
       {lockedAchievements.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">

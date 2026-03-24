@@ -1,5 +1,5 @@
-// TimeWizard - Prisma Schema
-// Dokumentacja: https://pris.ly/d/prisma-schema
+
+
 
 generator client {
   provider = "prisma-client-js"
@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ==================== AUTH (NextAuth.js) ====================
+
 
 model Account {
   id                String  @id @default(cuid())
@@ -51,7 +51,7 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// Token do resetowania hasła
+
 model PasswordResetToken {
   id        String   @id @default(cuid())
   email     String
@@ -63,7 +63,7 @@ model PasswordResetToken {
   @@map("password_reset_tokens")
 }
 
-// Token do weryfikacji email
+
 model EmailVerificationToken {
   id        String   @id @default(cuid())
   email     String
@@ -75,8 +75,8 @@ model EmailVerificationToken {
   @@map("email_verification_tokens")
 }
 
-// ==================== USERS ====================
-// Plan: FREE, PRO, BUSINESS (stored as String for SQLite)
+
+
 
 model User {
   id            String    @id @default(cuid())
@@ -86,33 +86,33 @@ model User {
   image         String?
   password      String?
   timezone      String    @default("Europe/Warsaw")
-  plan          String    @default("FREE") // FREE, PRO, BUSINESS
+  plan          String    @default("FREE") 
   
-  // Stripe
+  
   stripeCustomerId       String?   @unique @map("stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
   stripePriceId          String?   @map("stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
   
-  // Gamification
+  
   streakCount         Int       @default(0) @map("streak_count")
   lastActiveAt        DateTime? @map("last_active_at")
   totalTasksCompleted Int       @default(0) @map("total_tasks_completed")
-  xp                  Int       @default(0) // Experience points
-  level               Int       @default(1) // User level
+  xp                  Int       @default(0) 
+  level               Int       @default(1) 
   
-  // Onboarding
+  
   onboardingCompleted Boolean   @default(false) @map("onboarding_completed")
   onboardingStep      Int       @default(0) @map("onboarding_step")
-  userGoal            String?   @map("user_goal") // WORK, STUDIES, PROJECTS, PERSONAL
+  userGoal            String?   @map("user_goal") 
   firstLoginAt        DateTime? @map("first_login_at")
-  tooltipsShown       String?   @map("tooltips_shown") // JSON array of shown tooltip IDs
+  tooltipsShown       String?   @map("tooltips_shown") 
   
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  // Relations
+  
   accounts           Account[]
   sessions           Session[]
   categories         Category[]
@@ -126,7 +126,7 @@ model User {
   @@map("users")
 }
 
-// ==================== CATEGORIES ====================
+
 
 model Category {
   id     String  @id @default(cuid())
@@ -145,9 +145,9 @@ model Category {
   @@map("categories")
 }
 
-// ==================== TASKS ====================
-// TaskStatus: PENDING, IN_PROGRESS, COMPLETED, CANCELLED
-// RecurringType: DAILY, WEEKLY, MONTHLY
+
+
+
 
 model Task {
   id          String  @id @default(cuid())
@@ -156,26 +156,26 @@ model Task {
   
   title            String
   description      String?
-  priority         Int     @default(1) // 1-5
+  priority         Int     @default(1) 
   estimatedMinutes Int     @map("estimated_minutes")
   dueDate          DateTime? @map("due_date")
   
-  // Recurring
+  
   isRecurring      Boolean @default(false) @map("is_recurring")
-  recurringType    String? @map("recurring_type") // DAILY, WEEKLY, MONTHLY
-  recurringDays    String? @map("recurring_days") // JSON string: [0,1,2,3,4,5,6]
+  recurringType    String? @map("recurring_type") 
+  recurringDays    String? @map("recurring_days") 
   recurringEndDate DateTime? @map("recurring_end_date")
   
-  // Status
-  status      String    @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  
+  status      String    @default("PENDING") 
   completedAt DateTime? @map("completed_at")
   
-  // Metadata
+  
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at") // Soft delete
+  deletedAt DateTime? @map("deleted_at") 
 
-  // Relations
+  
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   category       Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   scheduledTasks ScheduledTask[]
@@ -188,7 +188,7 @@ model Task {
   @@map("tasks")
 }
 
-// ==================== SUBTASKS ====================
+
 
 model Subtask {
   id        String  @id @default(cuid())
@@ -206,7 +206,7 @@ model Subtask {
   @@map("subtasks")
 }
 
-// ==================== TASK TEMPLATES ====================
+
 
 model TaskTemplate {
   id               String  @id @default(cuid())
@@ -217,7 +217,7 @@ model TaskTemplate {
   priority         Int     @default(1)
   estimatedMinutes Int     @map("estimated_minutes")
   categoryId       String? @map("category_id")
-  subtasks         String? // JSON array of subtask titles
+  subtasks         String? 
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -226,16 +226,16 @@ model TaskTemplate {
   @@map("task_templates")
 }
 
-// ==================== AVAILABILITY ====================
-// BlockType: WORK, PERSONAL, FOCUS
+
+
 
 model AvailabilityBlock {
   id        String @id @default(cuid())
   userId    String @map("user_id")
-  dayOfWeek Int    @map("day_of_week") // 0 = Sunday, 6 = Saturday
-  startTime String @map("start_time")  // "09:00"
-  endTime   String @map("end_time")    // "17:00"
-  blockType String @default("WORK") @map("block_type") // WORK, PERSONAL, FOCUS
+  dayOfWeek Int    @map("day_of_week") 
+  startTime String @map("start_time")  
+  endTime   String @map("end_time")    
+  blockType String @default("WORK") @map("block_type") 
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -246,7 +246,7 @@ model AvailabilityBlock {
   @@map("availability_blocks")
 }
 
-// ==================== SCHEDULE ====================
+
 
 model ScheduledTask {
   id             String   @id @default(cuid())
@@ -265,11 +265,11 @@ model ScheduledTask {
   @@map("scheduled_tasks")
 }
 
-// ==================== GAMIFICATION ====================
+
 
 model Achievement {
   id          String @id @default(cuid())
-  code        String @unique // "first_week", "perfectionist", etc.
+  code        String @unique 
   name        String
   description String
   icon        String
@@ -292,15 +292,15 @@ model UserAchievement {
   @@map("user_achievements")
 }
 
-// ==================== POMODORO ====================
+
 
 model PomodoroSession {
   id          String    @id @default(cuid())
   userId      String    @map("user_id")
   taskId      String?   @map("task_id")
   
-  duration    Int       @default(25) // Duration in minutes
-  type        String    @default("WORK") // WORK, SHORT_BREAK, LONG_BREAK
+  duration    Int       @default(25) 
+  type        String    @default("WORK") 
   startedAt   DateTime  @default(now()) @map("started_at")
   endedAt     DateTime? @map("ended_at")
   completed   Boolean   @default(false)
@@ -314,7 +314,7 @@ model PomodoroSession {
   @@map("pomodoro_sessions")
 }
 
-// ==================== TIME TRACKING ====================
+
 
 model TimeEntry {
   id        String    @id @default(cuid())
@@ -323,7 +323,7 @@ model TimeEntry {
   
   startedAt DateTime  @default(now()) @map("started_at")
   endedAt   DateTime? @map("ended_at")
-  duration  Int?      // Duration in seconds (calculated on end)
+  duration  Int?      
   note      String?
   
   createdAt DateTime  @default(now()) @map("created_at")
@@ -336,14 +336,14 @@ model TimeEntry {
   @@map("time_entries")
 }
 
-// ==================== PLAN LIMITS ====================
+
 
 model PlanLimit {
-  plan          String @id // FREE, PRO, BUSINESS
+  plan          String @id 
   maxTasks      Int    @map("max_tasks")
   maxCategories Int    @map("max_categories")
   historyDays   Int    @map("history_days")
-  features      String // JSON string
+  features      String 
 
   @@map("plan_limits")
 }

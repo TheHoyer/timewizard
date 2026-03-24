@@ -34,7 +34,7 @@ export function CommandPaletteProvider({ children, categories = [] }: CommandPal
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false)
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
 
-  // Global keyboard shortcuts
+  
   useKeyboardShortcuts([
     {
       ...KEYBOARD_SHORTCUTS.SEARCH,

@@ -23,7 +23,7 @@ export function RegisterForm() {
 
   return (
     <div className="w-full max-w-md">
-      {/* Logo */}
+      
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center">
@@ -33,28 +33,28 @@ export function RegisterForm() {
         </Link>
       </div>
 
-      {/* Form Card */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-8">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white text-center">Utwórz konto</h1>
         <p className="text-slate-500 dark:text-slate-400 text-center mt-2">
           Zacznij planować swój czas efektywniej.
         </p>
 
-        {/* Error messages */}
+        
         {state.error && !state.fieldErrors && (
           <div className="mt-4">
             <FormError message={state.error} />
           </div>
         )}
 
-        {/* Success message */}
+        
         {state.success && (
           <div className="mt-4">
             <FormSuccess message="Konto zostało utworzone! Za chwilę zostaniesz przekierowany..." />
           </div>
         )}
 
-        {/* Email/Password Form */}
+        
         <form action={formAction} className="space-y-4 mt-8">
           <Input
             name="name"

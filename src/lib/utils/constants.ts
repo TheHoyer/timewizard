@@ -1,4 +1,4 @@
-// Plan limits
+
 export const PLAN_LIMITS = {
   FREE: {
     maxTasks: Infinity,
@@ -44,7 +44,7 @@ export const PLAN_LIMITS = {
   },
 } as const
 
-// Priority colors
+
 export const PRIORITY_COLORS = {
   1: { bg: 'bg-slate-100', border: 'border-slate-300', text: 'text-slate-600' },
   2: { bg: 'bg-blue-100', border: 'border-blue-300', text: 'text-blue-600' },
@@ -53,7 +53,7 @@ export const PRIORITY_COLORS = {
   5: { bg: 'bg-red-100', border: 'border-red-300', text: 'text-red-600' },
 } as const
 
-// Priority labels
+
 export const PRIORITY_LABELS = {
   1: 'Bardzo niski',
   2: 'Niski',
@@ -62,7 +62,7 @@ export const PRIORITY_LABELS = {
   5: 'Krytyczny',
 } as const
 
-// Task status labels
+
 export const STATUS_LABELS = {
   PENDING: 'Do zrobienia',
   IN_PROGRESS: 'W trakcie',
@@ -70,7 +70,7 @@ export const STATUS_LABELS = {
   CANCELLED: 'Anulowane',
 } as const
 
-// Task status colors
+
 export const STATUS_COLORS = {
   PENDING: { bg: 'bg-slate-100 dark:bg-slate-700', text: 'text-slate-600 dark:text-slate-300', dot: 'bg-slate-400' },
   IN_PROGRESS: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400', dot: 'bg-blue-500' },
@@ -78,7 +78,7 @@ export const STATUS_COLORS = {
   CANCELLED: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-600 dark:text-red-400', dot: 'bg-red-500' },
 } as const
 
-// Day of week labels
+
 export const DAY_LABELS = {
   0: 'Niedziela',
   1: 'Poniedziałek',
@@ -89,7 +89,7 @@ export const DAY_LABELS = {
   6: 'Sobota',
 } as const
 
-// Block type labels
+
 export const BLOCK_TYPE_LABELS = {
   WORK: 'Praca',
   PERSONAL: 'Osobiste',

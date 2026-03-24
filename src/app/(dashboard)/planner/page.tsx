@@ -16,7 +16,7 @@ export default async function PlannerPage() {
     redirect('/login')
   }
 
-  // Fetch tasks
+  
   const tasksResult = await getTasks({})
 
   const tasks = tasksResult.success ? tasksResult.data || [] : []

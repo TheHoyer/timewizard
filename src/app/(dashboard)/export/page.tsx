@@ -24,7 +24,7 @@ export default function ExportPage() {
     setIsExporting(false)
 
     if (result.success && result.data) {
-      // Create and download file
+      
       const blob = new Blob([result.data], {
         type: selectedFormat === 'json' ? 'application/json' : 'text/csv',
       })
@@ -60,7 +60,7 @@ export default function ExportPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      {/* Header */}
+      
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Eksport danych</h1>
         <p className="text-slate-600 dark:text-slate-400 mt-1">
@@ -68,7 +68,7 @@ export default function ExportPage() {
         </p>
       </div>
 
-      {/* Format Selection */}
+      
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
           Wybierz format
@@ -114,7 +114,7 @@ export default function ExportPage() {
         </div>
       </div>
 
-      {/* Export info */}
+      
       <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
         <h3 className="font-medium text-slate-900 dark:text-white mb-2">
           Eksport zawiera:
@@ -128,7 +128,7 @@ export default function ExportPage() {
         </ul>
       </div>
 
-      {/* Export Button */}
+      
       <Button
         onClick={handleExport}
         isLoading={isExporting}

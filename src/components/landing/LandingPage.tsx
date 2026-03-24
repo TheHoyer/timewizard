@@ -11,11 +11,11 @@ import {
   StaggerItem,
 } from '@/components/ui/AnimatedSection'
 
-// Animated gradient background
+
 function AnimatedBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Gradient orbs */}
+      
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full bg-violet-200/50 blur-3xl"
         animate={{
@@ -47,7 +47,7 @@ function AnimatedBackground() {
   )
 }
 
-// Floating icons around hero
+
 function FloatingIcons() {
   const icons = [
     { emoji: '📋', top: '15%', left: '10%', delay: 0 },
@@ -80,7 +80,7 @@ function FloatingIcons() {
   )
 }
 
-// Animated stat counter
+
 function StatCounter({ value, label, suffix = '' }: { value: number; label: string; suffix?: string }) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -129,7 +129,7 @@ function StatCounter({ value, label, suffix = '' }: { value: number; label: stri
   )
 }
 
-// Navigation with scroll effect
+
 function Navigation() {
   const [scrolled, setScrolled] = useState(false)
 
@@ -183,7 +183,7 @@ function Navigation() {
   )
 }
 
-// Hero Section
+
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center pt-16">
@@ -268,7 +268,7 @@ function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Trust badges */}
+          
           <motion.div
             className="mt-12 flex items-center justify-center gap-8 text-slate-500"
             initial={{ opacity: 0 }}
@@ -290,7 +290,7 @@ function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Hero image/mockup */}
+        
         <motion.div
           className="mt-16 relative mx-auto max-w-5xl"
           initial={{ opacity: 0, y: 50 }}
@@ -299,7 +299,7 @@ function HeroSection() {
         >
           <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-violet-200/50 border border-slate-200 bg-white">
             <div className="aspect-[16/9] bg-gradient-to-br from-slate-50 to-violet-50 p-4 sm:p-8">
-              {/* Mock dashboard preview */}
+              
               <div className="h-full rounded-xl bg-white shadow-sm border border-slate-200 overflow-hidden">
                 <div className="h-12 bg-slate-50 border-b border-slate-200 flex items-center px-4 gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -333,7 +333,7 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Floating cards around mockup */}
+          
           <FloatingElement delay={0} className="absolute -left-4 sm:-left-8 top-1/4 z-20">
             <motion.div
               className="bg-white rounded-xl shadow-lg p-3 sm:p-4 border border-slate-200"
@@ -370,7 +370,7 @@ function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         animate={{ y: [0, 10, 0] }}
@@ -388,7 +388,7 @@ function HeroSection() {
   )
 }
 
-// Stats Section
+
 function StatsSection() {
   return (
     <section className="py-20 bg-white">
@@ -418,7 +418,7 @@ function StatsSection() {
   )
 }
 
-// How it works section
+
 function HowItWorksSection() {
   const steps = [
     {
@@ -463,7 +463,7 @@ function HowItWorksSection() {
         </AnimatedSection>
 
         <div className="relative">
-          {/* Connection line - desktop only */}
+          
           <div className="hidden lg:block absolute top-24 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-violet-200 via-violet-400 to-violet-200" />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
@@ -474,7 +474,7 @@ function HowItWorksSection() {
                   whileHover={{ y: -8, boxShadow: '0 20px 40px -20px rgba(139, 92, 246, 0.3)' }}
                   transition={{ duration: 0.3 }}
                 >
-                  {/* Number badge with connector dot */}
+                  
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 lg:left-1/2">
                     <div className="w-10 h-10 rounded-full bg-violet-600 text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-violet-200">
                       {step.number}
@@ -493,7 +493,7 @@ function HowItWorksSection() {
   )
 }
 
-// Features Section
+
 function FeaturesSection() {
   const features = [
     {
@@ -580,7 +580,7 @@ function FeaturesSection() {
   )
 }
 
-// Testimonials Section
+
 function TestimonialsSection() {
   const testimonials = [
     {
@@ -649,7 +649,7 @@ function TestimonialsSection() {
   )
 }
 
-// Pricing Section
+
 function PricingSection() {
   const plans = [
     {
@@ -756,11 +756,11 @@ function PricingSection() {
   )
 }
 
-// CTA Section
+
 function CTASection() {
   return (
     <section className="py-20 bg-gradient-to-r from-violet-600 to-purple-600 relative overflow-hidden">
-      {/* Background decorations */}
+      
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-72 h-72 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/3 translate-y-1/3" />
@@ -798,7 +798,7 @@ function CTASection() {
   )
 }
 
-// Footer
+
 function Footer() {
   return (
     <footer className="bg-slate-900 text-white py-16">
@@ -861,7 +861,7 @@ function Footer() {
   )
 }
 
-// Main Page Component
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">

@@ -47,7 +47,7 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
     if (result.success && result.data) {
       setState(result.data)
       
-      // Determine which view to show
+      
       if (!result.data.onboardingCompleted) {
         if (result.data.onboardingStep === 0) {
           setCurrentView('welcome')
@@ -72,13 +72,13 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
   }, [])
 
   const handleWelcomeComplete = () => {
-    // After welcome screen, show guided tour
+    
     setCurrentView('tour')
     fetchState()
   }
 
   const handleTourComplete = () => {
-    // After guided tour, show interactive tutorial
+    
     setCurrentView('interactive')
     fetchState()
   }
@@ -88,7 +88,7 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
     fetchState()
   }
 
-  // Function to start tutorial manually (e.g., from settings)
+  
   const startTutorial = () => {
     setCurrentView('interactive')
   }
@@ -99,7 +99,7 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
 
   return (
     <OnboardingContext.Provider value={{ state, refreshState: fetchState, startTutorial }}>
-      {/* Welcome Screen */}
+      
       {currentView === 'welcome' && (
         <WelcomeScreen
           userName={userName}
@@ -107,7 +107,7 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
         />
       )}
 
-      {/* Guided Tour (generating content) */}
+      
       {currentView === 'tour' && state && (
         <GuidedTour
           userGoal={state.userGoal}
@@ -115,12 +115,12 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
         />
       )}
 
-      {/* Main content */}
+      
       {(currentView === 'done' || currentView === 'interactive') && (
         <>
           {children}
           
-          {/* Interactive Tutorial overlay */}
+          
           {currentView === 'interactive' && (
             <InteractiveTutorial
               onComplete={handleInteractiveTutorialComplete}
@@ -128,7 +128,7 @@ export function OnboardingProvider({ children, userName }: OnboardingProviderPro
             />
           )}
           
-          {/* Tooltips overlay */}
+          
           {state && state.showTooltips && currentView === 'done' && (
             <OnboardingTooltipProvider
               tooltips={ONBOARDING_TOOLTIPS}

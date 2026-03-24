@@ -1,4 +1,4 @@
--- CreateTable
+
 CREATE TABLE "accounts" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE "accounts" (
     CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "sessions" (
     "id" TEXT NOT NULL,
     "session_token" TEXT NOT NULL,
@@ -26,14 +26,14 @@ CREATE TABLE "sessions" (
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "verification_tokens" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
 );
 
--- CreateTable
+
 CREATE TABLE "password_reset_tokens" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE "password_reset_tokens" (
     CONSTRAINT "password_reset_tokens_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "email_verification_tokens" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE "email_verification_tokens" (
     CONSTRAINT "email_verification_tokens_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
@@ -86,7 +86,7 @@ CREATE TABLE "users" (
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "categories" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE "categories" (
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "tasks" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE "tasks" (
     CONSTRAINT "tasks_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "subtasks" (
     "id" TEXT NOT NULL,
     "task_id" TEXT NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE "subtasks" (
     CONSTRAINT "subtasks_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "task_templates" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE "task_templates" (
     CONSTRAINT "task_templates_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "availability_blocks" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE "availability_blocks" (
     CONSTRAINT "availability_blocks_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "scheduled_tasks" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE "scheduled_tasks" (
     CONSTRAINT "scheduled_tasks_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "achievements" (
     "id" TEXT NOT NULL,
     "code" TEXT NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE "achievements" (
     CONSTRAINT "achievements_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "user_achievements" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE "user_achievements" (
     CONSTRAINT "user_achievements_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "pomodoro_sessions" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE "pomodoro_sessions" (
     CONSTRAINT "pomodoro_sessions_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "time_entries" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -229,7 +229,7 @@ CREATE TABLE "time_entries" (
     CONSTRAINT "time_entries_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+
 CREATE TABLE "plan_limits" (
     "plan" TEXT NOT NULL,
     "max_tasks" INTEGER NOT NULL,
@@ -240,117 +240,117 @@ CREATE TABLE "plan_limits" (
     CONSTRAINT "plan_limits_pkey" PRIMARY KEY ("plan")
 );
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "accounts_provider_provider_account_id_key" ON "accounts"("provider", "provider_account_id");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "sessions_session_token_key" ON "sessions"("session_token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "verification_tokens_token_key" ON "verification_tokens"("token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_tokens"("identifier", "token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "password_reset_tokens_token_key" ON "password_reset_tokens"("token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "password_reset_tokens_email_token_key" ON "password_reset_tokens"("email", "token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "email_verification_tokens_token_key" ON "email_verification_tokens"("token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "email_verification_tokens_email_token_key" ON "email_verification_tokens"("email", "token");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "users_stripe_customer_id_key" ON "users"("stripe_customer_id");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "users_stripe_subscription_id_key" ON "users"("stripe_subscription_id");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "categories_user_id_name_key" ON "categories"("user_id", "name");
 
--- CreateIndex
+
 CREATE INDEX "tasks_user_id_status_idx" ON "tasks"("user_id", "status");
 
--- CreateIndex
+
 CREATE INDEX "tasks_user_id_due_date_idx" ON "tasks"("user_id", "due_date");
 
--- CreateIndex
+
 CREATE INDEX "subtasks_task_id_order_idx" ON "subtasks"("task_id", "order");
 
--- CreateIndex
+
 CREATE INDEX "task_templates_user_id_idx" ON "task_templates"("user_id");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "availability_blocks_user_id_day_of_week_start_time_key" ON "availability_blocks"("user_id", "day_of_week", "start_time");
 
--- CreateIndex
+
 CREATE INDEX "scheduled_tasks_user_id_scheduled_start_idx" ON "scheduled_tasks"("user_id", "scheduled_start");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "achievements_code_key" ON "achievements"("code");
 
--- CreateIndex
+
 CREATE UNIQUE INDEX "user_achievements_user_id_achievement_id_key" ON "user_achievements"("user_id", "achievement_id");
 
--- CreateIndex
+
 CREATE INDEX "pomodoro_sessions_user_id_started_at_idx" ON "pomodoro_sessions"("user_id", "started_at");
 
--- CreateIndex
+
 CREATE INDEX "time_entries_user_id_started_at_idx" ON "time_entries"("user_id", "started_at");
 
--- CreateIndex
+
 CREATE INDEX "time_entries_task_id_idx" ON "time_entries"("task_id");
 
--- AddForeignKey
+
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "categories" ADD CONSTRAINT "categories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "subtasks" ADD CONSTRAINT "subtasks_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "tasks"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "availability_blocks" ADD CONSTRAINT "availability_blocks_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "scheduled_tasks" ADD CONSTRAINT "scheduled_tasks_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "scheduled_tasks" ADD CONSTRAINT "scheduled_tasks_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "tasks"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "user_achievements" ADD CONSTRAINT "user_achievements_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "user_achievements" ADD CONSTRAINT "user_achievements_achievement_id_fkey" FOREIGN KEY ("achievement_id") REFERENCES "achievements"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "pomodoro_sessions" ADD CONSTRAINT "pomodoro_sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "pomodoro_sessions" ADD CONSTRAINT "pomodoro_sessions_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "tasks"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "time_entries" ADD CONSTRAINT "time_entries_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
+
 ALTER TABLE "time_entries" ADD CONSTRAINT "time_entries_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "tasks"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 

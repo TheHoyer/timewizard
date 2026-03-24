@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 import { prioritizeTask } from '@/lib/ai/prioritizeTask'
 
-// ==================== SCHEMAS ====================
+
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Tytuł jest wymagany').max(200, 'Tytuł może mieć max 200 znaków'),
@@ -21,7 +21,7 @@ const taskSchema = z.object({
   categoryId: z.string().optional().nullable(),
   isRecurring: z.coerce.boolean().default(false),
   recurringType: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).optional().nullable(),
-  recurringDays: z.string().optional().nullable(), // JSON string
+  recurringDays: z.string().optional().nullable(), 
   recurringEndDate: z.string().optional().nullable().transform((val) => {
     if (!val) return null
     const date = new Date(val)
@@ -38,7 +38,7 @@ const updateStatusSchema = z.object({
   status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']),
 })
 
-// ==================== TYPES ====================
+
 
 export type TaskFormState = {
   success?: boolean
@@ -59,7 +59,7 @@ export type TaskFilters = {
   sortOrder?: 'asc' | 'desc'
 }
 
-// ==================== ACTIONS ====================
+
 
 export async function getTasks(filters: TaskFilters = {}) {
   const session = await auth()
@@ -73,7 +73,7 @@ export async function getTasks(filters: TaskFilters = {}) {
       deletedAt: null,
     }
 
-    // Apply filters
+    
     if (filters.status && filters.status !== 'ALL') {
       where.status = filters.status
     }
@@ -93,7 +93,7 @@ export async function getTasks(filters: TaskFilters = {}) {
       ]
     }
 
-    // Determine ordering
+    
     const orderBy: Record<string, string>[] = []
     const sortBy = filters.sortBy || 'createdAt'
     const sortOrder = filters.sortOrder || 'desc'
@@ -184,7 +184,7 @@ export async function createTask(
   try {
     let categoryName: string | null = null
 
-    // Verify category ownership if provided
+    
     if (data.categoryId) {
       const category = await prisma.category.findFirst({
         where: { id: data.categoryId, userId: session.user.id },
@@ -271,7 +271,7 @@ export async function updateTask(
   try {
     let categoryName: string | null = null
 
-    // Verify ownership
+    
     const existing = await prisma.task.findFirst({
       where: { id, userId: session.user.id, deletedAt: null },
     })
@@ -280,7 +280,7 @@ export async function updateTask(
       return { error: 'Zadanie nie istnieje' }
     }
 
-    // Verify category ownership if provided
+    
     if (data.categoryId) {
       const category = await prisma.category.findFirst({
         where: { id: data.categoryId, userId: session.user.id },
@@ -347,7 +347,7 @@ export async function updateTaskStatus(
   }
 
   try {
-    // Verify ownership
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id, deletedAt: null },
     })
@@ -359,7 +359,7 @@ export async function updateTaskStatus(
     const isCompleting = status === 'COMPLETED' && task.status !== 'COMPLETED'
     const isUncompleting = status !== 'COMPLETED' && task.status === 'COMPLETED'
 
-    // Update task
+    
     await prisma.task.update({
       where: { id: taskId },
       data: {
@@ -368,7 +368,7 @@ export async function updateTaskStatus(
       },
     })
 
-    // Update user stats
+    
     if (isCompleting) {
       await prisma.user.update({
         where: { id: session.user.id },
@@ -378,8 +378,8 @@ export async function updateTaskStatus(
         },
       })
       
-      // Award XP and check achievements for completing task
-      const xpGained = 10 + (task.priority * 5) // 10 base + 5 per priority level
+      
+      const xpGained = 10 + (task.priority * 5) 
       await prisma.user.update({
         where: { id: session.user.id },
         data: {
@@ -387,7 +387,7 @@ export async function updateTaskStatus(
         },
       })
       
-      // Check achievements asynchronously
+      
       const { checkTaskAchievements, updateUserStreak } = await import('./gamification')
       await checkTaskAchievements(session.user.id)
       await updateUserStreak()
@@ -417,7 +417,7 @@ export async function deleteTask(taskId: string): Promise<{ success?: boolean; e
   }
 
   try {
-    // Verify ownership
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id, deletedAt: null },
     })
@@ -426,7 +426,7 @@ export async function deleteTask(taskId: string): Promise<{ success?: boolean; e
       return { error: 'Zadanie nie istnieje' }
     }
 
-    // Soft delete
+    
     await prisma.task.update({
       where: { id: taskId },
       data: { deletedAt: new Date() },
@@ -449,7 +449,7 @@ export async function restoreTask(taskId: string): Promise<{ success?: boolean; 
   }
 
   try {
-    // Verify ownership (including deleted)
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id, deletedAt: { not: null } },
     })
@@ -480,7 +480,7 @@ export async function permanentlyDeleteTask(taskId: string): Promise<{ success?:
   }
 
   try {
-    // Verify ownership
+    
     const task = await prisma.task.findFirst({
       where: { id: taskId, userId: session.user.id },
     })
@@ -503,7 +503,7 @@ export async function permanentlyDeleteTask(taskId: string): Promise<{ success?:
   }
 }
 
-// ==================== BATCH OPERATIONS ====================
+
 
 export async function batchUpdateStatus(taskIds: string[], status: string) {
   const session = await auth()
@@ -516,7 +516,7 @@ export async function batchUpdateStatus(taskIds: string[], status: string) {
   }
 
   try {
-    // Verify all tasks belong to user
+    
     const tasks = await prisma.task.findMany({
       where: { id: { in: taskIds }, userId: session.user.id },
     })
@@ -536,7 +536,7 @@ export async function batchUpdateStatus(taskIds: string[], status: string) {
       data: updateData,
     })
 
-    // Update user stats if completing tasks
+    
     if (status === 'COMPLETED') {
       await prisma.user.update({
         where: { id: session.user.id },
@@ -568,7 +568,7 @@ export async function batchUpdateCategory(taskIds: string[], categoryId: string 
   }
 
   try {
-    // Verify category belongs to user (if provided)
+    
     if (categoryId) {
       const category = await prisma.category.findFirst({
         where: { id: categoryId, userId: session.user.id },
@@ -645,7 +645,7 @@ export async function batchDelete(taskIds: string[]) {
   }
 }
 
-// ==================== EXPORT ====================
+
 
 export async function exportTasks(format: 'json' | 'csv' = 'json') {
   const session = await auth()
@@ -685,7 +685,7 @@ export async function exportTasks(format: 'json' | 'csv' = 'json') {
       return { success: true as const, data: csv, format: 'csv' as const }
     }
 
-    // JSON format
+    
     const exportData = {
       exportedAt: new Date().toISOString(),
       totalTasks: tasks.length,
@@ -710,7 +710,7 @@ export async function exportTasks(format: 'json' | 'csv' = 'json') {
   }
 }
 
-// ==================== STATISTICS ====================
+
 
 export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
   const session = await auth()
@@ -734,7 +734,7 @@ export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
         break
     }
 
-    // Get all tasks in period
+    
     const tasks = await prisma.task.findMany({
       where: {
         userId: session.user.id,
@@ -758,7 +758,7 @@ export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
     const totalEstimatedTime = tasks.reduce((sum: number, t: TaskItem) => sum + t.estimatedMinutes, 0)
     const completedTime = completedTasks.reduce((sum: number, t: TaskItem) => sum + t.estimatedMinutes, 0)
 
-    // Group by day for chart
+    
     const dailyStats: Record<string, { created: number; completed: number }> = {}
     
     tasks.forEach((task: TaskItem) => {
@@ -779,7 +779,7 @@ export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
       }
     })
 
-    // Category breakdown
+    
     const categoryStats: Record<string, { id: string; count: number; completed: number; color: string }> = {}
     tasks.forEach((task: TaskItem) => {
       const catId = task.category?.id || 'uncategorized'
@@ -794,7 +794,7 @@ export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
       }
     })
 
-    // Priority breakdown
+    
     const priorityStats = [1, 2, 3, 4, 5].map(p => ({
       priority: p,
       total: tasks.filter((t: TaskItem) => t.priority === p).length,
@@ -817,7 +817,7 @@ export async function getTaskStats(period: 'week' | 'month' | 'year' = 'week') {
           .map(([name, stats]) => ({ name, ...stats }))
           .sort((a, b) => b.count - a.count),
         priorityStats,
-        // Dane dla wykresów Recharts
+        
         tasks: tasks.map((t: TaskItem) => ({
           id: t.id,
           status: t.status,

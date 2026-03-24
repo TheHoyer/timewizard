@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-// Validation schemas
+
 const profileSchema = z.object({
   name: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki').max(50),
   timezone: z.string().min(1, 'Wybierz strefę czasową'),
@@ -39,7 +39,7 @@ export type ProfileState = {
   fieldErrors?: Record<string, string[]>
 }
 
-// Update profile action
+
 export async function updateProfileAction(
   prevState: ProfileState,
   formData: FormData
@@ -80,7 +80,7 @@ export async function updateProfileAction(
   }
 }
 
-// Change password action
+
 export async function changePasswordAction(
   prevState: ProfileState,
   formData: FormData
@@ -137,7 +137,7 @@ export async function changePasswordAction(
   }
 }
 
-// Delete account action
+
 export async function deleteAccountAction(
   prevState: ProfileState,
   formData: FormData
@@ -161,7 +161,7 @@ export async function deleteAccountAction(
   }
 
   try {
-    // Soft delete - mark as deleted instead of hard delete
+    
     await prisma.user.update({
       where: { id: session.user.id },
       data: {

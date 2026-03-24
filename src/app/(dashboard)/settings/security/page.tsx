@@ -65,7 +65,7 @@ export default function SecurityPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-white">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -78,7 +78,7 @@ export default function SecurityPage() {
         </div>
       </div>
 
-      {/* Change Password */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
           <KeyIcon className="w-5 h-5 text-violet-600" />
@@ -116,7 +116,7 @@ export default function SecurityPage() {
         </div>
       </div>
 
-      {/* Two-Factor Authentication */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-4">
@@ -160,7 +160,7 @@ export default function SecurityPage() {
         </div>
       </div>
 
-      {/* Active Sessions */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
         <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
           <ClockIcon className="w-5 h-5 text-violet-600" />
@@ -208,7 +208,7 @@ export default function SecurityPage() {
         </button>
       </div>
 
-      {/* Danger Zone */}
+      
       <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6">
         <div className="flex items-start gap-4">
           <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">

@@ -81,12 +81,12 @@ export function ConfirmModal({
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl transition-all">
                 <div className="flex items-start gap-4">
-                  {/* Icon */}
+                  
                   <div className={cn('flex-shrink-0 p-3 rounded-full', config.iconBg)}>
                     <Icon className={cn('w-6 h-6', config.iconColor)} />
                   </div>
 
-                  {/* Content */}
+                  
                   <div className="flex-1">
                     <Dialog.Title className="text-lg font-semibold text-slate-900 dark:text-white">
                       {title}
@@ -96,7 +96,7 @@ export function ConfirmModal({
                     </p>
                   </div>
 
-                  {/* Close button */}
+                  
                   <button
                     type="button"
                     onClick={onClose}
@@ -106,7 +106,7 @@ export function ConfirmModal({
                   </button>
                 </div>
 
-                {/* Actions */}
+                
                 <div className="mt-6 flex items-center justify-end gap-3">
                   <Button
                     variant="ghost"

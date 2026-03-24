@@ -64,7 +64,7 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Statystyki</h1>
@@ -73,7 +73,7 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
           </p>
         </div>
 
-        {/* Period selector */}
+        
         <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
           {(['week', 'month'] as const).map((p) => (
             <button
@@ -92,7 +92,7 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
         </div>
       </div>
 
-      {/* Stats Cards */}
+      
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard
           icon={ChartBarIcon}
@@ -120,9 +120,9 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
         />
       </div>
 
-      {/* Charts */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Daily Activity Chart - Recharts */}
+        
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5 text-violet-500" />
@@ -153,7 +153,7 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
           </div>
         </div>
 
-        {/* Category Breakdown - Recharts */}
+        
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <TrophyIcon className="w-5 h-5 text-amber-500" />
@@ -177,7 +177,7 @@ export function StatsClient({ initialWeekStats, initialMonthStats }: StatsClient
         </div>
       </div>
 
-      {/* Priority Distribution - Recharts */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
           Rozkład priorytetów

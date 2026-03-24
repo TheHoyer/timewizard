@@ -91,24 +91,24 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
 
   const startGeneration = useCallback(async () => {
     setIsGenerating(true)
-    setCurrentStep(1) // Categories
+    setCurrentStep(1) 
     
-    // Symulacja postępu
+    
     await new Promise(r => setTimeout(r, 1200))
-    setCurrentStep(2) // Tasks
+    setCurrentStep(2) 
     
-    // Faktyczne generowanie
+    
     const result = await generateStarterContent()
     
     await new Promise(r => setTimeout(r, 800))
-    setCurrentStep(3) // Schedule
+    setCurrentStep(3) 
     
     if (result.success && result.data) {
       setGeneratedData(result.data)
       await new Promise(r => setTimeout(r, 1000))
-      setCurrentStep(4) // Ready
+      setCurrentStep(4) 
       
-      // Confetti effect!
+      
       triggerConfetti()
     } else {
       setError(result.error || 'Coś poszło nie tak')
@@ -117,10 +117,10 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
     setIsGenerating(false)
   }, [triggerConfetti])
 
-  // Automatyczna progresja kroków
+  
   useEffect(() => {
     if (currentStep === 0) {
-      // Start po 1.5s
+      
       const timer = setTimeout(() => {
         void startGeneration()
       }, 1500)
@@ -142,7 +142,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
       animate={{ opacity: 1 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-violet-900 to-slate-900 p-4"
     >
-      {/* Background glow */}
+      
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
@@ -162,7 +162,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
       </div>
 
       <div className="relative w-full max-w-lg">
-        {/* Progress bar */}
+        
         <div className="mb-8">
           <div className="flex justify-between mb-2">
             {STEPS.map((s, i) => (
@@ -195,7 +195,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
           </div>
         </div>
 
-        {/* Content */}
+        
         <AnimatePresence mode="wait">
           <motion.div
             key={step.id}
@@ -205,7 +205,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
             transition={{ duration: 0.3 }}
             className="text-center"
           >
-            {/* Icon */}
+            
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -220,17 +220,17 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
               <StepIcon className="w-12 h-12 text-white" />
             </motion.div>
 
-            {/* Title */}
+            
             <h2 className="text-3xl font-bold text-white mb-3">
               {step.title}
             </h2>
 
-            {/* Description */}
+            
             <p className="text-lg text-slate-300 mb-6">
               {step.description}
             </p>
 
-            {/* Goal badge */}
+            
             {userGoal && currentStep < 4 && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -242,7 +242,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
               </motion.div>
             )}
 
-            {/* Generated stats */}
+            
             {currentStep === 4 && generatedData && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -266,7 +266,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
               </motion.div>
             )}
 
-            {/* Loading animation */}
+            
             {isGenerating && currentStep < 4 && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -290,7 +290,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
               </motion.div>
             )}
 
-            {/* Error */}
+            
             {error && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -301,7 +301,7 @@ export function GuidedTour({ userGoal, onComplete }: GuidedTourProps) {
               </motion.div>
             )}
 
-            {/* Action button */}
+            
             {currentStep === 4 && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}

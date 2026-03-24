@@ -57,7 +57,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
     
     setIsCompleting(true)
     
-    // Celebrate
+    
     confetti({
       particleCount: 150,
       spread: 100,
@@ -67,7 +67,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
     await updateTaskStatus(currentTask.id, 'COMPLETED')
     showSuccess('Świetna robota! 🎉', `"${currentTask.title}" ukończone!`)
     
-    // Move to next task
+    
     setTasks(prev => prev.filter(t => t.id !== currentTask.id))
     if (currentIndex >= tasks.length - 1) {
       setCurrentIndex(Math.max(0, tasks.length - 2))
@@ -93,7 +93,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
     setShowTaskList(false)
   }
 
-  // Keyboard shortcuts
+  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') handlePrevious()
@@ -131,7 +131,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center relative">
-      {/* Task list toggle */}
+      
       <button
         onClick={() => setShowTaskList(!showTaskList)}
         className="absolute top-0 right-0 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
@@ -139,12 +139,12 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
         <ListBulletIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
       </button>
 
-      {/* Task counter */}
+      
       <div className="absolute top-0 left-0 text-sm text-slate-500 dark:text-slate-400">
         Zadanie {currentIndex + 1} z {tasks.length}
       </div>
 
-      {/* Main focus card */}
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={currentTask.id}
@@ -158,7 +158,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
             'bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border-4',
             priorityColors.border
           )}>
-            {/* Category & Priority */}
+            
             <div className="flex items-center justify-between mb-6">
               {currentTask.category ? (
                 <span
@@ -183,19 +183,19 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               </span>
             </div>
 
-            {/* Task title */}
+            
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 text-center">
               {currentTask.title}
             </h1>
 
-            {/* Description */}
+            
             {currentTask.description && (
               <p className="text-slate-600 dark:text-slate-300 text-center mb-6 max-w-lg mx-auto">
                 {currentTask.description}
               </p>
             )}
 
-            {/* Time info */}
+            
             <div className="flex items-center justify-center gap-6 mb-8 text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-2">
                 <SparklesIcon className="w-5 h-5" />
@@ -203,7 +203,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               </span>
             </div>
 
-            {/* Pomodoro Timer */}
+            
             <div className="mb-8">
               <PomodoroTimer 
                 taskId={currentTask.id} 
@@ -212,7 +212,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               />
             </div>
 
-            {/* Time Tracker */}
+            
             <div className="mb-8">
               <TimeTracker 
                 taskId={currentTask.id}
@@ -221,7 +221,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               />
             </div>
 
-            {/* Complete button */}
+            
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -241,7 +241,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               </span>
             </motion.button>
 
-            {/* Keyboard hint */}
+            
             <p className="text-center text-xs text-slate-400 dark:text-slate-500 mt-4">
               Ctrl + Enter aby ukończyć • ← → nawigacja
             </p>
@@ -249,7 +249,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation arrows */}
+      
       <div className="flex items-center justify-center gap-4 mt-8">
         <button
           onClick={handlePrevious}
@@ -264,7 +264,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
           <ChevronLeftIcon className="w-6 h-6" />
         </button>
         
-        {/* Dots indicator */}
+        
         <div className="flex gap-2">
           {tasks.slice(Math.max(0, currentIndex - 2), Math.min(tasks.length, currentIndex + 3)).map((task, i) => {
             const actualIndex = Math.max(0, currentIndex - 2) + i
@@ -297,11 +297,11 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
         </button>
       </div>
 
-      {/* Task list sidebar */}
+      
       <AnimatePresence>
         {showTaskList && (
           <>
-            {/* Backdrop */}
+            
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -310,7 +310,7 @@ export function FocusClientPage({ initialTasks }: FocusClientPageProps) {
               className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
             />
             
-            {/* Sidebar */}
+            
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}

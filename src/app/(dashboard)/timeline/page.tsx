@@ -15,7 +15,7 @@ export default async function TimelinePage() {
     redirect('/login')
   }
 
-  // Get tasks with due dates for the next 30 days
+  
   const now = new Date()
   const endDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
 
@@ -32,7 +32,7 @@ export default async function TimelinePage() {
     orderBy: { dueDate: 'asc' },
   })
 
-  // Get overdue tasks
+  
   const overdueTasks = await prisma.task.findMany({
     where: {
       userId: session.user.id,

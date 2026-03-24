@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const daysAhead = parseInt(searchParams.get('daysAhead') || '7')
 
-    // Get user's tasks and availability
+    
     const [tasks, availabilityBlocks] = await Promise.all([
       prisma.task.findMany({
         where: {
@@ -83,10 +83,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate schedule
+    
     const schedule = generateSchedule(tasks, availabilityBlocks, new Date(), daysAhead)
 
-    // Clear existing non-locked scheduled tasks for this period
+    
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + daysAhead)
 
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Create new scheduled tasks
+    
     if (schedule.length > 0) {
       await prisma.scheduledTask.createMany({
         data: schedule.map((item) => ({
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Fetch the created schedule with task details
+    
     const scheduledTasks = await prisma.scheduledTask.findMany({
       where: {
         userId: session.user.id,

@@ -94,7 +94,7 @@ export function SkeletonDashboard() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Hero skeleton */}
+      
       <div className="rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 p-8">
         <Skeleton className="h-4 w-40 bg-slate-300 dark:bg-slate-600" />
         <Skeleton className="h-10 w-64 mt-2 bg-slate-300 dark:bg-slate-600" />
@@ -110,16 +110,16 @@ export function SkeletonDashboard() {
         </div>
       </div>
 
-      {/* Stats cards */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
       </div>
 
-      {/* Main content */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Tasks section */}
+        
         <div className="lg:col-span-2">
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
             <div className="flex items-center justify-between mb-6">
@@ -130,9 +130,9 @@ export function SkeletonDashboard() {
           </div>
         </div>
 
-        {/* Sidebar */}
+        
         <div className="space-y-6">
-          {/* Progress widget */}
+          
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
             <Skeleton className="h-6 w-32 mb-4" />
             <Skeleton className="h-3 w-full rounded-full mb-4" />
@@ -142,7 +142,7 @@ export function SkeletonDashboard() {
             </div>
           </div>
 
-          {/* Activity feed */}
+          
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
             <Skeleton className="h-6 w-36 mb-4" />
             <div className="space-y-4">
@@ -171,7 +171,7 @@ export function SkeletonProfile() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Avatar section */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
         <div className="flex items-center gap-6">
           <Skeleton className="h-24 w-24 rounded-full" />
@@ -182,7 +182,7 @@ export function SkeletonProfile() {
         </div>
       </div>
 
-      {/* Form fields */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
         <Skeleton className="h-6 w-32 mb-6" />
         <div className="space-y-4">
@@ -199,7 +199,7 @@ export function SkeletonProfile() {
   )
 }
 
-// Tasks page skeleton
+
 export function SkeletonTasksPage() {
   return (
     <motion.div 
@@ -208,7 +208,7 @@ export function SkeletonTasksPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <Skeleton className="h-8 w-32 mb-2" />
@@ -220,7 +220,7 @@ export function SkeletonTasksPage() {
         </div>
       </div>
 
-      {/* Search bar */}
+      
       <div className="flex flex-col sm:flex-row gap-3">
         <Skeleton className="h-10 flex-1 rounded-lg" />
         <Skeleton className="h-10 w-24 rounded-lg" />
@@ -230,7 +230,7 @@ export function SkeletonTasksPage() {
         </div>
       </div>
 
-      {/* Tasks grid */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
           <motion.div

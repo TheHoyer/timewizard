@@ -51,7 +51,7 @@ export default async function DashboardPage() {
       where: { userId: session.user.id },
       orderBy: { name: 'asc' },
     }),
-    // Today's tasks
+    
     prisma.task.findMany({
       where: {
         userId: session.user.id,
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
       include: { category: true },
       orderBy: { priority: 'desc' },
     }),
-    // Weekly stats
+    
     prisma.task.findMany({
       where: {
         userId: session.user.id,
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
       },
       select: { status: true },
     }),
-    // Recent achievements
+    
     prisma.userAchievement.findMany({
       where: { userId: session.user.id },
       include: { achievement: true },
@@ -88,12 +88,12 @@ export default async function DashboardPage() {
   const inProgressTasks = stats.find((s: StatItem) => s.status === 'IN_PROGRESS')?._count || 0
   const completedTasks = stats.find((s: StatItem) => s.status === 'COMPLETED')?._count || 0
 
-  // Calculate productivity percentage
+  
   const productivityPercent = totalTasks > 0 
     ? Math.round((completedTasks / totalTasks) * 100) 
     : 0
 
-  // Calculate weekly productivity
+  
   const weeklyTotal = weeklyStats.length
   const weeklyCompleted = weeklyStats.filter((t: { status: string }) => t.status === 'COMPLETED').length
 

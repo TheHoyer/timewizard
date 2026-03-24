@@ -36,7 +36,7 @@ export default async function SubscriptionPage() {
     redirect('/login')
   }
 
-  // Pobierz limity dla aktualnego planu
+  
   const planLimits = await prisma.planLimit.findUnique({
     where: { plan: user.plan },
   })

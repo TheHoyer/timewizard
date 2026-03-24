@@ -14,7 +14,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
       <div className="flex items-center justify-between px-4 lg:px-6 py-4">
-        {/* Search (placeholder for now) - hidden on mobile, space for hamburger */}
+        
         <div className="flex-1 max-w-md ml-10 lg:ml-0">
           <input
             type="text"
@@ -23,18 +23,18 @@ export function Header() {
           />
         </div>
 
-        {/* Right side */}
+        
         <div className="flex items-center gap-4">
-          {/* Theme toggle */}
+          
           <ThemeToggle />
 
-          {/* Notifications */}
+          
           <button className="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
             <BellIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
           </button>
 
-          {/* User menu */}
+          
           <Menu as="div" className="relative">
             <MenuButton className="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               {session?.user?.image ? (

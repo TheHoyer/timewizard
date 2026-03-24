@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Header */}
+      
       <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <Link 
@@ -29,7 +29,7 @@ export default function TermsPage() {
         </div>
       </header>
 
-      {/* Content */}
+      
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="prose prose-slate dark:prose-invert max-w-none">
           <section className="mb-12">
@@ -179,7 +179,7 @@ export default function TermsPage() {
         </div>
       </main>
 
-      {/* Footer */}
+      
       <footer className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 py-8">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="text-slate-500 dark:text-slate-400">

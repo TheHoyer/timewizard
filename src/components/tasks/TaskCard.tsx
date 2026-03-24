@@ -25,7 +25,7 @@ export function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) 
   const isCompleted = task.status === 'COMPLETED'
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Nie otwieraj edycji jeśli kliknięto w menu lub przycisk
+    
     const target = e.target as HTMLElement
     if (target.closest('button') || target.closest('[role="menu"]')) return
     onEdit?.(task)
@@ -40,7 +40,7 @@ export function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) 
         isCompleted && 'opacity-60'
       )}
     >
-      {/* Priority indicator */}
+      
       <div
         className={cn(
           'absolute left-0 top-0 bottom-0 w-1 rounded-l-xl',
@@ -49,7 +49,7 @@ export function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) 
       />
 
       <div className="pl-3">
-        {/* Header */}
+        
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <h3
@@ -73,7 +73,7 @@ export function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) 
             )}
           </div>
 
-          {/* Actions menu */}
+          
           <Menu as="div" className="relative">
             <MenuButton className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors opacity-0 group-hover:opacity-100">
               <EllipsisVerticalIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
@@ -123,12 +123,12 @@ export function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) 
           </Menu>
         </div>
 
-        {/* Description */}
+        
         {task.description && (
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{task.description}</p>
         )}
 
-        {/* Meta info */}
+        
         <div className="flex items-center gap-4 mt-3 text-xs text-slate-600 dark:text-slate-400 font-medium">
           <div className="flex items-center gap-1">
             <ClockIcon className="w-4 h-4" />

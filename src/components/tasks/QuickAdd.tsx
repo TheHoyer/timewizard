@@ -35,8 +35,8 @@ export function QuickAdd({ onTaskCreated, defaultCategoryId, className }: QuickA
 
     const formData = new FormData()
     formData.set('title', title.trim())
-    formData.set('priority', '2') // Default priority
-    formData.set('estimatedMinutes', '30') // Default 30 min
+    formData.set('priority', '2') 
+    formData.set('estimatedMinutes', '30') 
     if (defaultCategoryId) {
       formData.set('categoryId', defaultCategoryId)
     }

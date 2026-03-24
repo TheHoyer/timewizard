@@ -17,7 +17,7 @@ export default async function KanbanPage() {
     redirect('/login')
   }
 
-  // Fetch initial data
+  
   const [tasksResult, categoriesResult] = await Promise.all([
     getTasks({}),
     getCategories(),

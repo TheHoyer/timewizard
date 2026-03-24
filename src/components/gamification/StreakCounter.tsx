@@ -40,15 +40,15 @@ export function StreakCounter({
 
   const classes = sizeClasses[size]
 
-  // Determine flame color based on streak length
+  
   const getFlameColor = () => {
-    if (streak >= 100) return 'text-purple-500' // Legendary
-    if (streak >= 30) return 'text-yellow-400' // Gold
-    if (streak >= 7) return 'text-orange-500' // Fire
-    return 'text-orange-400' // Normal
+    if (streak >= 100) return 'text-purple-500' 
+    if (streak >= 30) return 'text-yellow-400' 
+    if (streak >= 7) return 'text-orange-500' 
+    return 'text-orange-400' 
   }
 
-  // Determine background gradient
+  
   const getGradient = () => {
     if (streak >= 100) return 'from-purple-500/20 to-pink-500/20 border-purple-500/30'
     if (streak >= 30) return 'from-yellow-500/20 to-orange-500/20 border-yellow-500/30'
@@ -93,7 +93,7 @@ export function StreakCounter({
         )}
       </div>
 
-      {/* Milestone indicators */}
+      
       {streak >= 7 && (
         <motion.div
           initial={{ scale: 0 }}
@@ -113,7 +113,7 @@ export function StreakCounter({
   )
 }
 
-// Compact version for inline use
+
 export function StreakBadge({ streak }: { streak: number }) {
   return (
     <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">

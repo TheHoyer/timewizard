@@ -97,7 +97,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
 
   return (
     <div className="space-y-3">
-      {/* Progress bar */}
+      
       {subtasks.length > 0 && (
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
@@ -115,7 +115,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
         </div>
       )}
 
-      {/* Subtasks list with drag & drop */}
+      
       <Reorder.Group
         axis="y"
         values={subtasks}
@@ -137,10 +137,10 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
                 loadingId === subtask.id && 'opacity-50'
               )}
             >
-              {/* Drag handle */}
+              
               <Bars3Icon className="w-4 h-4 text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
               
-              {/* Checkbox */}
+              
               <button
                 type="button"
                 onClick={() => handleToggle(subtask.id)}
@@ -155,7 +155,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
                 {subtask.completed && <CheckIcon className="w-3 h-3" />}
               </button>
 
-              {/* Title */}
+              
               <span
                 className={cn(
                   'flex-1 text-sm transition-all',
@@ -167,7 +167,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
                 {subtask.title}
               </span>
 
-              {/* Delete button */}
+              
               <button
                 type="button"
                 onClick={() => handleDelete(subtask.id)}
@@ -181,7 +181,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
         </AnimatePresence>
       </Reorder.Group>
 
-      {/* Add new subtask */}
+      
       <form onSubmit={handleAdd} className="flex items-center gap-2">
         <div className="relative flex-1">
           <input
@@ -220,7 +220,7 @@ export function SubtaskList({ taskId, initialSubtasks = [], onUpdate }: SubtaskL
   )
 }
 
-// Compact version for task cards
+
 export function SubtaskProgress({ subtasks }: { subtasks?: Subtask[] }) {
   if (!subtasks || subtasks.length === 0) return null
 

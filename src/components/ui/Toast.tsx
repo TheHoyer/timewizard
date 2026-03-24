@@ -99,7 +99,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     
     setToasts((prev) => [...prev, newToast])
 
-    // Auto remove after duration
+    
     const duration = toast.duration ?? 5000
     if (duration > 0) {
       setTimeout(() => {
@@ -128,7 +128,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ toasts, addToast, removeToast, success, error, warning, info }}>
       {children}
       
-      {/* Toast container */}
+      
       <div className="fixed top-4 right-4 z-[100] flex flex-col gap-2 w-full max-w-sm pointer-events-none">
         <AnimatePresence mode="sync">
           {toasts.map((toast) => (

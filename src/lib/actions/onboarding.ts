@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 
 export type UserGoal = 'WORK' | 'STUDIES' | 'PROJECTS' | 'PERSONAL'
 
-// Predefiniowane zadania dla każdego celu
+
 const STARTER_TASKS = {
   WORK: [
     { title: '✨ Witaj w TimeWizard!', priority: 4, estimatedMinutes: 5, description: 'Ukończ to zadanie klikając checkbox po lewej stronie. Zdobędziesz pierwsze punkty!' },
@@ -61,7 +61,7 @@ const STARTER_CATEGORIES = {
   ],
 }
 
-// Pobierz stan onboardingu
+
 export async function getOnboardingStatus() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -85,15 +85,15 @@ export async function getOnboardingStatus() {
       return { success: false as const, error: 'Użytkownik nie istnieje' }
     }
 
-    // Sprawdź czy to pierwszy login
+    
     const isFirstLogin = !user.firstLoginAt
 
-    // Oblicz ile dni od rejestracji
+    
     const daysSinceRegistration = Math.floor(
       (Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24)
     )
 
-    // Tooltips przez pierwsze 7 dni
+    
     const showTooltips = daysSinceRegistration < 7
 
     return {
@@ -113,7 +113,7 @@ export async function getOnboardingStatus() {
   }
 }
 
-// Ustaw cel użytkownika
+
 export async function setUserGoal(goal: UserGoal) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -138,7 +138,7 @@ export async function setUserGoal(goal: UserGoal) {
   }
 }
 
-// Przejdź do następnego kroku onboardingu
+
 export async function nextOnboardingStep() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -166,7 +166,7 @@ export async function nextOnboardingStep() {
   }
 }
 
-// Generuj startowe kategorie i zadania
+
 export async function generateStarterContent() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -187,10 +187,10 @@ export async function generateStarterContent() {
     const categories = STARTER_CATEGORIES[goal]
     const tasks = STARTER_TASKS[goal]
 
-    // Utwórz lub pobierz kategorie (upsert aby uniknąć duplikatów)
+    
     const createdCategories = await Promise.all(
       categories.map(async (cat) => {
-        // Sprawdź czy kategoria już istnieje
+        
         const existing = await prisma.category.findFirst({
           where: {
             userId: session.user!.id!,
@@ -202,7 +202,7 @@ export async function generateStarterContent() {
           return existing
         }
         
-        // Utwórz nową kategorię
+        
         return prisma.category.create({
           data: {
             userId: session.user!.id!,
@@ -214,7 +214,7 @@ export async function generateStarterContent() {
       })
     )
 
-    // Sprawdź czy zadania startowe już istnieją (po tytule)
+    
     const existingTasks = await prisma.task.findMany({
       where: {
         userId: session.user.id,
@@ -224,7 +224,7 @@ export async function generateStarterContent() {
     })
     const existingTaskTitles = new Set(existingTasks.map(t => t.title))
 
-    // Utwórz tylko nowe zadania
+    
     const today = new Date()
     const tasksToCreate = tasks.filter(task => !existingTaskTitles.has(task.title))
     
@@ -240,14 +240,14 @@ export async function generateStarterContent() {
               priority: task.priority,
               estimatedMinutes: task.estimatedMinutes,
               status: 'PENDING',
-              dueDate: new Date(today.getTime() + index * 24 * 60 * 60 * 1000), // Kolejne dni
+              dueDate: new Date(today.getTime() + index * 24 * 60 * 60 * 1000), 
             },
           })
         )
       )
     }
 
-    // Zaktualizuj postęp onboardingu
+    
     await prisma.user.update({
       where: { id: session.user.id },
       data: { onboardingStep: 2 },
@@ -270,7 +270,7 @@ export async function generateStarterContent() {
   }
 }
 
-// Zakończ onboarding
+
 export async function completeOnboarding() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -294,7 +294,7 @@ export async function completeOnboarding() {
   }
 }
 
-// Pomiń onboarding
+
 export async function skipOnboarding() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -318,7 +318,7 @@ export async function skipOnboarding() {
   }
 }
 
-// Oznacz tooltip jako pokazany
+
 export async function markTooltipShown(tooltipId: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -348,7 +348,7 @@ export async function markTooltipShown(tooltipId: string) {
   }
 }
 
-// Resetuj onboarding (dla testów)
+
 export async function resetOnboarding() {
   const session = await auth()
   if (!session?.user?.id) {

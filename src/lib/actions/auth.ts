@@ -7,7 +7,7 @@ import { signIn } from '@/lib/auth'
 import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
 
-// ==================== SCHEMAS ====================
+
 
 const registerSchema = z.object({
   name: z
@@ -38,7 +38,7 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Hasło jest wymagane'),
 })
 
-// ==================== TYPES ====================
+
 
 export type AuthState = {
   error?: string
@@ -51,13 +51,13 @@ export type AuthState = {
   }
 }
 
-// ==================== ACTIONS ====================
+
 
 export async function registerAction(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  // Parse and validate form data
+  
   const rawData = {
     name: formData.get('name') as string,
     email: formData.get('email') as string,
@@ -77,7 +77,7 @@ export async function registerAction(
   const { name, email, password } = validation.data
 
   try {
-    // Check if user already exists
+    
     const existingUser = await prisma.user.findUnique({
       where: { email },
     })
@@ -89,10 +89,10 @@ export async function registerAction(
       }
     }
 
-    // Hash password
+    
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Create user
+    
     await prisma.user.create({
       data: {
         name,
@@ -103,7 +103,7 @@ export async function registerAction(
       },
     })
 
-    // Auto-login after registration
+    
     await signIn('credentials', {
       email,
       password,
@@ -117,7 +117,7 @@ export async function registerAction(
     }
   }
 
-  // Redirect to dashboard after successful registration and login
+  
   redirect('/dashboard')
 }
 
@@ -146,7 +146,7 @@ export async function loginAction(
       redirect: false,
     })
 
-    // Update last active timestamp
+    
     await prisma.user.update({
       where: { email: rawData.email },
       data: { lastActiveAt: new Date() },

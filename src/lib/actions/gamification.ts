@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 
-// ==================== TYPES ====================
+
 
 export type Achievement = {
   id: string
@@ -26,11 +26,8 @@ export type UserStats = {
   totalAchievements: number
 }
 
-// ==================== ACTIONS ====================
 
-/**
- * Get all achievements with unlock status for current user
- */
+
 export async function getAllAchievements(): Promise<Achievement[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -67,9 +64,6 @@ export async function getAllAchievements(): Promise<Achievement[]> {
   }
 }
 
-/**
- * Get unlocked achievements for current user
- */
 export async function getUnlockedAchievements(): Promise<Achievement[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -100,9 +94,6 @@ export async function getUnlockedAchievements(): Promise<Achievement[]> {
   }
 }
 
-/**
- * Get user gamification stats
- */
 export async function getUserStats(): Promise<UserStats | null> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -148,9 +139,6 @@ export async function getUserStats(): Promise<UserStats | null> {
   }
 }
 
-/**
- * Get recent achievements (last 5 unlocked)
- */
 export async function getRecentAchievements(): Promise<Achievement[]> {
   const session = await auth()
   if (!session?.user?.id) {
@@ -182,9 +170,6 @@ export async function getRecentAchievements(): Promise<Achievement[]> {
   }
 }
 
-/**
- * Update user streak and check streak achievements
- */
 export async function updateUserStreak() {
   const session = await auth()
   if (!session?.user?.id) {
@@ -208,19 +193,19 @@ export async function updateUserStreak() {
     let newStreak = user.streakCount
 
     if (!lastActive) {
-      // First activity
+      
       newStreak = 1
     } else {
       const daysDiff = Math.floor((today.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24))
       
       if (daysDiff === 0) {
-        // Same day, keep streak
+        
         newStreak = user.streakCount
       } else if (daysDiff === 1) {
-        // Consecutive day, increment streak
+        
         newStreak = user.streakCount + 1
       } else {
-        // Streak broken
+        
         newStreak = 1
       }
     }
@@ -233,7 +218,7 @@ export async function updateUserStreak() {
       },
     })
 
-    // Check streak achievements
+    
     await checkStreakAchievements(session.user.id, newStreak)
 
     return { success: true, streak: newStreak }
@@ -243,9 +228,6 @@ export async function updateUserStreak() {
   }
 }
 
-/**
- * Award XP to user
- */
 export async function awardXp(amount: number, reason: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -265,7 +247,7 @@ export async function awardXp(amount: number, reason: string) {
     const newXp = user.xp + amount
     let newLevel = user.level
     
-    // Check for level ups
+    
     while (calculateCurrentLevelXp(newXp, newLevel) >= xpForLevel(newLevel)) {
       newLevel++
     }
@@ -280,7 +262,7 @@ export async function awardXp(amount: number, reason: string) {
       },
     })
 
-    // Check level achievements
+    
     if (leveledUp) {
       await checkLevelAchievements(session.user.id, newLevel)
     }
@@ -298,7 +280,7 @@ export async function awardXp(amount: number, reason: string) {
   }
 }
 
-// ==================== HELPER FUNCTIONS ====================
+
 
 function xpForLevel(level: number): number {
   return level * 100 + Math.floor(level / 5) * 50
@@ -340,9 +322,6 @@ async function checkLevelAchievements(userId: string, level: number) {
   }
 }
 
-/**
- * Check and unlock task achievements when task is completed
- */
 export async function checkTaskAchievements(userId: string) {
   const { unlockAchievement } = await import('./pomodoro')
   
@@ -366,7 +345,7 @@ export async function checkTaskAchievements(userId: string) {
     await unlockAchievement(userId, code)
   }
 
-  // Check time-based achievements
+  
   const now = new Date()
   const hour = now.getHours()
   
@@ -378,9 +357,6 @@ export async function checkTaskAchievements(userId: string) {
   }
 }
 
-/**
- * Check category achievements
- */
 export async function checkCategoryAchievements(userId: string) {
   const { unlockAchievement } = await import('./pomodoro')
   

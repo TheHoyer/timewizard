@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-/* Enable dark mode based on class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light theme (default) */
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
@@ -15,7 +13,6 @@
   --primary-light: #8b5cf6;
 }
 
-/* Dark theme */
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;
@@ -41,12 +38,10 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth transitions for theme changes */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

@@ -39,7 +39,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      {/* User Info Card */}
+      
       <div className="bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl p-6 text-white shadow-lg shadow-violet-500/20">
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center text-3xl font-bold backdrop-blur-sm border border-white/20">
@@ -60,7 +60,7 @@ export default async function ProfilePage() {
         </div>
       </div>
 
-      {/* Connected Accounts */}
+      
       {user.accounts.length > 0 && (
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Połączone konta</h2>
@@ -82,7 +82,7 @@ export default async function ProfilePage() {
         </div>
       )}
 
-      {/* Profile Form */}
+      
       <ProfileForm
         user={{
           name: user.name,
@@ -91,13 +91,13 @@ export default async function ProfilePage() {
         }}
       />
 
-      {/* Password Form - only for users with password auth */}
+      
       {hasPassword && <PasswordForm />}
 
-      {/* Onboarding Reset */}
+      
       <OnboardingResetForm />
 
-      {/* Danger Zone */}
+      
       <DeleteAccountForm />
     </div>
   )

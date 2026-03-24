@@ -27,7 +27,7 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-md">
-      {/* Logo */}
+      
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center">
@@ -37,21 +37,21 @@ export function LoginForm() {
         </Link>
       </div>
 
-      {/* Form Card */}
+      
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-8">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white text-center">Zaloguj się</h1>
         <p className="text-slate-500 dark:text-slate-400 text-center mt-2">
           Witaj z powrotem! Zaloguj się do swojego konta.
         </p>
 
-        {/* Error messages */}
+        
         {state.error && (
           <div className="mt-4">
             <FormError message={state.error} />
           </div>
         )}
 
-        {/* Email/Password Form */}
+        
         <form action={formAction} className="space-y-4 mt-8">
           <input type="hidden" name="callbackUrl" value={callbackUrl} />
 

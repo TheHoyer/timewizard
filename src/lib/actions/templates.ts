@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-// ==================== SCHEMAS ====================
+
 
 const templateSchema = z.object({
   name: z.string().min(1, 'Nazwa jest wymagana').max(100, 'Nazwa może mieć max 100 znaków'),
@@ -17,7 +17,7 @@ const templateSchema = z.object({
   subtasks: z.array(z.string().max(200)).optional(),
 })
 
-// ==================== TYPES ====================
+
 
 export type TemplateFormState = {
   success?: boolean
@@ -29,7 +29,7 @@ export type TemplateFormState = {
   }
 }
 
-// ==================== ACTIONS ====================
+
 
 export async function getTemplates() {
   const session = await auth()
@@ -218,7 +218,7 @@ export async function deleteTemplate(id: string) {
   }
 }
 
-// Create task from template
+
 export async function createTaskFromTemplate(templateId: string, dueDate?: string) {
   const session = await auth()
   if (!session?.user?.id) {
@@ -234,7 +234,7 @@ export async function createTaskFromTemplate(templateId: string, dueDate?: strin
       return { success: false as const, error: 'Szablon nie istnieje' }
     }
 
-    // Create task
+    
     const task = await prisma.task.create({
       data: {
         userId: session.user.id,
@@ -247,7 +247,7 @@ export async function createTaskFromTemplate(templateId: string, dueDate?: strin
       },
     })
 
-    // Create subtasks if any
+    
     if (template.subtasks) {
       const subtaskTitles = JSON.parse(template.subtasks) as string[]
       await prisma.subtask.createMany({
